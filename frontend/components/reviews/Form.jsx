@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import Search from './search'
 
 function Form() {
-    const [businessId, setBusinessId]
+    const [businessId, setBusinessId] = useState('')
     const [position, setPosition] = useState("")
     const [start, setStart] = useState("")
     const [end, setEnd] = useState('')
@@ -18,18 +18,14 @@ function Form() {
     function save() {
         
     }
-    
+
     return(
         <div className='review-form'>
             <h1>Review form</h1>
             <form>
                 <Search setBusiness={setBusinessId}/>
 
-                <InputLabel>Position</InputLabel>
                 <TextField id="standard-basic" label="Position" value={position} onChange={e => setPosition(e.target.value)}/>
-
-                <label>Position</label>
-                <input type="text" value={position} onChange={e => setPosition(e.target.value)}/>
 
                 <label>Start year</label>
                 <input type="text" value={start} onChange={e => setStart(e.target.value)}/>
