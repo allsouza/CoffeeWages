@@ -1,7 +1,7 @@
 import { InputLabel, TextField } from '@material-ui/core'
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import Search from './search'
+import Search from './Search'
 
 function Form() {
     const [businessId, setBusinessId] = useState('')
