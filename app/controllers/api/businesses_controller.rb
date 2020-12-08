@@ -7,6 +7,10 @@ class Api::BusinessesController < ApplicationController
         @businesses = Business.all
     end
 
+    def search
+        render json: Business.searchApi(params[:terms])
+    end
+
     def create
         debugger
         @business = Business.new(business_params)
