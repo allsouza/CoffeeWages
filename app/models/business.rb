@@ -1,6 +1,6 @@
 class Business < ApplicationRecord
-    validates :name, :address, :coordinates, presence:true
-    validates :name, :address, :coordinates, unique:true
+    validates :name, :location, presence:true
+    validates :name, :address, :coordinates, uniqueness:true, allow_nil:true
 
     has_many :reviews
 
