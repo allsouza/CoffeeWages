@@ -17,6 +17,7 @@ function Search({businesses, setBusiness}) {
     }
 
     async function search() {
+        setResults([])
         setResults(businesses.filter(business => business.name.toUpperCase() === name.toUpperCase() && business.address.toUpperCase().includes(address.split(' ')[0].toUpperCase())))
         results.push(<li key={results.length+1}
                          onClick={() => setResults([])}>Not in list, look deeper</li>)
@@ -36,10 +37,11 @@ function Search({businesses, setBusiness}) {
                             <LinearProgress/>
                         </div>)
             const result = await PlacesApiUtil.search({name, address})
-            setResults(result.results.map((res, idx) => {
+            debugger
+            setResults(result.map((res) => {
                 console.log(res)
                 return(
-                    <li key={idx}
+                    <li key={res.place_id}
                         onClick={() => createAndSet(res)}>
                         <h3>{res.name}</h3>
                         <p>{res.formatted_address}</p>
