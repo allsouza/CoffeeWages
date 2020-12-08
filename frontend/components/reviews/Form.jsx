@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import Search from './Search'
 
 function Form() {
-    const [businessId, setBusinessId] = useState('')
+    const [business, setBusiness] = useState({})
     const [position, setPosition] = useState("")
     const [start, setStart] = useState("")
     const [end, setEnd] = useState('')
@@ -22,20 +22,18 @@ function Form() {
     return(
         <div className='review-form'>
             <h1>Review form</h1>
-            <form>
-                <Search setBusiness={setBusinessId}/>
+            <Search setBusiness={setBusiness}/>
 
-                <TextField id="standard-basic" label="Position" value={position} onChange={e => setPosition(e.target.value)}/>
+            <TextField id="standard-basic" label="Position" value={position} onChange={e => setPosition(e.target.value)}/>
 
-                <label>Start year</label>
-                <input type="text" value={start} onChange={e => setStart(e.target.value)}/>
+            <label>Start year</label>
+            <input type="text" value={start} onChange={e => setStart(e.target.value)}/>
 
-                <label>End year(current year if still employed)</label>
-                <input type="text" value={end} onChange={e => setEnd(e.target.value)}/>
+            <label>End year(current year if still employed)</label>
+            <input type="text" value={end} onChange={e => setEnd(e.target.value)}/>
 
-                <label>Employment Type</label>
-                <input type="text" value={start} onChange={e => setStart(e.target.value)}/>
-            </form>
+            <label>Employment Type</label>
+            <input type="text" value={start} onChange={e => setStart(e.target.value)}/>
         </div>
     )
 }
