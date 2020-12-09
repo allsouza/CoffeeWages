@@ -3,11 +3,21 @@ import React, { useEffect, useState } from 'react'
 import * as PlacesApiUtil from '../../util/places_api_util'
 import { connect } from 'react-redux'
 import { createBusiness } from '../../util/business_api_util'
+import { fetchAllBusinesses } from '../../actions/business_action'
 
-function Search({businesses, setBusiness}) {
+function Search({businesses, setBusiness, getBusinesses}) {
     const [name, setName] = useState('')
     const [address, setAddress] = useState('')
     const [results, setResults] = useState([])
+    const [change, setChange] = useState(false)
+
+    useEffect(() => {
+        getBusinesses()
+    }, [])
+
+    useEffect(() => {
+        setChange(true)
+    }, [name, address])
 
     function select(business) {
         setBusiness(business)
@@ -16,46 +26,66 @@ function Search({businesses, setBusiness}) {
         setName('')
     }
 
-    async function search() {
-        setResults([])
-        setResults(businesses.filter(business => business.name.toUpperCase() === name.toUpperCase() && business.address.toUpperCase().includes(address.split(' ')[0].toUpperCase())))
-        results.push(<li key={results.length+1}
-                         onClick={() => setResults([])}>Not in list, look deeper</li>)
-        setResults(results.map(res => {
-            return(
-                <li key={res.id}
-                    onClick={() => select(res)}>
-                    {res.name}
-                    {res.address}
-                </li>
-            )
-        }))
-
-        if(results.length <= 1){
-            setResults(<div>
-                            Searching
-                            <LinearProgress/>
-                        </div>)
-            const result = await PlacesApiUtil.search({name, address})
-            debugger
-            setResults(result.map((res) => {
-                console.log(res)
+    function search() {
+        if(change){
+            let list = [];
+            setChange(false)
+            list = (businesses.filter(business => business.name.toUpperCase() === name.toUpperCase()))
+            list = (list.map(res => {
                 return(
-                    <li key={res.place_id}
-                        onClick={() => createAndSet(res)}>
-                        <h3>{res.name}</h3>
-                        <p>{res.formatted_address}</p>
+                    <li key={res.id}
+                        onClick={() => select(res)}>
+                        {res.name}
+                        {res.address}
                     </li>
                 )
             }))
+            list.push(<li key={'not in list'}
+                          onClick={apiSearch}>Not in list, look deeper</li>)
+
+            setResults(list)
+    
+            if(list.length <= 1){
+                apiSearch()
+            }
         }
     }
 
+    async function apiSearch() {
+        setResults(<div>
+                        Searching
+                        <LinearProgress/>
+                    </div>)
+        const result = await PlacesApiUtil.search({name, address})
+        setResults(result.map((res) => {
+            console.log(res)
+            return(
+                <li key={res.place_id}
+                    onClick={() => createAndSet(res)}>
+                    <h3>{res.name}</h3>
+                    <p>{res.formatted_address}</p>
+                </li>
+            )
+        }))
+    }
+
     function createAndSet(data) {
-        createBusiness({name: data.name, address: data.formatted_address, coordinates: `${data.geometry.location.lat},${data.geometry.location.lng}`})
-            .then(payload => {
-                select(payload)
-            })
+        let exist = false;
+        businesses.forEach(business => {
+            if(business.name.toUpperCase() === data.name.toUpperCase() && business.address === data.formatted_address){
+                exist = business
+            }
+        })
+        
+        if(!exist){
+            createBusiness({name: data.name, address: data.formatted_address, coordinates: `${data.geometry.location.lat},${data.geometry.location.lng}`})
+                .then(payload => {
+                    select(payload)
+                })
+        }
+        else{
+            select(exist)
+        }
     }
 
     return(
@@ -74,4 +104,8 @@ const mSTP = state => ({
     businesses: Object.values(state.entities.businesses)
 })
 
-export default connect(mSTP)(Search)
+const mDTP = dispatch => ({
+    getBusinesses: () => dispatch(fetchAllBusinesses())
+})
+
+export default connect(mSTP, mDTP)(Search)
