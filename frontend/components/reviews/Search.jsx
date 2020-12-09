@@ -15,17 +15,9 @@ function Search({error, businesses, setBusiness, getBusinesses}) {
 
     useEffect(() => {
         getBusinesses()
-        document.addEventListener('click', e => {
-            if(!document.querySelector('.search-bar').contains(e.target)){
-                hideResult()
-            }
-        })
+        document.addEventListener('click', handleHide)
         return () => {
-            document.removeEventListener('click', e => {
-                if(!document.querySelector('.search-bar').contains(e.target)){
-                    hideResult()
-                }
-            })
+            document.removeEventListener('click', handleHide)
         }
     }, [])
 
@@ -39,6 +31,13 @@ function Search({error, businesses, setBusiness, getBusinesses}) {
         setResults([])
         setAddress('')
         setName('')
+    }
+
+    function handleHide(e) {
+        const searchBar = document.querySelector('.search-bar')
+        if(!searchBar.contains(e.target) && e.target.parentElement !== null && document.querySelector('.results-dropdown').classList.contains('active')){
+            hideResult()
+        }
     }
 
     function hideResult() {
@@ -55,13 +54,13 @@ function Search({error, businesses, setBusiness, getBusinesses}) {
                 return(
                     <li key={res.id}
                         onClick={() => select(res)}>
-                        {res.name}
-                        {res.address}
+                        <h3>{res.name}</h3>
+                        <p>{res.address}</p>
                     </li>
                 )
             }))
             list.push(<li key={'not in list'}
-                          onClick={apiSearch}>Not in list, look deeper</li>)
+                          onClick={apiSearch}>Not in list, keep looking</li>)
 
             setResults(list)
     

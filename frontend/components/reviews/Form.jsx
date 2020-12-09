@@ -25,13 +25,12 @@ function Form({createReview}) {
     function save() {
         errorCheck()
         if(errors.size === 0){
-            let adjustedWage = (wageType === 'Yearly') ? parseFloat(wage/(52*40)).toFixed(2) : wage
-    
             const review = {
                 business_id: business.id,
                 position,
                 employment_type: employment,
-                wage: adjustedWage,
+                wage,
+                pay_frequency: wageType,
                 gender,
                 orientation,
                 race,

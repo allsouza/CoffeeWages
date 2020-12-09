@@ -30,7 +30,7 @@
             position: absolute;
             right: 50%;
             transform: translateX(50%);
-            top: 30px;
+            top: 40px;
             z-index: -1;
             opacity: 0;
             background: white;
@@ -41,6 +41,7 @@
             border-radius: 10px;
             transition: opacity 0.5s;
             padding: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.336);
 
             li{
                 border-bottom: 1px solid gray;
