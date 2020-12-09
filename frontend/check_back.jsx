@@ -2,6 +2,7 @@ import Root from './components/Root';
 import configureStore from './store/store';
 import React from 'react';
 import ReactDOM  from 'react-dom';
+// import 'fontsource-roboto';
 
 document.addEventListener("DOMContentLoaded", () => {
     let preloadedState = {};

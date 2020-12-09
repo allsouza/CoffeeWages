@@ -20,8 +20,8 @@ const removeReview = reviewId => ({
 });
 
 
-export const fetchAllReviews = () => dispatch => {
-    return ReviewApiUtil.fetchReviews()
+export const fetchAllReviews = (filters) => dispatch => {
+    return ReviewApiUtil.fetchReviews(filters)
     .then(reviews => dispatch(receiveReviews(reviews)));
 };
 

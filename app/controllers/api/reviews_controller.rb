@@ -4,7 +4,19 @@ class Api::ReviewsController < ApplicationController
     end
 
     def index
-        @reviews = Review.all
+        name = params.dig(:filters, :name) || nil
+        location = params.dig(:filters,:location) || nil
+        if name && location
+            reviews = Review.joins(:business).where(businesses: {name: name}).where(businesses: {location: location})
+        elsif name
+            reviews = Review.joins(:business).where(businesses: {name: name})
+        elsif location
+            reviews = Review.joins(:business).where(businesses: {location: location})
+        else
+            reviews = Review.all
+        end
+        
+        @reviews = reviews
     end
 
     def create
@@ -20,7 +32,7 @@ class Api::ReviewsController < ApplicationController
     def review_params
         params.require(:review).permit(
             :position, :start_date, :end_date, :employment_type, 
-            :wage, :tips, :gender, :orientation, :race
+            :wage, :tips, :gender, :orientation, :race, :pay_frequency
         )
     end
 end

@@ -8,7 +8,11 @@ export default function ReviewIndex() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(fetchAllReviews());
+        async function loadContent() {
+            await dispatch(fetchAllReviews({ filters: { } }));
+        }
+
+        loadContent();
     }, []);
 
     return (
