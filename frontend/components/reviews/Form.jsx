@@ -1,10 +1,10 @@
 import { Button, FormControl, InputLabel, MenuItem, Select, TextField } from '@material-ui/core'
-import { error } from 'jquery'
 import React, { useState, useEffect, useCallback } from 'react'
 import { connect } from 'react-redux'
 import Search from './Search'
+import {createReview} from '../../actions/review_actions'
 
-function Form() {
+function Form({createReview}) {
     const [business, setBusiness] = useState({})
     const [position, setPosition] = useState("")
     const [start, setStart] = useState("")
@@ -17,37 +17,67 @@ function Form() {
     const [orientation, setOrientation] = useState('')
     const [race, setRace] = useState('')
     const [errors, setErrors] = useState(new Set())
+    const [notes, setNotes] = useState('')
  
     const [, updateState] = useState();
     const forceUpdate = useCallback(() => updateState({}), []);
     
     function save() {
         errorCheck()
+        if(errors.size === 0){
+            let adjustedWage = (wageType === 'Yearly') ? parseFloat(wage/(52*40)).toFixed(2) : wage
+    
+            const review = {
+                business_id: business.id,
+                position,
+                employment_type: employment,
+                wage: adjustedWage,
+                gender,
+                orientation,
+                race,
+                tips,
+                start_date: start,
+                end_date: end,
+                notes
+            }
+            createReview(review)
+        }
     }
 
     function errorCheck() {
+        Object.keys(business).length > 0 ? errors.delete('business') : errors.add('business')
         Boolean(position) ? errors.delete('position') : errors.add('position')
+        Boolean(start) ? errors.delete('start') : errors.add('start')
+        Boolean(end) ? errors.delete('end') : errors.add('end')
+        Boolean(employment) ? errors.delete('employment') : errors.add('employment')
+        Boolean(wage) ? errors.delete('wage') : errors.add('wage')
+        Boolean(wageType) ? errors.delete('wageType') : errors.add('wageType')
+        tips !== '' ? errors.delete('tips') : errors.add('tips')
+        Boolean(gender) ? errors.delete('gender') : errors.add('gender')
+        Boolean(orientation) ? errors.delete('orientation') : errors.add('orientation')
+        Boolean(race) ? errors.delete('race') : errors.add('race')
         setErrors(errors)
         forceUpdate()
     }
 
     useEffect(() => {
         if(errors.size > 0) errorCheck()
-    }, [position, start, end, employment, wage, wageType, tips, gender, orientation, race])
+    }, [business, position, start, end, employment, wage, wageType, tips, gender, orientation, race])
 
-    console.log(`re render ${errors}`)
     return(
         <div className='review-form'>
             <h1>Review form</h1>
-            <Search setBusiness={setBusiness}/>
+            <Search error={errors.has('business')} setBusiness={setBusiness}/>
+
+            {(Object.keys(business).length > 0) ? <TextField disabled value={`${business.name} ${business.address}`}/> : null}
 
             <TextField error={errors.has('position')} label="Position" value={position} onChange={e => setPosition(e.target.value)}/>
 
-            <TextField label='Start year' value={start} onChange={e => setStart(e.target.value)} />
+            <TextField error={errors.has('start')} label='Start year' value={start} onChange={e => setStart(e.target.value)} />
 
-            <TextField label='End year(current year if still employed)' value={end} onChange={e => setEnd(e.target.value)} />
+            <TextField error={errors.has('end')} label='End year(current year if still employed)' value={end} onChange={e => setEnd(e.target.value)} />
 
-            <FormControl>
+            <FormControl  error={errors.has('employment')}>
                 <InputLabel>Employment Type</InputLabel>
                 <Select
                     value={employment}
@@ -59,8 +89,12 @@ function Form() {
             </FormControl>
 
             <div className='wage'>
-                <TextField id='standard-basic' label='Wage' value={wage} onChange={e => setWage(e.target.value)} />
-                <FormControl>
+                <TextField error={errors.has('wage')} 
+                            id='standard-basic' 
+                            label='Wage' 
+                            value={wage} 
+                            onChange={e => setWage(e.target.value)} />
+                <FormControl error={errors.has('wageType')}>
                 <InputLabel id="simples-select-label">Wage Type</InputLabel>
                 <Select
                     labelId='simple-select-label'
@@ -73,7 +107,7 @@ function Form() {
                 </FormControl>
             </div>
 
-            <FormControl>
+            <FormControl error={errors.has('tips')}>
                 <InputLabel id="simples-select-label">Tips</InputLabel>
                 <Select
                     labelId='simple-select-label'
@@ -85,7 +119,7 @@ function Form() {
                     </Select>
             </FormControl>
 
-            <FormControl>
+            <FormControl error={errors.has('gender')}>
                 <InputLabel id="simples-select-label">Gender</InputLabel>
                 <Select
                     labelId='simple-select-label'
@@ -102,7 +136,7 @@ function Form() {
                     </Select>
             </FormControl>
 
-            <FormControl>
+            <FormControl error={errors.has('orientation')}>
                 <InputLabel id="simples-select-label">Orientation</InputLabel>
                 <Select
                     labelId='simple-select-label'
@@ -120,7 +154,7 @@ function Form() {
                     </Select>
             </FormControl>
 
-            <FormControl>
+            <FormControl error={errors.has('race')}>
                 <InputLabel id="simples-select-label">Race</InputLabel>
                 <Select
                     labelId='simple-select-label'
@@ -136,9 +170,23 @@ function Form() {
                         <MenuItem value={"I don't wish to answer"}>I don't wish to answer</MenuItem>
                     </Select>
             </FormControl>
+
+            <TextField 
+                multiline
+                rows={5}
+                value={notes}
+                onChange={e => setNotes(e.target.value)}
+                label='Notes'
+                variant='outlined'
+            />
+
             <Button variant='contained' onClick={save}>Submit</Button>
         </div>
     )
 }
 
-export default connect(null)(Form)
+const mDTP = dispatch => ({
+    createReview: review => dispatch(createReview(review))
+})
+
+export default connect(null, mDTP)(Form)

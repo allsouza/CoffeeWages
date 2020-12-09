@@ -12,7 +12,6 @@ class Api::BusinessesController < ApplicationController
     end
 
     def create
-        debugger
         @business = Business.new(business_params)
         if @business.save
             render :show
@@ -23,6 +22,6 @@ class Api::BusinessesController < ApplicationController
 
     private
     def business_params
-        params.require(:business).permit(:name, :address, :coordinates)
+        params.require(:business).permit(:name, :address, :coordinates, :location)
     end
 end

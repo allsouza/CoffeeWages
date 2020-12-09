@@ -5,11 +5,13 @@ import { connect } from 'react-redux'
 import { createBusiness } from '../../util/business_api_util'
 import { fetchAllBusinesses } from '../../actions/business_action'
 
-function Search({businesses, setBusiness, getBusinesses}) {
+function Search({error, businesses, setBusiness, getBusinesses}) {
     const [name, setName] = useState('')
     const [address, setAddress] = useState('')
     const [results, setResults] = useState([])
     const [change, setChange] = useState(false)
+
+    if(Boolean(name)) error=false
 
     useEffect(() => {
         getBusinesses()
@@ -78,7 +80,8 @@ function Search({businesses, setBusiness, getBusinesses}) {
         })
         
         if(!exist){
-            createBusiness({name: data.name, address: data.formatted_address, coordinates: `${data.geometry.location.lat},${data.geometry.location.lng}`})
+            const location = data.formatted_address.split(', ').slice(1,3).join(',')
+            createBusiness({name: data.name, address: data.formatted_address, coordinates: `${data.geometry.location.lat},${data.geometry.location.lng}`, location})
                 .then(payload => {
                     select(payload)
                 })
@@ -90,8 +93,8 @@ function Search({businesses, setBusiness, getBusinesses}) {
 
     return(
         <div className='search-bar'>
-            <TextField value={name} onChange={e => setName(e.target.value)} label="Business name"/>
-            <TextField value={address} onChange={e => setAddress(e.target.value)} label="Address"/>
+            <TextField error={error} value={name} onChange={e => setName(e.target.value)} label="Business name"/>
+            <TextField error={error} value={address} onChange={e => setAddress(e.target.value)} label="Address"/>
             <Button variant='contained' onClick={search}>Search</Button>
             <ul className='results-dropdown'>
                 {results}
