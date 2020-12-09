@@ -17,7 +17,7 @@ csv = CSV.parse(csv_text, :headers => true, :encoding => 'ISO-8859-1')
 csv.each do |row|
     # row = row.to_h
     review = Review.new
-    business = Business.find_by_name(row['business_name']) || Business.new
+    business = Business.find_by(name: row['business_name'])|| Business.new
     business.name = row['business_name']
     business.location = row['location']
     business.save!
@@ -25,11 +25,12 @@ csv.each do |row|
     review.business_id = business.id
     review.position = row['position']
     review.employment_type = row['employment_type']
+    review.pay_frequency = row['pay_frequency']
     review.wage = row['wage']
     review.gender = row['gender']
     review.orientation = row['orientation']
     review.race = row['race']
-    review.tips = row['tips'].to_f / 8
+    review.tips = row['tips'].to_i > 0 ? true : false
     review.start_date = row['start_date']
     review.end_date = row['end_date']
     review.notes = row['notes']

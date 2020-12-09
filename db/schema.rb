@@ -10,7 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
+ActiveRecord::Schema.define(version: 2020_12_09_174410) do
+=======
 ActiveRecord::Schema.define(version: 2020_12_09_160341) do
+>>>>>>> main
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,7 +42,11 @@ ActiveRecord::Schema.define(version: 2020_12_09_160341) do
     t.integer "start_date"
     t.string "end_date"
     t.text "notes"
+<<<<<<< HEAD
+    t.string "pay_frequency", null: false
+=======
     t.boolean "tips"
+>>>>>>> main
     t.index ["position"], name: "index_reviews_on_position"
     t.index ["wage"], name: "index_reviews_on_wage"
   end

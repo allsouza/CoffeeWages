@@ -6,6 +6,7 @@ export default function reviewsReducer(state={}, action) {
 
     switch (action.type) {
         case RECEIVE_ALL_REVIEWS:
+            newState = Object.assign({});
             action.reviews.map(review => newState[review.id] = review)
             return newState;
         case RECEIVE_REVIEW:
