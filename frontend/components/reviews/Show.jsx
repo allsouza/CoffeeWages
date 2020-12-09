@@ -28,7 +28,7 @@ export default function ReviewShow({ review }) {
         <Card className={classes.root} raised={true}>
             <CardContent>
                 <Typography className={classes.title} color="textSecondary" gutterBottom>
-                    Review for {review.shopName} in {review.location}
+                    A {review.position} review for {review.shopName} in {review.location}
                 </Typography>
                 <Typography variant="h5" component="h2">
                     Wage: {review.wage} per {review.payFrequency === "Hourly" ? "hour" : "year"} {review.tips ? " + tips" : ""}
@@ -37,8 +37,6 @@ export default function ReviewShow({ review }) {
                     {review.benefits}
                 </Typography>
                 <Typography variant="body2" component="p">
-                    {review.notes}
-                    <br />
                     {review.notes}
                 </Typography>
             </CardContent>
