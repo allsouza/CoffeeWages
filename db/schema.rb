@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_09_160341) do
+ActiveRecord::Schema.define(version: 2020_12_09_174410) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 2020_12_09_160341) do
     t.string "end_date"
     t.text "notes"
     t.boolean "tips"
+    t.string "pay_frequency", null: false
     t.index ["position"], name: "index_reviews_on_position"
     t.index ["wage"], name: "index_reviews_on_wage"
   end

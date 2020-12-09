@@ -25,13 +25,12 @@ function Form({createReview}) {
     function save() {
         errorCheck()
         if(errors.size === 0){
-            let adjustedWage = (wageType === 'Yearly') ? parseFloat(wage/(52*40)).toFixed(2) : wage
-    
             const review = {
                 business_id: business.id,
                 position,
                 employment_type: employment,
-                wage: adjustedWage,
+                wage,
+                pay_frequency: wageType,
                 gender,
                 orientation,
                 race,
@@ -69,7 +68,7 @@ function Form({createReview}) {
             <h1>Review form</h1>
             <Search error={errors.has('business')} setBusiness={setBusiness}/>
 
-            {(Object.keys(business).length > 0) ? <TextField disabled value={`${business.name} ${business.address}`}/> : null}
+            {(Object.keys(business).length > 0) ? <TextField disabled id='business' value={`${business.name} - ${business.address}`} variant='outlined' label='Business'/> : null}
 
             <TextField error={errors.has('position')} label="Position" value={position} onChange={e => setPosition(e.target.value)}/>
 
