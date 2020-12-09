@@ -38,8 +38,8 @@ ActiveRecord::Schema.define(version: 2020_12_09_174410) do
     t.integer "start_date"
     t.string "end_date"
     t.text "notes"
-    t.string "pay_frequency", null: false
     t.boolean "tips"
+    t.string "pay_frequency", null: false
     t.index ["position"], name: "index_reviews_on_position"
     t.index ["wage"], name: "index_reviews_on_wage"
   end

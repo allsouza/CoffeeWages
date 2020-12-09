@@ -18,5 +18,5 @@ export const fetchAllBusinesses = () => dispatch => {
 }
 
 export const createBusiness = business => dispatch => {
-    return BusinessApiUtil.createBusiness(business).then( business => dispatch(receiveBusiness(business)), err => {console.log(err)})
+    return BusinessApiUtil.createBusiness(business).then( business => dispatch(receiveBusiness(business)))
 }
