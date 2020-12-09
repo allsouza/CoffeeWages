@@ -22,7 +22,7 @@ const removeReview = reviewId => ({
 
 export const fetchAllReviews = () => dispatch => {
     return ReviewApiUtil.fetchReviews()
-    .then(reviews => dispatch(receiveAllReviews(reviews)));
+    .then(reviews => dispatch(receiveReviews(reviews)));
 };
 
 export const fetchShopReviews = (businessId) => dispatch => {
