@@ -21,7 +21,11 @@ function Search({error, businesses, setBusiness, getBusinesses}) {
             }
         })
         return () => {
-            document.removeEventListener('click')
+            document.removeEventListener('click', e => {
+                if(!document.querySelector('.search-bar').contains(e.target)){
+                    hideResult()
+                }
+            })
         }
     }, [])
 
