@@ -15,6 +15,14 @@ function Search({error, businesses, setBusiness, getBusinesses}) {
 
     useEffect(() => {
         getBusinesses()
+        document.addEventListener('click', e => {
+            if(!document.querySelector('.search-bar').contains(e.target)){
+                hideResult()
+            }
+        })
+        return () => {
+            document.removeEventListener('click')
+        }
     }, [])
 
     useEffect(() => {
@@ -23,12 +31,18 @@ function Search({error, businesses, setBusiness, getBusinesses}) {
 
     function select(business) {
         setBusiness(business)
+        hideResult()
         setResults([])
         setAddress('')
         setName('')
     }
 
+    function hideResult() {
+        document.querySelector('.results-dropdown').classList.remove('active')
+    }
+
     function search() {
+        document.querySelector('.results-dropdown').classList.add('active')
         if(change){
             let list = [];
             setChange(false)
@@ -54,13 +68,12 @@ function Search({error, businesses, setBusiness, getBusinesses}) {
     }
 
     async function apiSearch() {
-        setResults(<div>
-                        Searching
+        setResults(<div className='searching'>
+                        <h2>Searching</h2> 
                         <LinearProgress/>
                     </div>)
         const result = await PlacesApiUtil.search({name, address})
         setResults(result.map((res) => {
-            console.log(res)
             return(
                 <li key={res.place_id}
                     onClick={() => createAndSet(res)}>
@@ -92,9 +105,15 @@ function Search({error, businesses, setBusiness, getBusinesses}) {
     }
 
     return(
-        <div className='search-bar'>
-            <TextField error={error} value={name} onChange={e => setName(e.target.value)} label="Business name"/>
-            <TextField error={error} value={address} onChange={e => setAddress(e.target.value)} label="Address"/>
+        <div onBlur={e => {
+                        
+                        // if(!e.currentTarget.contains(e.target)) hideResult()
+                    }} 
+             className='search-bar'>
+             <div className='fields'>
+                <TextField error={error} value={name} onChange={e => setName(e.target.value)} label="Business name"/>
+                <TextField error={error} value={address} onChange={e => setAddress(e.target.value)} label="Address"/>
+             </div>
             <Button variant='contained' onClick={search}>Search</Button>
             <ul className='results-dropdown'>
                 {results}

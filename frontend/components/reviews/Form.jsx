@@ -69,7 +69,7 @@ function Form({createReview}) {
             <h1>Review form</h1>
             <Search error={errors.has('business')} setBusiness={setBusiness}/>
 
-            {(Object.keys(business).length > 0) ? <TextField disabled value={`${business.name} ${business.address}`}/> : null}
+            {(Object.keys(business).length > 0) ? <TextField disabled id='business' value={`${business.name} - ${business.address}`} variant='outlined' label='Business'/> : null}
 
             <TextField error={errors.has('position')} label="Position" value={position} onChange={e => setPosition(e.target.value)}/>
 
