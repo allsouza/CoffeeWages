@@ -13,7 +13,7 @@ class Api::ReviewsController < ApplicationController
         elsif location
             reviews = Review.joins(:business).where(businesses: {location: location})
         else
-            reviews = Review.all
+            reviews = Review.all.includes(:business)
         end
         
         @reviews = reviews
