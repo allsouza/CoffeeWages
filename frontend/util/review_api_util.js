@@ -12,9 +12,10 @@ export const fetchShopReviews = (businessId) => {
     });
 };
 
-export const fetchReviews = () => {
+export const fetchReviews = (filters) => {
     return $.ajax({
-        url: `/api/reviews`
+        url: `/api/reviews`,
+        data: filters
     });
 };
 
