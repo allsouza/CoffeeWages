@@ -32,7 +32,8 @@ class Api::ReviewsController < ApplicationController
     def review_params
         params.require(:review).permit(
             :position, :start_date, :end_date, :employment_type, 
-            :wage, :tips, :gender, :orientation, :race, :pay_frequency
+            :wage, :tips, :gender, :orientation, :race, :pay_frequency,
+            :business_id, :notes
         )
     end
 end
