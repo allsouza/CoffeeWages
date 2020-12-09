@@ -1,4 +1,4 @@
-import { RECEIVE_ALL_REVIEWS, RECEIVE_REVIEW } from "../actions/review_actions";
+import { DELETE_REVIEW, RECEIVE_ALL_REVIEWS, RECEIVE_REVIEW } from "../actions/review_actions";
 
 export default function reviewsReducer(state={}, action) {
     Object.freeze(state)
@@ -7,11 +7,13 @@ export default function reviewsReducer(state={}, action) {
     switch (action.type) {
         case RECEIVE_ALL_REVIEWS:
             action.reviews.map(review => newState[review.id] = review)
-            return newState
+            return newState;
         case RECEIVE_REVIEW:
-            newState[action.review.id] = action.review
-            return newState           
+            return Object.assign({}, state, {[action.review.id]: action.review});
+        case DELETE_REVIEW:
+            delete newState[action.reviewId];
+            return newState;
         default:
-            return state
+            return state;
     }
 }
