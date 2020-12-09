@@ -15,7 +15,25 @@ export default function ReviewIndex() {
         loadContent();
     }, []);
 
+    const useStyles = makeStyles({
+        root: {
+            minWidth: 275,
+            margin: "auto",
+            maxWidth: 500,
+            marginBottom: 12,
+        },
+        title: {
+            fontSize: 14,
+        },
+        pos: {
+            marginBottom: 12,
+        },
+    });
+
     return (
-        reviews ? reviews.map(review => <Review review={review} />) : <div>Loading...</div>   
+        <div>
+            <h1></h1>
+            {reviews ? reviews.map(review => <Review key={review.id} review={review} />) : <div>Loading...</div>}
+        </div>
     )
 }
