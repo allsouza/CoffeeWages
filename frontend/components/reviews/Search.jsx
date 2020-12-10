@@ -108,11 +108,7 @@ function Search({error, businesses, setBusiness, getBusinesses}) {
     }
 
     return(
-        <div onBlur={e => {
-                        
-                        // if(!e.currentTarget.contains(e.target)) hideResult()
-                    }} 
-             className='search-bar'>
+        <div className='search-bar'>
              <div className='fields'>
                 <TextField error={error} value={name} onChange={e => setName(e.target.value)} label="Business name"/>
                 <TextField error={error} value={address} onChange={e => setAddress(e.target.value)} label="Address"/>
