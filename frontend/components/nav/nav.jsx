@@ -6,7 +6,6 @@ export default function Nav() {
   return (
     <header className= 'browsenav' >
         <nav>
-            
             <Link to="/">
                 <p className="navlinks">Home</p>
             </Link>
