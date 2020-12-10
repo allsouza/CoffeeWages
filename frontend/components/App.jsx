@@ -7,11 +7,14 @@ import ReviewIndex from './reviews/Index';
 
 export default function App() {
   return (
+    <div>
+      <Nav/>
     <Switch>
         <Route path='/new_review' component={Form} />
-        <Route exact path="/" component={Nav} />
         <Route path='/reviews' component={ReviewIndex} />
         <Route exact path='/' component={Splash}/>
     </Switch>
+    </div>
+
   );
 }

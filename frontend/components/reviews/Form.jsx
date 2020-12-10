@@ -3,6 +3,7 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { connect } from 'react-redux'
 import Search from './Search'
 import {createReview} from '../../actions/review_actions'
+import Nav from '../nav/nav'
 
 function Form({createReview}) {
     const [business, setBusiness] = useState({})
@@ -64,7 +65,15 @@ function Form({createReview}) {
     }, [business, position, start, end, employment, wage, wageType, tips, gender, orientation, race])
 
     return(
+
+        <div>
+
+            {/* <Nav /> */}
+
+       
+      
         <div className='review-form'>
+            
             <h1>Review form</h1>
             <Search error={errors.has('business')} setBusiness={setBusiness}/>
 
@@ -181,6 +190,7 @@ function Form({createReview}) {
 
             <Button variant='contained' onClick={save}>Submit</Button>
         </div>
+         </div>
     )
 }
 
