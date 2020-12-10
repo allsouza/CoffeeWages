@@ -1,13 +1,17 @@
+
 import React from 'react';
 import {Link} from 'react-router-dom'
 import Nav from './../nav/nav'
 
 export default function Splash() {
   return (
-    <body>
+  
+     <div >
 
-        <div className="splashbg">
-          <Nav/>
+{/* <img src="https://webfilms-films.s3.amazonaws.com/coffee/lottabeans.jpg"></img> */}
+         <div className="splashbg">
+         
+          
             <div>
                 <h1 className="title">Coffee Wages</h1>
                 <p className="subtext">Empowering workers in the coffee industry to seek out jobs <br></br>
@@ -25,10 +29,12 @@ export default function Splash() {
               <a href="https://www.linkedin.com/in/bradlarsoncode/" target="_blank">Brad Larson</a>
             </div>
         </div>
+   
+       
     
+</div>
 
-
-    </body>
+  
  
   );
 }
