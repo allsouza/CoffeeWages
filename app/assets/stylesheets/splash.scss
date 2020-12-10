@@ -29,8 +29,13 @@ footer, header, hgroup, menu, nav, section {
 	display: block;
 }
 body {
-	line-height: 1;
+    line-height: 1;
 }
+
+body html{
+    height: 100%;
+}
+
 ol, ul {
 	list-style: none;
 }
@@ -47,40 +52,44 @@ table {
 	border-spacing: 0;
 }
 
-body{
-    background-color: white;
+html, body, body > div, .splashbg {
+  height: 100%;
 }
 
+
 .splashbg{
+  
     background-image: url(https://webfilms-films.s3.amazonaws.com/coffee/lottabeans.jpg);
-    opacity: .8;
-    height: 100vh;
-    width: 100vw;
-    position: relative;
-    background-size: 100%;
+    min-height:100vh;
+    min-width:100vw;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
-    background-size: cover;
+    
 }
+
+
 
 .title{
     display: flex;
     margin-top: -15px;
-    font-family: Arial;
+    font-family: Bookman;
     font-weight: bold;
     font-size: 158px;
     justify-content: center;
     color: rgba(255,255,255, 0.9);
     text-shadow: 5px 5px black;
-    padding-top: 200px;
+    padding-top: 165px;
     position: inherit;
 }
 
 .subtext{
     display: flex;
     margin-top: 10px;
-    font-family: Arial;
+    font-family: Bookman;
     font-size: 40px;
     text-align: center;
     justify-content: center;
@@ -100,10 +109,11 @@ body{
 
 .createdby{
     color:white;
-    margin-top: 30px;
+    margin-top: 15px;
     display: flex;
     justify-content: space-evenly;
     font-size: 30px;
+    font-family: Bookman;
 }
 
 .createdby:hover{
@@ -112,16 +122,18 @@ body{
 
 .createdbytop{
     color:white;
-    margin-top: 50px;
+    margin-top: 33px;
     display: flex;
     justify-content: space-evenly;
     font-size: 30px;
+    font-family: Bookman;
 }
 
 .createdby a{
     color:white;
 }
 
-.coffeeimage{
-   
-}
+// .coffeeimage{
+//    background-color: black;
+//      background-image: url(https://webfilms-films.s3.amazonaws.com/coffee/lottabeans.jpg);
+// }
