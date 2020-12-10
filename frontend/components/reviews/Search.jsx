@@ -12,6 +12,7 @@ function Search({error, businesses, setBusiness, getBusinesses}) {
     const [change, setChange] = useState(false)
 
     if(Boolean(name)) error=false
+    
 
     useEffect(() => {
         getBusinesses()
