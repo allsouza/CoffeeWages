@@ -5,10 +5,8 @@ import Nav from './../nav/nav'
 
 export default function Splash() {
   return (
-  
-     <div >
-
-{/* <img src="https://webfilms-films.s3.amazonaws.com/coffee/lottabeans.jpg"></img> */}
+    
+     <div>
          <div className="splashbg">
          
           
