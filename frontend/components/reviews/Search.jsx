@@ -13,7 +13,6 @@ function Search({error, businesses, setBusiness, getBusinesses}) {
 
     if(Boolean(name)) error=false
     
-
     useEffect(() => {
         getBusinesses()
         document.addEventListener('click', handleHide)
