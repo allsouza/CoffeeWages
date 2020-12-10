@@ -11,8 +11,8 @@ export default function Nav() {
                 <p className="navlinks">Home</p>
             </Link>
             <GiCoffeeCup className="coffeecup"/>
-            <Link to="/">
-                <p className="navlinks">Search Shops</p>
+            <Link to="/reviews">
+                <p className="navlinks">See Reviews</p>
             </Link>
             <GiCoffeeCup className="coffeecup"/>
              <Link to="/new_review">
