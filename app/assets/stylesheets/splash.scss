@@ -58,11 +58,9 @@ html, body, body > div, .splashbg {
 
 
 .splashbg{
-  
     // background-image: url(https://webfilms-films.s3.amazonaws.com/coffee/lottabeans.png);
-    background-color: #001121;
-    min-height:100vh;
-    min-width:100vw;
+    width:100vw;
+    max-width: 100%;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -73,47 +71,51 @@ html, body, body > div, .splashbg {
 }
 
 .splashbox{
-    
-   
-    
-    margin-left: 400px;
-    margin-right: 400px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    padding-top: 60px;
+    height: 50vh;
+    margin-top: calc(12.5vh - 50px);
+    padding-bottom: 20px;
+    min-height: 360px;
 }
 
 .title{
-    display: flex;
     margin-top: -15px;
-
     font-family: Bookman;
     font-weight: bold;
-    font-size: 158px;
-    justify-content: center;
-    color: rgba(255,255,255, 0.9);
-    text-shadow: 3px 3px gray;
-    padding-top: 165px;
+    font-size: 12vh;
+    color: #2e436f;
+    margin-left: -75px;
+    width: 100%;
     position: inherit;
+    z-index: 2;
+    line-height: 0.8;
+    padding-bottom: 10px;
+    
 }
 
 .subtext{
     display: flex;
     margin-top: 10px;
-    font-family: Bookman;
-    font-size: 40px;
-    text-align: center;
+    font-size: 3vh;
+    margin-top: 40px;
+    margin-left: 40px;
     justify-content: center;
-    color: rgba(255,255,255, 1.0);
-    text-shadow: 1px 1px black;
+    color: #1d1c23;
+    margin-right: 50px;
+    max-width: 375px;
+
 }
 
 .mug{
-    opacity: .8;
-    margin-top: 50px;
-    height: 45vh;
+    height: 50vh;
+    width: 60vw;
     display: block;
-    margin-left: auto;
-    margin-right: auto;
-    border: 2px solid white;
-    box-shadow: 3px 3px 3px white;
+    margin-left: 50px;
+    object-fit: cover;
+    border-radius: 25px;
 }
 
 .createdby{
@@ -140,6 +142,11 @@ html, body, body > div, .splashbg {
 
 .createdby a{
     color:white;
+}
+
+.explore-button {
+    margin-top: 20px;
+    margin-left: 40px;
 }
 
 // .coffeeimage{

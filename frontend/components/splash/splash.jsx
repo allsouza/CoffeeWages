@@ -2,23 +2,24 @@
 import React from 'react';
 import {Link} from 'react-router-dom'
 import Nav from './../nav/nav'
+import { Button } from '@material-ui/core'
 
 export default function Splash() {
   return (
     
      <div>
          <div className="splashbg">
-         
-          
             <div className="splashbox">
+              <div>
+                <img className="mug" src={neverSettle} />
+              </div>
+              <section>
                 <h1 className="title">Coffee Wages</h1>
-                <p className="subtext">Empowering workers in the coffee industry to seek out jobs <br></br>
-                  that offer living wages and the best benefits
+                <p className="subtext">Empowering workers in the coffee industry to seek out jobs
+                  that offer living wages and the best benefits.
                 </p>
-           
-            <div>
-              <img className="mug" src="https://webfilms-films.s3.amazonaws.com/coffee/neversettle.jpg"/>
-            </div>
+                <div className="explore-button"><Button variant="contained" size="medium" color="primary">Explore shops</Button></div>
+              </section>
             </div>
             {/* <p color="white" className="createdbytop">Created By:</p> */}
             {/* <div className="createdby">

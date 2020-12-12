@@ -7,7 +7,7 @@ import ReviewIndex from './reviews/Index';
 
 export default function App() {
   return (
-    <div>
+    <div className="app-container">
       <Nav/>
     <Switch>
         <Route path='/new_review' component={Form} />

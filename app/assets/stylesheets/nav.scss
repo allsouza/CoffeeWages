@@ -1,28 +1,21 @@
 
 .browsenav{
-    padding-top: 5px;
-    width: 100%;
-    height: 100px;
-    min-width: 100vw;
-    // position: fixed;
+    width: 100vw;
+    max-width: 100%;
+    height: 50px;
     display: flex;
-    background-color:rgba(96, 96, 96, .85);
     justify-content: space-between;
     z-index: 10;
+    align-items: center;
 }
 
 .navlinks{
-    margin-top: 25px;
-    float: left;
-    display: block;
     margin-left:50px;
-    color: white;
+    margin-right: 50px;
+    color: #1d1c23;
     text-decoration: none;
-    font-size: 35px;
+    font-size: 18px;
     font-family: Bookman;
-    justify-content: space-between;
-    position: relative;
-    top: 0;
     transition: top ease 0.5s;
 }
 
@@ -35,19 +28,6 @@
 a:hover, a:visited, a:link, a:active {
     text-decoration: none;
 }
-
-.coffeecup{
-    margin-top: 25px;
-    float: left;
-    margin-left: 50px;
-    text-decoration: none;
-    font-size: 35px;
-    font-family: Bookman;
-    color:white;
-    display: block;
-    text-align: left;
-}
-
 
 
 .navcontact{

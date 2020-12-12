@@ -113,7 +113,7 @@ function Search({error, businesses, setBusiness, getBusinesses}) {
                 <TextField error={error} value={name} onChange={e => setName(e.target.value)} label="Business name"/>
                 <TextField error={error} value={address} onChange={e => setAddress(e.target.value)} label="Address"/>
              </div>
-            <Button variant='contained' onClick={search}>Search</Button>
+            <Button variant='contained' size="medium" color="primary" onClick={search}>Search</Button>
             <ul className='results-dropdown'>
                 {results}
             </ul>
