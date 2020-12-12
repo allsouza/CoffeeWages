@@ -8,8 +8,7 @@ export default function Nav() {
         <nav>
             <Link to="/" className="navlinks">Home</Link>
         </nav>
-        <nav><img src={window.blob} alt=""/></nav>
-        <nav>
+        <nav className="explore-links">
             <Link to="/reviews" className="navlinks">Explore Shops</Link>
             <Link to="/new_review" className="navlinks">Report Wages</Link>
         </nav>
