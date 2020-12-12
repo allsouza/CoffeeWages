@@ -1,5 +1,5 @@
 {
-  "name": "CheckBack",
+  "name": "CoffeeWages",
   "private": true,
   "dependencies": {
     "@babel/core": "^7.12.9",
@@ -22,7 +22,7 @@
     "webpack": "^5.10.0",
     "webpack-cli": "^4.2.0"
   },
-  "description": "CheckBack",
+  "description": "CoffeeWages",
   "version": "1.0.0",
   "main": "webpack.config.js",
   "directories": {

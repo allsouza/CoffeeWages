@@ -1,6 +1,6 @@
-# CheckBack
+# CoffeeWages
 
-CheckBack is an app focused on providing transparency to people working on the service industry, by allowing workers to post about their working conditions and consumers to frequent businesses that treat their employees fairly.
+CoffeeWages is an app focused on providing transparency to people working on the service industry, by allowing workers to post about their working conditions and consumers to frequent businesses that treat their employees fairly.
 
 # Functionalities
 

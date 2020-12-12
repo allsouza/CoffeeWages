@@ -1,9 +1,20 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>CheckBack</title>
+    <title>CoffeeWages</title>
+      <meta property="og:title" content="Coffee Wages" />
+     <meta property="og:image" content="<%= image_url('preview.png') %>"/>
+     <meta
+       property="og:description"
+       content="Coffee Wages is an app focused on providing transparency to people working on the service industry, by allowing workers to post about their working conditions and consumers to frequent businesses that treat their employees fairly."
+     />
+     <meta
+       property="og:url"
+       content="https://coffeewages.herokuapp.com/"
+     />
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <%= favicon_link_tag asset_path('logo.png') %>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
     <%= stylesheet_link_tag    'application', media: 'all'%>
     <%= javascript_include_tag 'application' %>
