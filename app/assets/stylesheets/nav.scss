@@ -9,7 +9,6 @@
     background-color:rgba(96, 96, 96, .85);
     justify-content: space-between;
     z-index: 10;
-    border-bottom: 1px solid black;
 }
 
 .navlinks{
@@ -22,17 +21,19 @@
     font-size: 35px;
     font-family: Bookman;
     justify-content: space-between;
+    position: relative;
+    top: 0;
+    transition: top ease 0.5s;
 }
 
 .navlinks:hover{
-    color: black;
+    color: #001121;
+    top: -5px;
     opacity: .8;
 }
 
-a:hover, a:visited, a:link, a:active
-{
+a:hover, a:visited, a:link, a:active {
     text-decoration: none;
-    
 }
 
 .coffeecup{
@@ -47,3 +48,29 @@ a:hover, a:visited, a:link, a:active
     text-align: left;
 }
 
+
+
+.navcontact{
+    margin-top: 10px;
+    margin-right: 3vw;
+
+}
+
+.navcontact p{
+    text-decoration: underline;
+    color: #001121;
+}
+
+
+.navcontact a{
+    display: grid;
+    color: white;
+    font-family: Bookman;
+    font-size: 16px;
+}
+
+.navcontact a:hover{
+    cursor: pointer;
+    color: #001121;
+    
+}
