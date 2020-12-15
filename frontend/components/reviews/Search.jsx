@@ -76,7 +76,7 @@ function Search({error, businesses, setBusiness, getBusinesses}) {
                         <LinearProgress/>
                     </div>)
         const result = await PlacesApiUtil.search({name, address})
-        debugger
+        
         setResults(result.map((res) => {
             return(
                 <li key={res.place_id}

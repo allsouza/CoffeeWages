@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import Review from './Show';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllReviews } from '../../actions/review_actions';
+import ShopSearch from './ShopSearch';
 
 export default function ReviewIndex() {
     const reviews = Object.values(useSelector(({entities}) => entities.reviews));
@@ -16,6 +17,9 @@ export default function ReviewIndex() {
     }, []);
 
     return (
-        reviews ? reviews.map(review => <Review review={review} />) : <div>Loading...</div>   
+        <div>
+            <ShopSearch />
+            {reviews ? reviews.map(review => <Review review={review} />) : <div>Loading...</div> }  
+        </div>
     )
 }

@@ -1,8 +1,9 @@
 import { Button, FormControl, InputLabel, MenuItem, Select, TextField } from '@material-ui/core'
 import React, { useEffect, useState, useCallback } from 'react'
 import { connect } from 'react-redux'
+import { fetchFilteredReviews } from '../../actions/review_actions'
 
-function ShopSearch() {
+function ShopSearch({getReviews}) {
     const [name, setName] = useState('')
     const [city, setCity] = useState('')
     const [state, setState] = useState('')
@@ -14,7 +15,8 @@ function ShopSearch() {
     function search() {
         errorCheck()
         if(errors.size === 0){
-            const query = ``
+            const location = `${city},${state}`
+            getReviews(name, location)
         }
     }
 
@@ -49,4 +51,8 @@ function ShopSearch() {
     )
 }
 
-export default connect(null)(ShopSearch)
+const mDTP = dispatch => ({
+    getReviews: (name, location) => dispatch(fetchFilteredReviews(name, location))
+})
+
+export default connect(null, mDTP)(ShopSearch)
