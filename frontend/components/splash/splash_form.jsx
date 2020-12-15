@@ -1,13 +1,7 @@
-import React, { useRef, useState, useEffect } from 'react';
-import Form from '../reviews/Form'
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ExpandLessIcon from '@material-ui/icons/ExpandLess';
-import { makeStyles } from '@material-ui/core/styles'
-
-
+import React from 'react';
+import Form from '../reviews/Form';
 
 export default function SplashForm() {
-
     return(
         <div className="splash-form">
             <img className="splash-form-blob" src={blob2} alt=""/>
