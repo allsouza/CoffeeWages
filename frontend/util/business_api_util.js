@@ -17,6 +17,13 @@ export const fetchBusiness = (business_id) => {
     })
 }
 
+export const searchBusiness = location => {
+    return $.ajax({
+        url: 'api/businesses/search',
+        data: {location}
+    })
+}
+
 export const createBusiness = business => {
     return $.ajax({
         url: '/api/businesses',
