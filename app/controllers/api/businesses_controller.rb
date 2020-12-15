@@ -12,9 +12,10 @@ class Api::BusinessesController < ApplicationController
     end
 
     def search_location
-        debugger
-        @result = Business.where("location LIKE '#{params[:location]}%'").includes(:reviews)
-        debugger
+        result = Business.where("location LIKE '%#{params[:location]}%' AND name LIKE '%#{params[:name]}%'").includes(:reviews)
+        @reviews = []
+        result.map {|ele| @reviews.concat(ele.reviews)}
+        render json: @reviews
     end
 
     def create

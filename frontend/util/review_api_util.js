@@ -19,6 +19,13 @@ export const fetchReviews = (filters) => {
     });
 };
 
+export const fetchBusinessReviews = (name, location) => {
+    return $.ajax({
+        url: 'api/search_location',
+        data: {location, name}
+    })
+}
+
 export const fetchReview = (review_id) => {
     return $.ajax({
         url: `/api/reviews/${review_id}`
