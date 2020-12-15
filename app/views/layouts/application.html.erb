@@ -15,6 +15,11 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= favicon_link_tag asset_path('logo.png') %>
+    <script type="text/javascript">
+      window.neverSettle = "<%= image_url('neversettle-2.jpg') %>";
+      window.blob = "<%= image_url('blob.svg') %>";
+      window.blob2 = "<%= image_url('blob2.svg') %>";
+    </script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
     <%= stylesheet_link_tag    'application', media: 'all'%>
     <%= javascript_include_tag 'application' %>

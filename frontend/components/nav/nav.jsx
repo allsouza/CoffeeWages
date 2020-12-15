@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { GiCoffeeCup } from 'react-icons/gi'
 
 export default function Nav() {
   return (
@@ -20,12 +19,16 @@ export default function Nav() {
             </Link>
             <GiCoffeeCup className="coffeecup"/>
         </nav>
-        <nav className="navcontact">
+        <nav className="explore-links">
+            <Link to="/reviews" className="navlinks">Explore Shops</Link>
+            <Link to="/new_review" className="navlinks">Report Wages</Link>
+        </nav>
+        {/* <nav className="navcontact">
             <p>CREATED BY:</p>
             <a href="https://www.linkedin.com/in/andre-souza-2ab6a3155/" target="_blank">Andre Souza</a>
               <a href="https://www.linkedin.com/in/drew-webster-4261a934/" target="_blank" >Drew Webster</a>
               <a href="https://www.linkedin.com/in/bradlarsoncode/" target="_blank">Brad Larson</a>
-        </nav>
+        </nav> */}
     </header>
   );
 }
