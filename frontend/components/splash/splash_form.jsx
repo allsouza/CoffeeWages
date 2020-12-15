@@ -8,43 +8,10 @@ import { makeStyles } from '@material-ui/core/styles'
 
 export default function SplashForm() {
 
-    const useStyles = makeStyles({
-        large: {
-            fontSize: 64,
-            marginLeft: '50%',
-            marginRight: '50%',
-            paddingTop: 60,
-            position: 'absolute',
-            cursor: 'pointer',
-        }
-    })
-    
-    const [downScrolled, setDownScrolled] = useState(false)
-    const formRef = useRef(null);
-
-    const classes = useStyles()
-
-    useEffect(() => {
-        if (downScrolled) {
-            formRef.current.scrollIntoView({behavior: 'smooth'})
-        } else {
-            window.scrollTo({
-                top: 0,
-                left: 0,
-                behavior: "smooth"
-            })
-        }
-    }, [downScrolled]);
-
     return(
         <div className="splash-form">
-            {downScrolled ? 
-                <ExpandLessIcon className={classes.large} onClick={() => setDownScrolled(!downScrolled)} />
-                :
-                <ExpandMoreIcon className={classes.large} onClick={() => setDownScrolled(!downScrolled)} />
-            }
             <img className="splash-form-blob" src={blob2} alt=""/>
-            <div className="splash-form-contents" ref={formRef} >
+            <div className="splash-form-contents" >
                 <h1 className="splash-form-header">Report Your Wage:</h1>
             </div>
             <Form />

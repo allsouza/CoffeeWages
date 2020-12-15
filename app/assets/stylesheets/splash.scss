@@ -58,20 +58,13 @@ html, body, body > div, .splashbg {
 
 
 .splashbg{
-    // background-image: url(https://webfilms-films.s3.amazonaws.com/coffee/lottabeans.png);
     width:100vw;
     max-width: 100%;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    
 }
 
 .splashbox{
     position: relative;
+    z-index: 5; 
     max-width: 900px;
     margin: auto;
     display: flex;
@@ -80,7 +73,6 @@ html, body, body > div, .splashbg {
     height: 50vh;
     margin-top: calc(12.5vh - 50px);
     margin-bottom: calc(12.5vh - 50px);
-    padding-bottom: 20px;
     min-height: 360px;
 }
 
@@ -196,7 +188,8 @@ html, body, body > div, .splashbg {
     width: 100%;
     z-index: 4;
     padding-bottom: 10%;
-
+    background: #f7f7f7;
+    
     &-contents {
         margin-top: -10%;
     }
@@ -206,10 +199,10 @@ html, body, body > div, .splashbg {
         font-size: 64px;
         padding: 32px;
         color: #3f51b5;
-        background: #ffffff;
     }
 
     &-blob {
         width: 100%;
+        background: #fef9f8;
     }
 }
