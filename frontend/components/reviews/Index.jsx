@@ -19,7 +19,7 @@ export default function ReviewIndex() {
     return (
         <div>
             <ShopSearch />
-            {reviews ? reviews.map(review => <Review review={review} />) : <div>Loading...</div> }  
+            {reviews ? reviews.map(review => <Review key={review.id} review={review} />) : <div>Loading...</div> }  
         </div>
     )
 }
