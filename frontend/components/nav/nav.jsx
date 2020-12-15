@@ -20,6 +20,12 @@ export default function Nav() {
             </Link>
             <GiCoffeeCup className="coffeecup"/>
         </nav>
+        <nav className="navcontact">
+            <p>CREATED BY:</p>
+            <a href="https://www.linkedin.com/in/andre-souza-2ab6a3155/" target="_blank">Andre Souza</a>
+              <a href="https://www.linkedin.com/in/drew-webster-4261a934/" target="_blank" >Drew Webster</a>
+              <a href="https://www.linkedin.com/in/bradlarsoncode/" target="_blank">Brad Larson</a>
+        </nav>
     </header>
   );
 }
