@@ -16,7 +16,7 @@ function ShopSearch({getReviews}) {
         errorCheck()
         if(errors.size === 0){
             const location = `${city},${state}`
-            getReviews(name, location)
+            getReviews(name, city)
         }
     }
 
