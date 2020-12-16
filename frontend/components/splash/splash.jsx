@@ -1,11 +1,44 @@
-
-import React from 'react';
-import {Link} from 'react-router-dom'
-import Nav from './../nav/nav'
-import { Button } from '@material-ui/core'
-import SplashForm from './splash_form'
+import { Button } from '@material-ui/core';
+import SplashForm from './splash_form';
+import React, { useRef, useState, useEffect } from 'react';
+import { useLocation, useHistory } from 'react-router-dom';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+import { makeStyles } from '@material-ui/core/styles';
 
 export default function Splash() {
+  const location = useLocation();
+  const history = useHistory();
+
+  const useStyles = makeStyles({
+    large: {
+      fontSize: 64,
+      marginLeft: '50%',
+      marginRight: '50%',
+      marginTop: 60,
+      position: 'absolute',
+      cursor: 'pointer',
+      zIndex: 10,
+    }
+  });
+
+  const [downScrolled, setDownScrolled] = useState(false);
+  const formRef = useRef(null);
+
+  const classes = useStyles();
+
+  useEffect(() => {
+    if (location.pathname === '/new_review') {
+      formRef.current.scrollIntoView({ behavior: 'smooth', alignToTop: true });
+    } else {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: "smooth"
+      });
+    }
+  }, [location]);
+
   return (
     
      <div>
@@ -26,13 +59,13 @@ export default function Splash() {
                 </div>
               </section>
             </div>
-            {/* <p color="white" className="createdbytop">Created By:</p> */}
-            {/* <div className="createdby">
-              
-              <a href="https://www.linkedin.com/in/andre-souza-2ab6a3155/" target="_blank">Andre Souza</a>
-              <a href="https://www.linkedin.com/in/drew-webster-4261a934/" target="_blank" >Drew Webster</a>
-              <a href="https://www.linkedin.com/in/bradlarsoncode/" target="_blank">Brad Larson</a>
-            </div> */}
+            {location.pathname === '/new_review' ?
+              <ExpandLessIcon ref={formRef} className={classes.large} onClick={() => {
+                history.push('/')
+              }} />
+              :
+              <ExpandMoreIcon ref={formRef} className={classes.large} onClick={() => history.push('/new_review')} />
+            }
             <SplashForm />
         </div>
    

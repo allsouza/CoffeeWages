@@ -1,55 +1,55 @@
-import { Button, LinearProgress, TextField } from '@material-ui/core'
-import React, { useEffect, useState } from 'react'
-import * as PlacesApiUtil from '../../util/places_api_util'
-import { connect } from 'react-redux'
-import { createBusiness } from '../../util/business_api_util'
-import { fetchAllBusinesses } from '../../actions/business_action'
+import { Button, LinearProgress, TextField } from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
+import * as PlacesApiUtil from '../../util/places_api_util';
+import { connect } from 'react-redux';
+import { createBusiness } from '../../util/business_api_util';
+import { fetchAllBusinesses } from '../../actions/business_action';
 
 function Search({error, businesses, setBusiness, getBusinesses}) {
-    const [name, setName] = useState('')
-    const [address, setAddress] = useState('')
-    const [results, setResults] = useState([])
-    const [change, setChange] = useState(false)
+    const [name, setName] = useState('');
+    const [address, setAddress] = useState('');
+    const [results, setResults] = useState([]);
+    const [change, setChange] = useState(false);
 
-    if(Boolean(name)) error=false
+    if(Boolean(name)) error=false;
     
     useEffect(() => {
-        getBusinesses()
-        document.addEventListener('click', handleHide)
+        getBusinesses();
+        document.addEventListener('click', handleHide);
         return () => {
-            document.removeEventListener('click', handleHide)
-        }
-    }, [])
+            document.removeEventListener('click', handleHide);
+        };
+    }, []);
 
     useEffect(() => {
-        setChange(true)
-    }, [name, address])
+        setChange(true);
+    }, [name, address]);
 
     function select(business) {
-        setBusiness(business)
-        hideResult()
-        setResults([])
-        setAddress('')
-        setName('')
+        setBusiness(business);
+        hideResult();
+        setResults([]);
+        setAddress('');
+        setName('');
     }
 
     function handleHide(e) {
-        const searchBar = document.querySelector('.search-bar')
+        const searchBar = document.querySelector('.search-bar');
         if(!searchBar.contains(e.target) && e.target.parentElement !== null && document.querySelector('.results-dropdown').classList.contains('active')){
-            hideResult()
+            hideResult();
         }
     }
 
     function hideResult() {
-        document.querySelector('.results-dropdown').classList.remove('active')
+        document.querySelector('.results-dropdown').classList.remove('active');
     }
 
     function search() {
-        document.querySelector('.results-dropdown').classList.add('active')
+        document.querySelector('.results-dropdown').classList.add('active');
         if(change){
             let list = [];
-            setChange(false)
-            list = (businesses.filter(business => business.name.toUpperCase() === name.toUpperCase()))
+            setChange(false);
+            list = (businesses.filter(business => business.name.toUpperCase() === name.toUpperCase()));
             list = (list.map(res => {
                 return(
                     <li key={res.id}
