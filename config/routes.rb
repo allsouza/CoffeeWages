@@ -7,5 +7,6 @@ Rails.application.routes.draw do
     end
     resources :reviews, only: [:index, :create, :show, :update, :delete]
     get '/search', to: 'businesses#search'
+    get '/search_location', to: 'businesses#search_location'
   end
 end

@@ -3,7 +3,6 @@ import { DELETE_REVIEW, RECEIVE_ALL_REVIEWS, RECEIVE_REVIEW } from "../actions/r
 export default function reviewsReducer(state={}, action) {
     Object.freeze(state)
     let newState = Object.assign({}, state);
-
     switch (action.type) {
         case RECEIVE_ALL_REVIEWS:
             newState = Object.assign({});
