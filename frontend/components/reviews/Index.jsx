@@ -13,7 +13,7 @@ export default function ReviewIndex() {
             <div className='reviews-index-search'>
                 {displayedReviews.length > 0 ? `${displayedReviews.length} results:` : ""}
                 <div className='reviews-index-search-results'>    
-                    {displayedReviews ? reviews.map(review => displayedReviews.includes(review) ? <Review review={review} /> : <div></div>) : <div>Loading...</div>   }
+                    {displayedReviews ? reviews.map(review => displayedReviews.includes(review) ? <Review review={review} key={review.id} /> : '') : <div>Loading...</div>   }
                 </div>
             </div>
         </div>
