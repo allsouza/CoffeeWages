@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
-
 import Review from './Show';
 import FiltersDrawer from './filters_drawer';
-import { useDispatch, useSelector } from 'react-redux';
-
-import { makeStyles } from '@material-ui/core/styles';
-
+import { useSelector } from 'react-redux';
 
 export default function ReviewIndex() {
     const reviews = Object.values(useSelector(({entities}) => entities.reviews));
@@ -15,8 +11,9 @@ export default function ReviewIndex() {
         <div className="reviews-index">
             <FiltersDrawer displayedReviews={displayedReviews} setDisplayedReviews={setDisplayedReviews} />
             <div className='reviews-index-search'>
+                {displayedReviews.length > 0 ? `${displayedReviews.length} results:` : ""}
                 <div className='reviews-index-search-results'>    
-                    {displayedReviews ? displayedReviews.map(review => <Review review={review} />) : <div>Loading...</div>   }
+                    {displayedReviews ? reviews.map(review => displayedReviews.includes(review) ? <Review review={review} /> : <div></div>) : <div>Loading...</div>   }
                 </div>
             </div>
         </div>

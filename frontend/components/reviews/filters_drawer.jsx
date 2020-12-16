@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -48,8 +48,8 @@ export default function ResponsiveDrawer({displayedReviews, setDisplayedReviews}
     const [name, setName] = useState("");
     const [address, setAddress] = useState("");
     const dispatch = useDispatch();
- 
-    
+    const [checks, setChecks] = useState({});
+
     function handleSubmit(e) {
         e.preventDefault();
         if (name || address) {
@@ -59,13 +59,26 @@ export default function ResponsiveDrawer({displayedReviews, setDisplayedReviews}
     }
     
     function handleChange(field, e) {
+        const node = e.currentTarget;
         const newReviews = [...displayedReviews];
-        for (let i = newReviews.length - 1; i >= 0; i--) {
-            const review = newReviews[i];
-            if (field === "location" ? review.location === e.currentTarget.id : review.shopName === e.currentTarget.id) {
-                newReviews.splice(i, 1);
+        
+        if (!node.checked) {
+            for (let i = newReviews.length - 1; i >= 0; i--) {
+                const review = newReviews[i];
+                if (field === "location" ? review.location === node.id : review.shopName === node.id) {
+                    newReviews.splice(i, 1);
+                    setChecks({...checks, [node.id]: "unchecked" });
+                }
             }
-        } 
+        } else {
+            for (let i = reviews.length - 1; i >= 0; i--) {
+                const review = reviews[i];
+                if (field === "location" ? review.location === node.id : review.shopName === node.id) {
+                    newReviews.push(review);
+                    setChecks({...checks, [node.id]: "checked" });
+                }
+            }
+        }
         setDisplayedReviews(newReviews);
     }
 
@@ -83,7 +96,7 @@ export default function ResponsiveDrawer({displayedReviews, setDisplayedReviews}
                         {locations.map((text) => (
                             <ListItem button key={text}>
                                 <ListItemIcon>
-                                    <Switch id={text} defaultChecked onChange={(e) => handleChange("location", e)} />
+                                    <Switch id={text} size="small" checked={checks[text] !== "unchecked"} onChange={(e) => handleChange("location", e)} />
                                 </ListItemIcon>
                                 <ListItemText primary={text} />
                             </ListItem>
@@ -99,7 +112,7 @@ export default function ResponsiveDrawer({displayedReviews, setDisplayedReviews}
                         {shops.map((text) => (
                             <ListItem button key={text}>
                                 <ListItemIcon>
-                                    <Switch id={text} defaultChecked onChange={(e) => handleChange("name", e)} />
+                                    <Switch id={text} size="small" checked={checks[text] !== "unchecked"} onChange={(e) => handleChange("name", e)} />
                                 </ListItemIcon>
                                 <ListItemText primary={text} />
                             </ListItem>
