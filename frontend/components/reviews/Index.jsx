@@ -9,13 +9,14 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export default function ReviewIndex() {
     const reviews = Object.values(useSelector(({entities}) => entities.reviews));
+    const [displayedReviews, setDisplayedReviews] = useState(reviews);
 
     return (
         <div className="reviews-index">
-            <FiltersDrawer />
+            <FiltersDrawer displayedReviews={displayedReviews} setDisplayedReviews={setDisplayedReviews} />
             <div className='reviews-index-search'>
                 <div className='reviews-index-search-results'>    
-                    {reviews ? reviews.map(review => <Review review={review} />) : <div>Loading...</div>   }
+                    {displayedReviews ? displayedReviews.map(review => <Review review={review} />) : <div>Loading...</div>   }
                 </div>
             </div>
         </div>

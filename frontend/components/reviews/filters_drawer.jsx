@@ -40,12 +40,9 @@ const useStyles = makeStyles({
     },
 });
 
-export default function ResponsiveDrawer(props) {
-    const { window } = props;
+export default function ResponsiveDrawer({displayedReviews, setDisplayedReviews}) {
     const classes = useStyles();
-    const theme = useTheme();
     const reviews = useSelector(( {entities} ) => Object.values(entities.reviews) );
-    const [mobileOpen, setMobileOpen] = useState(false);
     const locations = [...new Set(reviews.map( review => review.location ))];
     const shops = [...new Set(reviews.map(review => review.shopName))];
     const [name, setName] = useState("");
@@ -55,12 +52,22 @@ export default function ResponsiveDrawer(props) {
     
     function handleSubmit(e) {
         e.preventDefault();
-
         if (name || address) {
-            dispatch(fetchAllReviews({ filters: { name, address } }));
+            dispatch(fetchAllReviews({ filters: { name, address } }))
+            .then((results) => setDisplayedReviews(results.reviews));
         }
     }
     
+    function handleChange(field, e) {
+        const newReviews = [...displayedReviews];
+        for (let i = newReviews.length - 1; i >= 0; i--) {
+            const review = newReviews[i];
+            if (field === "location" ? review.location === e.currentTarget.id : review.shopName === e.currentTarget.id) {
+                newReviews.splice(i, 1);
+            }
+        } 
+        setDisplayedReviews(newReviews);
+    }
 
     return (
         <div className="reviews-index-sidebar">
@@ -75,7 +82,9 @@ export default function ResponsiveDrawer(props) {
                     <List>
                         {locations.map((text) => (
                             <ListItem button key={text}>
-                                <ListItemIcon><Switch checked={true} /></ListItemIcon>
+                                <ListItemIcon>
+                                    <Switch id={text} defaultChecked onChange={(e) => handleChange("location", e)} />
+                                </ListItemIcon>
                                 <ListItemText primary={text} />
                             </ListItem>
                         ))}
@@ -89,7 +98,9 @@ export default function ResponsiveDrawer(props) {
                     <List>
                         {shops.map((text) => (
                             <ListItem button key={text}>
-                                <ListItemIcon><Switch checked={true} /></ListItemIcon>
+                                <ListItemIcon>
+                                    <Switch id={text} defaultChecked onChange={(e) => handleChange("name", e)} />
+                                </ListItemIcon>
                                 <ListItemText primary={text} />
                             </ListItem>
                         ))}
