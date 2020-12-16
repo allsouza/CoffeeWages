@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles({
     card: {
-        width: "30%",
+        width: 240,
         marginBottom: 12,
         marginRight: 6
     },
