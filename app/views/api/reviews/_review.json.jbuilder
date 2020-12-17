@@ -8,9 +8,11 @@ json.endDate review.end_date == "Current" ? review.end_date : review.end_date.to
 json.employmentType review.employment_type
 json.wage review.wage
 json.tips review.tips
+json.avgTips review.avg_tips
 json.gender review.gender
 json.orientation review.orientation
 json.race review.race
 json.shopName review.business.name
 json.location review.business.location
+json.satisfaction review.satisfaction
 json.notes review.notes
