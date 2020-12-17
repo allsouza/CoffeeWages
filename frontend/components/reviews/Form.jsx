@@ -26,31 +26,31 @@ const styles = makeStyles({
         width: 200
     }
 
-})
+});
 
 export default function Form() {
     const classes = styles()
 
-    const [business, setBusiness] = useState({})
-    const [position, setPosition] = useState("")
-    const [start, setStart] = useState("")
-    const [end, setEnd] = useState('')
-    const [employment, setEmployment] = useState('')
-    const [wage, setWage] = useState('')
-    const [wageType, setWageType] = useState('')
-    const [tips, setTips] = useState('')
-    const [gender, setGender] = useState('')
-    const [orientation, setOrientation] = useState('')
-    const [race, setRace] = useState('')
-    const [errors, setErrors] = useState(new Set())
-    const [notes, setNotes] = useState('')
-    const dispatch = useDispatch()
+    const [business, setBusiness] = useState({});
+    const [position, setPosition] = useState("");
+    const [start, setStart] = useState("");
+    const [end, setEnd] = useState('');
+    const [employment, setEmployment] = useState('');
+    const [wage, setWage] = useState('');
+    const [wageType, setWageType] = useState('');
+    const [tips, setTips] = useState('');
+    const [gender, setGender] = useState('');
+    const [orientation, setOrientation] = useState('');
+    const [race, setRace] = useState('');
+    const [errors, setErrors] = useState(new Set());
+    const [notes, setNotes] = useState('');
+    const dispatch = useDispatch();
 
     const [, updateState] = useState();
     const forceUpdate = useCallback(() => updateState({}), []);
     
     function save() {
-        errorCheck()
+        errorCheck();
         if(errors.size === 0){
             const review = {
                 business_id: business.id,
@@ -66,29 +66,29 @@ export default function Form() {
                 end_date: end,
                 notes
             }
-            dispatch(createReview(review))
+            dispatch(createReview(review));
         }
     }
 
     function errorCheck() {
-        Object.keys(business).length > 0 ? errors.delete('business') : errors.add('business')
-        Boolean(position) ? errors.delete('position') : errors.add('position')
-        Boolean(start) ? errors.delete('start') : errors.add('start')
-        Boolean(end) ? errors.delete('end') : errors.add('end')
-        Boolean(employment) ? errors.delete('employment') : errors.add('employment')
-        Boolean(wage) ? errors.delete('wage') : errors.add('wage')
-        Boolean(wageType) ? errors.delete('wageType') : errors.add('wageType')
-        tips !== '' ? errors.delete('tips') : errors.add('tips')
-        Boolean(gender) ? errors.delete('gender') : errors.add('gender')
-        Boolean(orientation) ? errors.delete('orientation') : errors.add('orientation')
-        Boolean(race) ? errors.delete('race') : errors.add('race')
-        setErrors(errors)
-        forceUpdate()
+        Object.keys(business).length > 0 ? errors.delete('business') : errors.add('business');
+        Boolean(position) ? errors.delete('position') : errors.add('position');
+        Boolean(start) ? errors.delete('start') : errors.add('start');
+        Boolean(end) ? errors.delete('end') : errors.add('end');
+        Boolean(employment) ? errors.delete('employment') : errors.add('employment');
+        Boolean(wage) ? errors.delete('wage') : errors.add('wage');
+        Boolean(wageType) ? errors.delete('wageType') : errors.add('wageType');
+        tips !== '' ? errors.delete('tips') : errors.add('tips');
+        Boolean(gender) ? errors.delete('gender') : errors.add('gender');
+        Boolean(orientation) ? errors.delete('orientation') : errors.add('orientation');
+        Boolean(race) ? errors.delete('race') : errors.add('race');
+        setErrors(errors);
+        forceUpdate();
     }
 
     useEffect(() => {
-        if(errors.size > 0) errorCheck()
-    }, [business, position, start, end, employment, wage, wageType, tips, gender, orientation, race])
+        if(errors.size > 0) errorCheck();
+    }, [business, position, start, end, employment, wage, wageType, tips, gender, orientation, race]);
 
     return(
 

@@ -7,13 +7,14 @@ import ReviewIndex from './reviews/Index';
 import ShopSearch from './reviews/ShopSearch';
 import ErrorReport from './contact/error_report';
 
+
 export default function App() {
   return (
     <div className="app-container">
       <Nav/>
     <Switch>
+        <Route path='/new_review' component={Splash} />
         <Route path='/search' component={ShopSearch} />
-        <Route path='/new_review' component={Form} />
         <Route path='/reviews' component={ReviewIndex} />
         <Route path='/bug_report' component={ErrorReport} />
         <Route exact path='/' component={Splash}/>
