@@ -11,6 +11,7 @@ class ErrorMailer
         personalization = Personalization.new
         personalization.add_to(Email.new(email: 'andre.llsouza8@gmail.com', name: "Andre Souza"))
         personalization.add_to(Email.new(email: 'drewwebs@gmail.com', name: "Drew Webster"))
+        personalization.add_to(Email.new(email: 'larsonbrad@pm.me', name: "Brad Larson"))
         mail.add_personalization(personalization)
 
         sg = SendGrid::API.new(api_key: Figaro.env.SENDGRID_API_KEY)
