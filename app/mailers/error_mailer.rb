@@ -9,8 +9,8 @@ class ErrorMailer
         mail.add_content(Content.new(type: 'text/plain', value: body))
         
         personalization = Personalization.new
-        personalization.add_to(Email.new(email: 'andre.llsouza8@gmail.com', name: "Andre"))
-        personalization.add_to(Email.new(email: 'andriw.luiz@gmail.com', name: "Andre Souza"))
+        personalization.add_to(Email.new(email: 'andre.llsouza8@gmail.com', name: "Andre Souza"))
+        personalization.add_to(Email.new(email: 'drewwebs@gmail.com', name: "Drew Webster"))
         mail.add_personalization(personalization)
 
         sg = SendGrid::API.new(api_key: Figaro.env.SENDGRID_API_KEY)
