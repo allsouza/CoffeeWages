@@ -1,5 +1,4 @@
 export const sendError = error => {
-    debugger
     return $.ajax({
         url: '/api/errors',
         method: "POST",
