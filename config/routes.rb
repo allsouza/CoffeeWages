@@ -6,6 +6,8 @@ Rails.application.routes.draw do
       resources :reviews, only: [:index]
     end
     resources :reviews, only: [:index, :create, :show, :update, :delete]
+    resource :errors, only: [:create]
     get '/search', to: 'businesses#search'
+    get '/search_location', to: 'businesses#search_location'
   end
 end
