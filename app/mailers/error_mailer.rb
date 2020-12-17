@@ -13,7 +13,6 @@ class ErrorMailer
         personalization.add_to(Email.new(email: 'andriw.luiz@gmail.com', name: "Andre Souza"))
         mail.add_personalization(personalization)
 
-        debugger
         sg = SendGrid::API.new(api_key: Figaro.env.SENDGRID_API_KEY)
         sg.client.mail._('send').post(request_body: mail.to_json)
     end
