@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 
 export default function ReviewIndex() {
     const reviews = Object.values(useSelector(({entities}) => entities.reviews));
-    const [displayedReviews, setDisplayedReviews] = useState(reviews);
+    const [displayedReviews, setDisplayedReviews] = useState([]);
 
     return (
         <div className="reviews-index">
@@ -13,7 +13,7 @@ export default function ReviewIndex() {
             <div className='reviews-index-search'>
                 {displayedReviews.length > 0 ? `${displayedReviews.length} results:` : ""}
                 <div className='reviews-index-search-results'>    
-                    {displayedReviews ? reviews.map(review => displayedReviews.includes(review) ? <Review review={review} /> : <div></div>) : <div>Loading...</div>   }
+                    {displayedReviews ? reviews.map(review => displayedReviews.includes(review) ? <Review key={review.id} review={review} /> : null) : <div>Loading...</div>   }
                 </div>
             </div>
         </div>
