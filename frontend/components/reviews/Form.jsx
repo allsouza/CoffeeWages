@@ -42,14 +42,14 @@ export default function Form() {
     const [wage, setWage] = useState('');
     const [wageType, setWageType] = useState('');
     const [tips, setTips] = useState('');
-    const [avgTips, setAvgTips] = useState('')
+    const [avgTips, setAvgTips] = useState('');
     const [gender, setGender] = useState('');
     const [orientation, setOrientation] = useState('');
     const [race, setRace] = useState('');
-    const [satisfaction, setSatisfaction] = useState(2)
+    const [satisfaction, setSatisfaction] = useState(2);
     const [notes, setNotes] = useState('');
-    const [saved, setSaved] = useState(false)
-    const [open, setOpen] = useState(false)
+    const [saved, setSaved] = useState(false);
+    const [open, setOpen] = useState(false);
     const [errors, setErrors] = useState(new Set());
     const dispatch = useDispatch();
 
@@ -74,11 +74,11 @@ export default function Form() {
                 end_date: end,
                 satisfaction,
                 notes
-            }
+            };
             
             dispatch(createReview(review)).then(res => {
-                if (res.type === RECEIVE_REVIEW) setSaved(true)
-                setOpen(true)
+                if (res.type === RECEIVE_REVIEW) setSaved(true);
+                setOpen(true);
             });
         }
     }
@@ -114,9 +114,9 @@ export default function Form() {
     function handleSatisfaction(event, rating) {
         const faces = Array.from(document.querySelector('.satisfaction').children)
         faces.forEach(icon => {
-            icon === event.currentTarget ? icon.classList.add('selected') : icon.classList.remove('selected')
-        })
-        setSatisfaction(rating)
+            icon === event.currentTarget ? icon.classList.add('selected') : icon.classList.remove('selected');
+        });
+        setSatisfaction(rating);
     }
 
     useEffect(() => {

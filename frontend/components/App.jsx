@@ -12,7 +12,7 @@ import NewReview from './reviews/NewReview';
 export default function App() {
   return (
     <div className="app-container">
-      <Nav/>
+    <Nav/>
     <Switch>
         <Route path='/new_review' component={Splash} />
         <Route path='/create_review' component={NewReview} />
