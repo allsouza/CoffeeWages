@@ -10,7 +10,7 @@ import ShopSearch from './reviews/ShopSearch';
 export default function App() {
   return (
     <div className="app-container">
-      <Nav/>
+    <Nav/>
     <Switch>
         <Route path='/new_review' component={Splash} />
         <Route path='/search' component={ShopSearch} />
