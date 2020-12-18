@@ -99,7 +99,7 @@ export default function ResponsiveDrawer({displayedReviews, setDisplayedReviews}
                 <TextField value={location} className={classes.searchInputs} onChange={e => setLocation(e.target.value)} label="Location" />
                 <Button className={classes.searchButton} type="submit" variant='contained' size="small" color="primary">Search</Button>
             </form>
-            <a onClick={clearFilters}>Clear Filters</a>
+            <a className="clear-filters-button" onClick={clearFilters}>Clear Filters</a>
             {locations.length > 0 ?
             <Accordion defaultExpanded>
                 <AccordionSummary>Filter by Location</AccordionSummary>

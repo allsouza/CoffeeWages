@@ -54,8 +54,8 @@ export default function Splash() {
                   <div className="title-first-letter">W</div><div className="title-words-2">ages</div>
                 </h1>
                 <div className="subtext">Empowering workers in the coffee industry to seek out jobs
-                  that offer living wages and the best benefits.
-                  <div className="explore-button"><Button variant="contained" size="medium" color="primary">Explore shops</Button></div>
+            that offer living wages and the best benefits.
+                  <div className="explore-button"><Button variant="contained" size="medium" color="primary">Explore shops »</Button></div>
                 </div>
               </section>
             </div>

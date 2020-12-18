@@ -35,7 +35,7 @@
         margin: 0 auto;
         position: relative;
         min-width: 70vw;
-        top: 20vh;
+        padding: 20px;
       }
     }
 
@@ -59,3 +59,13 @@
     }
 }
 
+.clear-filters-button {
+  cursor: pointer;
+  color: #3f51b5;
+  text-decoration: underline;
+
+  &:hover {
+    color: #2F3C87;
+    text-decoration: underline;
+  }
+}
