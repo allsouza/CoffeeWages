@@ -19,6 +19,8 @@ class Business < ApplicationRecord
 
     def titleize
         self.name = self.name.split(" ").map { |word| word.capitalize }.join(" ")
-        self.location = self.location.split(" ").map { |word| word.capitalize }.join(" ")
+        city, state = self.location.split(",")
+        city = city.split(" ").map { |word| word.capitalize }.join(" ")
+        self.location = "#{city},#{state}"
     end
 end
