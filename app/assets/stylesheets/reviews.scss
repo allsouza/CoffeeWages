@@ -10,7 +10,7 @@
     min-height: 100vh;
     display: flex;  
     
-    .MuiPaper-root {
+    >.MuiPaper-root {
       height: fit-content;
       max-width: fit-content;
       top: 1vh;
