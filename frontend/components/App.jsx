@@ -11,7 +11,7 @@ import ErrorReport from './contact/error_report';
 export default function App() {
   return (
     <div className="app-container">
-      <Nav/>
+    <Nav/>
     <Switch>
         <Route path='/new_review' component={Splash} />
         <Route path='/search' component={ShopSearch} />

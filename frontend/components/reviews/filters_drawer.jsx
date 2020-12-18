@@ -46,15 +46,16 @@ export default function ResponsiveDrawer({displayedReviews, setDisplayedReviews}
     const locations = [...new Set(reviews.map( review => review.location ))];
     const shops = [...new Set(reviews.map(review => review.shopName))];
     const [name, setName] = useState("");
-    const [address, setAddress] = useState("");
+    const [location, setLocation] = useState("");
     const dispatch = useDispatch();
     const [checks, setChecks] = useState({});
+    const displayedLocations = [...new Set(displayedReviews.map(review => review.location))];
+    const displayedShops = [...new Set(displayedReviews.map(review => review.shopName))];
 
     function handleSubmit(e) {
         e.preventDefault();
-        if (name || address) {
-            dispatch(fetchAllReviews({ filters: { name, address } }))
-            .then((results) => setDisplayedReviews(results.reviews));
+        if (name || location) {
+            dispatch(fetchAllReviews({ filters: { name, location } }));
         }
     }
     
@@ -82,44 +83,64 @@ export default function ResponsiveDrawer({displayedReviews, setDisplayedReviews}
         setDisplayedReviews(newReviews);
     }
 
+    function clearFilters() {
+        setDisplayedReviews(reviews);
+        const newState = {};
+        Object.keys(checks).forEach(key => {
+            newState[key] = "checked";
+        });
+        setChecks(Object.assign({}, checks, newState));
+    }
+
     return (
         <div className="reviews-index-sidebar">
             <form onSubmit={handleSubmit} className='reviews-index-search-fields'>
                 <TextField className={classes.searchInputs} value={name} onChange={e => setName(e.target.value)} label="Business name" />
-                <TextField value={address} className={classes.searchInputs} onChange={e => setAddress(e.target.value)} label="Address" />
+                <TextField value={location} className={classes.searchInputs} onChange={e => setLocation(e.target.value)} label="Location" />
                 <Button className={classes.searchButton} type="submit" variant='contained' size="small" color="primary">Search</Button>
             </form>
-            <Accordion>
+            <a className="clear-filters-button" onClick={clearFilters}>Clear Filters</a>
+            {locations.length > 0 ?
+            <Accordion defaultExpanded>
                 <AccordionSummary>Filter by Location</AccordionSummary>
                 <AccordionDetails>
                     <List>
                         {locations.map((text) => (
                             <ListItem button key={text}>
                                 <ListItemIcon>
-                                    <Switch id={text} size="small" checked={checks[text] !== "unchecked"} onChange={(e) => handleChange("location", e)} />
+                                    <Switch id={text} 
+                                        size="small" 
+                                        disabled={checks[text] !== "unchecked" && !displayedLocations.includes(text)} 
+                                        checked={checks[text] !== "unchecked"} 
+                                        onChange={(e) => handleChange("location", e)} />
                                 </ListItemIcon>
                                 <ListItemText primary={text} />
                             </ListItem>
                         ))}
                     </List>
                 </AccordionDetails>
-            </Accordion>
+            </Accordion> : <div></div>}
          
-            <Accordion>
+            {shops.length > 0 ?
+            <Accordion defaultExpanded>
                 <AccordionSummary>Filter by Shop</AccordionSummary>
                 <AccordionDetails>
                     <List>
                         {shops.map((text) => (
                             <ListItem button key={text}>
                                 <ListItemIcon>
-                                    <Switch id={text} size="small" checked={checks[text] !== "unchecked"} onChange={(e) => handleChange("name", e)} />
+                                    <Switch id={text} 
+                                        disabled={checks[text] !== "unchecked" && !displayedShops.includes(text)}
+                                        size="small" 
+                                        checked={checks[text] !== "unchecked"} 
+                                        onChange={(e) => handleChange("name", e)} />
                                 </ListItemIcon>
                                 <ListItemText primary={text} />
                             </ListItem>
                         ))}
                     </List>
                 </AccordionDetails>
-            </Accordion>
+            </Accordion> : <div></div> }
         </div>
         // <div className={classes.root}>
         //     <CssBaseline />
