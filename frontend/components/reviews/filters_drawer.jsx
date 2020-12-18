@@ -103,7 +103,7 @@ export default function ResponsiveDrawer({displayedReviews, setDisplayedReviews}
             </form>
             <a className="clear-filters-button" onClick={clearFilters}>Clear Filters</a>
             {locations.length > 0 ?
-            <Accordion expanded={!mobile}>
+            <Accordion defaultExpanded>
                 <AccordionSummary>Filter by Location</AccordionSummary>
                 <AccordionDetails >
                     <List>
@@ -124,7 +124,7 @@ export default function ResponsiveDrawer({displayedReviews, setDisplayedReviews}
             </Accordion> : <div></div>}
          
             {shops.length > 0 ?
-            <Accordion expanded={!mobile}>
+            <Accordion defaultExpanded>
                 <AccordionSummary>Filter by Shop</AccordionSummary>
                 <AccordionDetails>
                     <List>
