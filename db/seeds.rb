@@ -18,15 +18,15 @@ csv.each do |row|
     review = Review.new
     business = Business.find_by(name: row['business_name'])
     business = business && business.location == row['location'] ? business : Business.new
-    business.name = row['business_name'].strip
-    business.location = row['location'].strip
+    business.name = row['business_name']
+    business.location = row['location']
     business.save!
 
     review.business_id = business.id
-    review.position = row['position'].strip
+    review.position = row['position']
     review.employment_type = row['employment_type']
-    review.pay_frequency = row['pay_frequency'].strip
-    review.wage = row['wage'].strip
+    review.pay_frequency = row['pay_frequency']
+    review.wage = row['wage']
     review.gender = row['gender']
     review.orientation = row['orientation']
     review.race = row['race']
