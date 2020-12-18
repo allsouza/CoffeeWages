@@ -24,7 +24,7 @@ export default function Nav() {
         </nav>
         {!mobile && <nav className="explore-links">
             <Link to="/reviews" className="navlinks">Explore Shops</Link>
-            <Link to="/new_review" className="navlinks">Report Wages</Link>
+            <Link to="/create_review" className="navlinks">Report Wages</Link>
             <Link to='/bug_report' className='navlinks'>Report a Bug</Link>
         </nav>}
         {mobile && <nav className="explore-links">
@@ -36,7 +36,7 @@ export default function Nav() {
               open={Boolean(anchor)}
               onClose={closeMenu} >
                 <MenuItem onClick={closeMenu}><Link to="/reviews" className="navlinks">Explore Shops</Link></MenuItem>
-                <MenuItem onClick={closeMenu}><Link to="/new_review" className="navlinks">Report Wages</Link></MenuItem>
+                <MenuItem onClick={closeMenu}><Link to="/create_review" className="navlinks">Report Wages</Link></MenuItem>
                 <MenuItem onClick={closeMenu}><Link to='/bug_report' className='navlinks'>Report a Bug</Link></MenuItem>
             </Menu>
         </nav>

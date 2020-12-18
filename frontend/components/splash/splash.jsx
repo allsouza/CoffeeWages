@@ -31,7 +31,7 @@ export default function Splash() {
 
   useEffect(() => {
     if (location.pathname === '/new_review') {
-      formRef.current.scrollIntoView({ behavior: 'smooth', alignToTop: true });
+      if (Boolean(formRef.current)) formRef.current.scrollIntoView({ behavior: 'smooth', alignToTop: true });
     } else {
       window.scrollTo({
         top: 0,
@@ -57,16 +57,22 @@ export default function Splash() {
                 </h1>
                 <div className="subtext">Empowering workers in the coffee industry to seek out jobs
                   that offer living wages and the best benefits.
-                  <div className="explore-button"><Button variant="contained" size="medium" color="primary">Explore shops</Button></div>
+                  <div className="explore-button">
+                  <Button 
+                    variant="contained" 
+                    size="medium" 
+                    onClick={() => history.push('/reviews')}
+                    color="primary">Explore shops</Button>
+                  </div>
                 </div>
               </section>
             </div>
             {location.pathname === '/new_review' ?
-              <ExpandLessIcon ref={formRef} className={classes.large} onClick={() => {
+              !mobile && <ExpandLessIcon ref={formRef} className={classes.large} onClick={() => {
                 history.push('/')
               }} />
               :
-              <ExpandMoreIcon ref={formRef} className={classes.large} onClick={() => history.push('/new_review')} />
+              !mobile && <ExpandMoreIcon ref={formRef} className={classes.large} onClick={() => history.push('/new_review')} />
             }
             <SplashForm />
         </div>
