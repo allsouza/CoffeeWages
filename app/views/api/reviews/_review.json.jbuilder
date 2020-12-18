@@ -13,6 +13,6 @@ json.gender review.gender
 json.orientation review.orientation
 json.race review.race
 json.shopName review.business.name
-json.location review.business.location
+json.location review.business.location.split(",").join(", ")
 json.satisfaction review.satisfaction
 json.notes review.notes

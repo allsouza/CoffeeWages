@@ -51,7 +51,8 @@ export default function ShopSearch({}) {
                     'NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI',
                     'SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY'];
 
-    function search() {
+    function search(e) {
+        e.preventDefault();
         const location = `${city},${state}`;
         if (name || location) {
             dispatch(fetchAllReviews({ filters: { name, location } }));
