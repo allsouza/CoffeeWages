@@ -52,3 +52,25 @@
     }
 }
 
+@media only screen and (max-width:768px){
+  .reviews-index{
+    display: flex;
+    flex-direction: column;
+
+    .reviews-index-sidebar{
+      width: 90%;
+      height: fit-content;
+      margin: auto;
+      position: relative;
+    }
+
+    .reviews-index-search{
+      padding-top: 20px;
+
+      .MuiCard-root{
+        width: 90%;
+      }
+    }
+  }
+}
+

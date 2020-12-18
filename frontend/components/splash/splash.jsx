@@ -5,10 +5,12 @@ import { useLocation, useHistory } from 'react-router-dom';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import { makeStyles } from '@material-ui/core/styles';
+import { useMediaPredicate } from 'react-media-hook';
 
 export default function Splash() {
   const location = useLocation();
   const history = useHistory();
+  const mobile = useMediaPredicate("(max-width: 768px)")
 
   const useStyles = makeStyles({
     large: {
@@ -46,7 +48,7 @@ export default function Splash() {
             <div className="splashbox">
               <div className="mug-container">
                 <img className="mug-background" src={blob} />
-                <img className="mug" src={neverSettle} />
+                {!mobile && <img className="mug" src={neverSettle} />}
               </div>
               <section className="details-container">
                 <h1 className="title">
