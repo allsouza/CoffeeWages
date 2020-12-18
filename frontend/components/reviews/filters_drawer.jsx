@@ -18,6 +18,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { Button, TextField } from '@material-ui/core';
 import { fetchAllReviews } from '../../actions/review_actions';
+import { useMediaPredicate } from 'react-media-hook';
 
 const drawerWidth = 240;
 
@@ -51,6 +52,7 @@ export default function ResponsiveDrawer({displayedReviews, setDisplayedReviews}
     const [checks, setChecks] = useState({});
     const displayedLocations = [...new Set(displayedReviews.map(review => review.location))];
     const displayedShops = [...new Set(displayedReviews.map(review => review.shopName))];
+    const mobile = useMediaPredicate("(max-width:768px)")
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -101,9 +103,9 @@ export default function ResponsiveDrawer({displayedReviews, setDisplayedReviews}
             </form>
             <a className="clear-filters-button" onClick={clearFilters}>Clear Filters</a>
             {locations.length > 0 ?
-            <Accordion defaultExpanded>
+            <Accordion expanded={!mobile}>
                 <AccordionSummary>Filter by Location</AccordionSummary>
-                <AccordionDetails>
+                <AccordionDetails >
                     <List>
                         {locations.map((text) => (
                             <ListItem button key={text}>
@@ -122,7 +124,7 @@ export default function ResponsiveDrawer({displayedReviews, setDisplayedReviews}
             </Accordion> : <div></div>}
          
             {shops.length > 0 ?
-            <Accordion defaultExpanded>
+            <Accordion expanded={!mobile}>
                 <AccordionSummary>Filter by Shop</AccordionSummary>
                 <AccordionDetails>
                     <List>

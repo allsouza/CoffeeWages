@@ -156,11 +156,39 @@
     }
 }
 
+.new-review{
+    width: 90%;
+    margin: auto;
+    h1{
+        text-align: center;
+        font-size: 3rem;
+        padding: 32px;
+        color: #3f51b5;
+    }
+
+    >p{
+        font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+        width: 70%;
+        margin: auto;
+        margin-bottom: 30px;
+    }
+}
+
 @media only screen and (max-width: 768px){
     .review-form-container{
         min-width: 0;
         width: 90%;
     }
+
+    .new-review{
+        h1{
+            font-size: 2.5rem;
+        }
+        >p{
+            width: 90%;
+        }
+    }
+
     .review-form{
         flex-direction: column;
 

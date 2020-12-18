@@ -2,7 +2,7 @@ require 'sendgrid-ruby'
 include SendGrid
 
 class ErrorMailer
-    def self.bug_report(subject, body)
+    def self.feedback(subject, body)
         mail = SendGrid::Mail.new
         mail.from = Email.new(email: 'andre.lls@hotmail.com')
         mail.subject = subject

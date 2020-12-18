@@ -25,7 +25,7 @@ export default function Nav() {
         {!mobile && <nav className="explore-links">
             <Link to="/reviews" className="navlinks">Explore Shops</Link>
             <Link to="/create_review" className="navlinks">Report Wages</Link>
-            <Link to='/bug_report' className='navlinks'>Report a Bug</Link>
+            <Link to='/feedback' className='navlinks'>Feedback</Link>
         </nav>}
         {mobile && <nav className="explore-links">
             <Button onClick={e => openMenu(e)}><i className="fas fa-bars"></i></Button>
@@ -37,7 +37,7 @@ export default function Nav() {
               onClose={closeMenu} >
                 <MenuItem onClick={closeMenu}><Link to="/reviews" className="navlinks">Explore Shops</Link></MenuItem>
                 <MenuItem onClick={closeMenu}><Link to="/create_review" className="navlinks">Report Wages</Link></MenuItem>
-                <MenuItem onClick={closeMenu}><Link to='/bug_report' className='navlinks'>Report a Bug</Link></MenuItem>
+                <MenuItem onClick={closeMenu}><Link to='/feedback' className='navlinks'>Feedback</Link></MenuItem>
             </Menu>
         </nav>
         }

@@ -17,7 +17,7 @@ export default function App() {
         <Route path='/new_review' component={Splash} />
         <Route path='/create_review' component={NewReview} />
         <Route path='/reviews' component={ReviewIndex} />
-        <Route path='/bug_report' component={ErrorReport} />
+        <Route path='/feedback' component={ErrorReport} />
         <Route exact path='/' component={Splash}/>
     </Switch>
     </div>
