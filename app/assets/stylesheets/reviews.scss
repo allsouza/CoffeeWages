@@ -37,6 +37,16 @@
         min-width: 70vw;
         padding: 20px;
       }
+
+      &-stats {
+        text-align: center;
+        font-size: 18px;
+        
+        & i {
+          font-size: 20px;
+          font-weight: bold;
+        }
+      }
     }
 
     &-sidebar {
