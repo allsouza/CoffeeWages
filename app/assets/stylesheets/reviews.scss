@@ -10,6 +10,12 @@
     min-height: 100vh;
     display: flex;  
     
+    .MuiPaper-root {
+      height: fit-content;
+      max-width: fit-content;
+      top: 1vh;
+    }
+
     &-search {
       margin-top: 5%;
       padding-left: 64px;
@@ -69,13 +75,36 @@
     }
 }
 
+
 .clear-filters-button {
   cursor: pointer;
   color: #3f51b5;
   text-decoration: underline;
-
+  
   &:hover {
     color: #2F3C87;
     text-decoration: underline;
+  }
+}
+
+@media only screen and (max-width:768px){
+  .reviews-index{
+    display: flex;
+    flex-direction: column;
+
+    .reviews-index-sidebar{
+      width: 90%;
+      height: fit-content;
+      margin: auto;
+      position: relative;
+    }
+
+    .reviews-index-search{
+      padding: 0 20px;
+      padding-top: 20px;
+      .MuiCard-root{
+        width: 90%;
+      }
+    }
   }
 }

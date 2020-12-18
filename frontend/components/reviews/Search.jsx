@@ -51,7 +51,7 @@ function Search({error, businesses, setBusiness, getBusinesses}) {
             setChange(false);
             const addressCheck = new RegExp(address, 'i')
             const nameCheck = new RegExp(name, 'i')
-            list = (businesses.filter(business => nameCheck.test(business.name) && addressCheck.test(business.address)));
+            list = (businesses.filter(business => nameCheck.test(business.name) && addressCheck.test(business.address) && business.address !== null));
             list = (list.map(res => {
                 return(
                     <li key={res.id}
