@@ -23,10 +23,10 @@ export default function ReviewShow({ review }) {
     const classes = useStyles();
     
     return (
-        <Card className={classes.card} raised={true} key={review.id}>
+        <Card className={classes.card} key={review.id}>
             <CardContent>
                 <Typography className={classes.pos} color="textSecondary">
-                    A {review.position} review for {review.shopName} in {review.location}
+                    {review.position} review for {review.shopName} in {review.location}
                 </Typography>
                 <Typography variant="h5" component="h2">
                     Wage: {review.wage} per {review.payFrequency === "Hourly" ? "hour" : "year"} {review.tips ? " + tips" : ""}
