@@ -49,7 +49,9 @@ function Search({error, businesses, setBusiness, getBusinesses}) {
         if(change){
             let list = [];
             setChange(false);
-            list = (businesses.filter(business => business.name.toUpperCase() === name.toUpperCase()));
+            const addressCheck = new RegExp(address, 'i')
+            const nameCheck = new RegExp(name, 'i')
+            list = (businesses.filter(business => nameCheck.test(business.name) && addressCheck.test(business.address)));
             list = (list.map(res => {
                 return(
                     <li key={res.id}

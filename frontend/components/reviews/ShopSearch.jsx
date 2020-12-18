@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { fetchAllReviews } from '../../actions/review_actions';
 
 export default function ShopSearch({}) {
+    const dispatch = useDispatch();
     const [name, setName] = useState('');
     const [city, setCity] = useState('');
     const [state, setState] = useState('');
@@ -11,10 +12,6 @@ export default function ShopSearch({}) {
                     'IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT',
                     'NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI',
                     'SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY'];
-    const [errors, setErrors] = useState(new Set());
-    const [, updateState] = useState();
-    const forceUpdate = useCallback(() => updateState({}), []);
-    const dispatch = useDispatch();
 
     function search() {
         const location = `${city},${state}`;
@@ -23,17 +20,6 @@ export default function ShopSearch({}) {
         }
     }
 
-    function errorCheck() {
-        Boolean(name) ? errors.delete('name') : errors.add('name');
-        Boolean(city) ? errors.delete('city') : errors.add('city');
-        Boolean(state) ? errors.delete('state') : errors.add('state');
-        setErrors(errors);
-        forceUpdate();
-    }
-
-    useEffect(() => {
-        if(errors.size > 0) errorCheck();
-    }, [name, city, state]);
 
     return(
         <form onSubmit={search} className='reviews-index-search-form'>

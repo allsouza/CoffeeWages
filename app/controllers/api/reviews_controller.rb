@@ -16,7 +16,6 @@ class Api::ReviewsController < ApplicationController
             reviews = Review.all.includes(:business)
         end
         
-        
         @reviews = reviews
     end
 
@@ -34,7 +33,7 @@ class Api::ReviewsController < ApplicationController
         params.require(:review).permit(
             :position, :start_date, :end_date, :employment_type, 
             :wage, :tips, :gender, :orientation, :race, :pay_frequency,
-            :business_id, :notes
+            :business_id, :notes, :satisfaction, :avg_tips
         )
     end
 end

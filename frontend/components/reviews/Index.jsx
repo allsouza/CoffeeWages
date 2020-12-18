@@ -7,7 +7,7 @@ import useDeepCompareEffect from 'use-deep-compare-effect';
 
 export default function ReviewIndex() {
     const reviews = Object.values(useSelector(({entities}) => entities.reviews));
-    const [displayedReviews, setDisplayedReviews] = useState(reviews);
+    const [displayedReviews, setDisplayedReviews] = useState([]);
     
     useDeepCompareEffect(() => {
         setDisplayedReviews(reviews);

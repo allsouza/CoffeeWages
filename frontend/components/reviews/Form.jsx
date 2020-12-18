@@ -5,14 +5,17 @@ import {
     MenuItem, 
     Select, 
     TextField,
-    Paper
+    Paper,
+    InputAdornment,
+    Snackbar
 } from '@material-ui/core'
+import MuiAlert from '@material-ui/lab/Alert'
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles'
 import React, { useState, useEffect, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import Search from './Search'
-import { createReview } from '../../actions/review_actions'
+import { createReview, RECEIVE_REVIEW } from '../../actions/review_actions'
 
 const styles = makeStyles({
     root: {
@@ -39,11 +42,15 @@ export default function Form() {
     const [wage, setWage] = useState('');
     const [wageType, setWageType] = useState('');
     const [tips, setTips] = useState('');
+    const [avgTips, setAvgTips] = useState('')
     const [gender, setGender] = useState('');
     const [orientation, setOrientation] = useState('');
     const [race, setRace] = useState('');
-    const [errors, setErrors] = useState(new Set());
+    const [satisfaction, setSatisfaction] = useState(2)
     const [notes, setNotes] = useState('');
+    const [saved, setSaved] = useState(false)
+    const [open, setOpen] = useState(false)
+    const [errors, setErrors] = useState(new Set());
     const dispatch = useDispatch();
 
     const [, updateState] = useState();
@@ -62,11 +69,17 @@ export default function Form() {
                 orientation,
                 race,
                 tips,
+                avg_tips: avgTips,
                 start_date: start,
                 end_date: end,
+                satisfaction,
                 notes
             }
-            dispatch(createReview(review));
+            
+            dispatch(createReview(review)).then(res => {
+                if (res.type === RECEIVE_REVIEW) setSaved(true)
+                setOpen(true)
+            });
         }
     }
 
@@ -78,7 +91,15 @@ export default function Form() {
         Boolean(employment) ? errors.delete('employment') : errors.add('employment');
         Boolean(wage) ? errors.delete('wage') : errors.add('wage');
         Boolean(wageType) ? errors.delete('wageType') : errors.add('wageType');
-        tips !== '' ? errors.delete('tips') : errors.add('tips');
+        if (tips !== '') {
+             errors.delete('tips')
+             if(tips){
+                 parseFloat(avgTips).toString() !== 'NaN' ? errors.delete('avgTips') : errors.add('avgTips')
+             }
+        } 
+        else{
+            errors.add('tips');
+        } 
         Boolean(gender) ? errors.delete('gender') : errors.add('gender');
         Boolean(orientation) ? errors.delete('orientation') : errors.add('orientation');
         Boolean(race) ? errors.delete('race') : errors.add('race');
@@ -86,15 +107,26 @@ export default function Form() {
         forceUpdate();
     }
 
+    function Alert(props) {
+        return <MuiAlert elevation={6} variant="filled" {...props} />;
+      }
+
+    function handleSatisfaction(event, rating) {
+        const faces = Array.from(document.querySelector('.satisfaction').children)
+        faces.forEach(icon => {
+            icon === event.currentTarget ? icon.classList.add('selected') : icon.classList.remove('selected')
+        })
+        setSatisfaction(rating)
+    }
+
     useEffect(() => {
         if(errors.size > 0) errorCheck();
-    }, [business, position, start, end, employment, wage, wageType, tips, gender, orientation, race]);
+    }, [business, position, start, end, employment, wage, wageType, tips, gender, orientation, race, avgTips]);
 
     return(
-
         <Paper className='review-form-container'>
       
-            <div className='review-form'>
+            {!saved ? <div className='review-form'>
                 
                 <Search error={errors.has('business')} setBusiness={setBusiness}/>
 
@@ -169,6 +201,19 @@ export default function Form() {
                                 <MenuItem value={false}>No</MenuItem>
                             </Select>
                     </FormControl>
+                    {Boolean(tips) ? <TextField 
+                                error={errors.has('avgTips')} 
+                                helperText={errors.has('avgTips') ? 'Please enter a valid dollar amount' : ''}
+                                className={clsx(classes.medium)}
+                                id='standard-basic' 
+                                label='Average Daily Tips' 
+                                value={avgTips} 
+                                InputProps={{
+                                    startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                                }}
+                                onChange={e => setAvgTips(e.target.value)} /> 
+                    : null}
+                    
                 </div>
 
 
@@ -229,6 +274,13 @@ export default function Form() {
                     </FormControl>
                 </div>
 
+                <div className='satisfaction'>
+                    <p>Job Satisfaction:</p>
+                    <i className="far fa-tired" onClick={e => handleSatisfaction(e, 1)}><p>Bad</p></i>
+                    <i className="far fa-meh selected" onClick={e => handleSatisfaction(e, 2)}><p>Neutral</p></i>
+                    <i className="far fa-laugh-squint" onClick={e => handleSatisfaction(e, 3)}><p>Good</p></i>
+                </div>
+
                 <TextField 
                     multiline
                     rows={5}
@@ -240,6 +292,14 @@ export default function Form() {
 
                 <Button variant='contained' color='primary' onClick={save}>Submit</Button>
             </div>
+        : <div className='saved'>
+            <h1>Review saved!</h1>
+            <p>Thank you for contributing to a more transparent work place.</p>
+        </div> }
+        <Snackbar open={open} autoHideDuration={6000} onClose={() => setOpen(false)}>
+            {saved ? <Alert severity='success' onClose={() => setOpen(false)}>Review saved!</Alert> :
+            <Alert severity='error' onClose={() => setOpen(false)}>There was an error saving the review. Please try again later.</Alert>}
+        </Snackbar>
         </Paper>
     )
 }
