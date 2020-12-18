@@ -206,3 +206,32 @@ html, body, body > div, .splashbg {
         background: #fef9f8;
     }
 }
+
+@media only screen and (max-width:768px){
+    .splashbox{
+        margin-top: 0;
+        .mug-container{
+            position: absolute;
+        }
+
+        .details-container{
+            width: 90%;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            .title{
+                margin-left: 0;
+            }
+
+            .subtext{
+                align-self: center;
+                padding-top: 30px;
+                .explore-button{
+                    button{
+                        width: 100%;
+                    } 
+                }
+            }
+        }
+    }
+}

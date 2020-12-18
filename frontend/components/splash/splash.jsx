@@ -5,10 +5,12 @@ import { useLocation, useHistory } from 'react-router-dom';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import { makeStyles } from '@material-ui/core/styles';
+import { useMediaPredicate } from 'react-media-hook';
 
 export default function Splash() {
   const location = useLocation();
   const history = useHistory();
+  const mobile = useMediaPredicate("(max-width: 768px)")
 
   const useStyles = makeStyles({
     large: {
@@ -29,7 +31,7 @@ export default function Splash() {
 
   useEffect(() => {
     if (location.pathname === '/new_review') {
-      formRef.current.scrollIntoView({ behavior: 'smooth', alignToTop: true });
+      if (Boolean(formRef.current)) formRef.current.scrollIntoView({ behavior: 'smooth', alignToTop: true });
     } else {
       window.scrollTo({
         top: 0,
@@ -46,7 +48,7 @@ export default function Splash() {
             <div className="splashbox">
               <div className="mug-container">
                 <img className="mug-background" src={blob} />
-                <img className="mug" src={neverSettle} />
+                {!mobile && <img className="mug" src={neverSettle} />}
               </div>
               <section className="details-container">
                 <h1 className="title">
@@ -54,17 +56,23 @@ export default function Splash() {
                   <div className="title-first-letter">W</div><div className="title-words-2">ages</div>
                 </h1>
                 <div className="subtext">Empowering workers in the coffee industry to seek out jobs
-            that offer living wages and the best benefits.
-                  <div className="explore-button"><Button variant="contained" size="medium" color="primary">Explore shops »</Button></div>
+                  that offer living wages and the best benefits.
+                  <div className="explore-button">
+                  <Button 
+                    variant="contained" 
+                    size="medium" 
+                    onClick={() => history.push('/reviews')}
+                    color="primary">Explore shops</Button>
+                  </div>
                 </div>
               </section>
             </div>
             {location.pathname === '/new_review' ?
-              <ExpandLessIcon ref={formRef} className={classes.large} onClick={() => {
+              !mobile && <ExpandLessIcon ref={formRef} className={classes.large} onClick={() => {
                 history.push('/')
               }} />
               :
-              <ExpandMoreIcon ref={formRef} className={classes.large} onClick={() => history.push('/new_review')} />
+              !mobile && <ExpandMoreIcon ref={formRef} className={classes.large} onClick={() => history.push('/new_review')} />
             }
             <SplashForm />
         </div>

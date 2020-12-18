@@ -1,0 +1,25 @@
+.error-reporter{
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    margin: auto;
+    max-width: 1000px;
+
+    h1{
+        text-align: center;
+        font-size: 3rem;
+        padding: 32px;
+        color: #3f51b5;
+    }
+
+    >p{
+        font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+        width: 90%;
+        margin: auto;
+        margin-bottom: 30px;
+    }
+
+    >div{
+        padding: 10px 0;
+    }
+}

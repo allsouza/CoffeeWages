@@ -155,3 +155,84 @@
         }
     }
 }
+
+.new-review{
+    width: 90%;
+    margin: auto;
+    h1{
+        text-align: center;
+        font-size: 3rem;
+        padding: 32px;
+        color: #3f51b5;
+    }
+
+    >p{
+        font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+        width: 70%;
+        margin: auto;
+        margin-bottom: 30px;
+    }
+}
+
+@media only screen and (max-width: 768px){
+    .review-form-container{
+        min-width: 0;
+        width: 90%;
+    }
+
+    .new-review{
+        h1{
+            font-size: 2.5rem;
+        }
+        >p{
+            width: 90%;
+        }
+    }
+
+    .review-form{
+        flex-direction: column;
+
+        .MuiFormControl-root {
+            padding-bottom: 10px;
+            padding-right: 0;
+            width: 100%;
+
+            div{
+                width: 100%;
+            }
+        }
+        .search-bar{
+            flex-direction: column;
+            .fields{
+                width: 100%;
+                flex-direction: column;
+            }
+            button{
+                width: 100%;
+            }
+        }
+
+        .employment-fields{
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .wage{
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .demographics{
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .satisfaction{
+            align-self: center;
+            width: 95%;
+        }
+    }
+}

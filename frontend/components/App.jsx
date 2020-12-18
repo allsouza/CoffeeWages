@@ -6,6 +6,7 @@ import Nav from './nav/nav'
 import ReviewIndex from './reviews/Index';
 import ShopSearch from './reviews/ShopSearch';
 import ErrorReport from './contact/error_report';
+import NewReview from './reviews/NewReview';
 
 
 export default function App() {
@@ -14,9 +15,9 @@ export default function App() {
     <Nav/>
     <Switch>
         <Route path='/new_review' component={Splash} />
-        <Route path='/search' component={ShopSearch} />
+        <Route path='/create_review' component={NewReview} />
         <Route path='/reviews' component={ReviewIndex} />
-        <Route path='/bug_report' component={ErrorReport} />
+        <Route path='/feedback' component={ErrorReport} />
         <Route exact path='/' component={Splash}/>
     </Switch>
     </div>
