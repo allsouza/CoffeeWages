@@ -271,16 +271,17 @@ export default function Form() {
                                 <MenuItem value={false}>No</MenuItem>
                             </Select>
                     </FormControl>
-                    {Boolean(tips) ? <TextField 
-                                helperText={errors['tips'] ? 'Please enter a valid number' : ''}
-                                className={clsx(classes.medium)}
-                                id='standard-basic' 
-                                label='Average Daily Tips' 
-                                value={avgTips} 
-                                InputProps={{
-                                    startAdornment: <InputAdornment position="start">$</InputAdornment>,
-                                }}
-                                onChange={e => setAvgTips(e.target.value)} /> 
+                    {Boolean(tips) ?  <TextField 
+                                        error={!!errors['avgTips']}
+                                        helperText={errors['avgTips']}
+                                        className={clsx(classes.medium)}
+                                        id='standard-basic' 
+                                        label='Average Daily Tips' 
+                                        value={avgTips} 
+                                        InputProps={{
+                                            startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                                        }}
+                                        onChange={e => setAvgTips(e.target.value)} /> 
                     : null}
                     
                 </div>
