@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -11,37 +11,65 @@ const useStyles = makeStyles({
         minHeight: 275,
         maxHeight: 275,
         marginBottom: 12,
-        marginRight: 6
+        marginRight: 6,
+        cursor: 'pointer'
     },
+
+    cardExpanded: {
+        width: 240,
+        minHeight: 275,
+        marginBottom: 12,
+        marginRight: 6,
+        cursor: 'pointer',
+        maxHeight: 550,
+        transform: 'scale(1.5, 1.5)'
+    },
+
     title: {
         fontSize: 14,
     },
     pos: {
         marginBottom: 12,
     },
+    body: {
+        display: '-webkit-box',
+        WebkitLineClamp: 3,
+        WebkitBoxOrient: 'vertical',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        marginBottom: 6,
+        marginTop: 6
+    },
+
+    bodyExpanded: {
+        marginBottom: 6,
+        marginTop: 6
+    }
 });
 
-export default function ReviewShow({ review }) {
+export default function ReviewShow({ review, setModal, expanded=false }) {
     const classes = useStyles();
     
     return (
-        <Card className={classes.card} key={review.id}>
-            <CardContent>
-                <Typography className={classes.pos} color="textSecondary">
-                    {review.position} review for {review.shopName} in {review.location}
-                </Typography>
-                <Typography variant="h5" component="h2">
-                    Wage: {review.wage} per {review.payFrequency === "Hourly" ? "hour" : "year"} {review.tips ? " + tips" : ""}
-                    <br />
-                    {review.benefits}
-                </Typography>
-                <Typography variant="body2" component="p">
-                    {review.notes}
-                </Typography>
-                <Typography className={classes.title} color="textSecondary" gutterBottom>
-                    Worked here from {review.startDate} to {review.endDate}
-                </Typography>
-            </CardContent>
-        </Card>
+        <div onClick={setModal}> 
+            <Card className={expanded ? classes.cardExpanded : classes.card} key={review.id}>
+                <CardContent>
+                    <Typography className={classes.pos} color="textSecondary">
+                        {review.position} review for {review.shopName} in {review.location}
+                    </Typography>
+                    <Typography variant="h5" component="h2">
+                        Wage: {review.wage} per {review.payFrequency === "Hourly" ? "hour" : "year"} {review.tips ? " + tips" : ""}
+                        <br />
+                        {review.benefits}
+                    </Typography>
+                    <Typography className={expanded ? classes.bodyExpanded : classes.body} variant="body2" component="p">
+                        {review.notes}
+                    </Typography>
+                    <Typography className={classes.title} color="textSecondary" gutterBottom>
+                        Worked here from {review.startDate} to {review.endDate}
+                    </Typography>
+                </CardContent>
+            </Card>
+        </div>
     );
 }

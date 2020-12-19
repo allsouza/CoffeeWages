@@ -2,19 +2,19 @@
 <html>
   <head>
     <title>CoffeeWages</title>
-      <meta property="og:title" content="Coffee Wages" />
-     <meta property="og:image" content="<%= image_url('preview.png') %>"/>
-     <meta
+    <meta property="og:title" content="Coffee Wages" />
+    <meta property="og:image" content="<%= image_url('preview.png') %>"/>
+    <meta
        property="og:description"
        content="Coffee Wages is an app focused on providing transparency to people working on the service industry, by allowing workers to post about their working conditions and consumers to frequent businesses that treat their employees fairly."
      />
-     <meta
+    <meta
        property="og:url"
        content="https://coffeewages.herokuapp.com/"
      />
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-    <%= favicon_link_tag asset_path('logo.png') %>
+    <%= favicon_link_tag asset_path('logo.svg') %>
     <script type="text/javascript">
       window.neverSettle = "<%= image_url('neversettle-2.jpg') %>";
       window.blob = "<%= image_url('blob.svg') %>";

@@ -62,7 +62,7 @@ export default function Splash() {
                     variant="contained" 
                     size="medium" 
                     onClick={() => history.push('/reviews')}
-                    color="primary">Explore shops</Button>
+                    color="primary">Explore shops »</Button>
                   </div>
                 </div>
               </section>

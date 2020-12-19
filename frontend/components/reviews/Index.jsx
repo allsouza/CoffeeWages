@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Review from './Show';
 import FiltersDrawer from './filters_drawer';
 import ShopSearch from './ShopSearch';
+import Modal from './Modal';
 import { useSelector } from 'react-redux';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 
@@ -10,6 +11,7 @@ export default function ReviewIndex() {
     const [displayedReviews, setDisplayedReviews] = useState([]);
     const [avgWage, setAvgWage] = useState();
     const [omitted, setOmitted] = useState();
+    const [modalReview, setModalReview] = useState(false);
     
     function calcAvgHourlyWage() {
         let sum = 0;
@@ -18,7 +20,6 @@ export default function ReviewIndex() {
             const review = displayedReviews[i];
             review.payFrequency === "Hourly" ? sum += review.wage : numOmitted += 1;
         }
-        // debugger
         setOmitted(numOmitted);
         setAvgWage(sum / displayedReviews.length);
     }
@@ -34,15 +35,21 @@ export default function ReviewIndex() {
     return (
         reviews.length > 0 ?
         <div className="reviews-index">
+            {modalReview ? <Modal onClick={() => setModalReview(false)} review={modalReview} /> : '' }
             <FiltersDrawer displayedReviews={displayedReviews} setDisplayedReviews={setDisplayedReviews} />
             <div className='reviews-index-search'>
                 {displayedReviews.length > 0 ? 
                 <div className={'reviews-index-search-stats'}>
-                    Found <i>{displayedReviews.length}</i> results with an average wage of <i>{avgWage.toFixed(2)}</i> per hour             
+                    Found <i>{displayedReviews.length}</i> results with an average wage of <i>{avgWage.toFixed(2)}</i> per hour:             
                 </div> : ""
                 }
                 <div className='reviews-index-search-results'>    
-                    {reviews.map(review => displayedReviews.includes(review) ? <Review review={review} key={review.id} /> : '')}
+                        {reviews.map(review => displayedReviews.includes(review) ? 
+                            <Review 
+                                setModal={() => setModalReview(review)}
+                                review={review}
+                                key={review.id} 
+                                /> : '')}
                 </div>
             </div>
         </div>

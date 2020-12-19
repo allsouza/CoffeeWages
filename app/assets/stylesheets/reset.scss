@@ -50,6 +50,7 @@ table {
 .app-container {
 	background-color: #fef9f8;
 	min-height: calc(100% - 50px);
+	font-family: "Roboto", "Helvetica", "Arial", sans-serif;
 
 	&::-webkit-scrollbar {
         display: none;
