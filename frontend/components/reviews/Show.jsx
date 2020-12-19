@@ -14,6 +14,11 @@ const useStyles = makeStyles({
         margin: 6,
         cursor: 'pointer',
         transition: 'transform .3s',
+        '@media(max-width: 788px)': {
+            minWidth: 400,
+            maxWidth: 400,
+            alignSelf: 'center'
+        },
 
         '&:hover': {
             transform: 'scale(1.05, 1.05)'
