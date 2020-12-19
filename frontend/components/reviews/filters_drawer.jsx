@@ -33,8 +33,9 @@ const useStyles = makeStyles({
         marginBottom: 20,
         textAlign: 'center'
     },
-    searchButton: {
+    button: {
         height: 40,
+        marginBottom: 12
     },
     pos: {
         marginBottom: 12,
@@ -52,7 +53,7 @@ export default function ResponsiveDrawer({displayedReviews, setDisplayedReviews}
     const [checks, setChecks] = useState({});
     const displayedLocations = [...new Set(displayedReviews.map(review => review.location))];
     const displayedShops = [...new Set(displayedReviews.map(review => review.shopName))];
-    const mobile = useMediaPredicate("(max-width:768px)")
+    const mobile = useMediaPredicate("(max-width:768px)");
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -99,11 +100,11 @@ export default function ResponsiveDrawer({displayedReviews, setDisplayedReviews}
             <form onSubmit={handleSubmit} className='reviews-index-search-fields'>
                 <TextField className={classes.searchInputs} value={name} onChange={e => setName(e.target.value)} label="Business name" />
                 <TextField value={location} className={classes.searchInputs} onChange={e => setLocation(e.target.value)} label="Location" />
-                <Button className={classes.searchButton} type="submit" variant='contained' size="small" color="primary">Search</Button>
+                <Button className={classes.button} type="submit" variant='contained' size="small" color="primary">Search</Button>
             </form>
-            <a className="clear-filters-button" onClick={clearFilters}>Clear Filters</a>
+            <Button variant='outlined' color='secondary' className={classes.button} onClick={clearFilters}>Clear Filters</Button>
             {locations.length > 0 ?
-            <Accordion defaultExpanded>
+            <Accordion>
                 <AccordionSummary>Filter by Location</AccordionSummary>
                 <AccordionDetails >
                     <List>
@@ -124,7 +125,7 @@ export default function ResponsiveDrawer({displayedReviews, setDisplayedReviews}
             </Accordion> : <div></div>}
          
             {shops.length > 0 ?
-            <Accordion defaultExpanded>
+            <Accordion>
                 <AccordionSummary>Filter by Shop</AccordionSummary>
                 <AccordionDetails>
                     <List>
