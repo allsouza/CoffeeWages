@@ -26,7 +26,8 @@ const useStyles = makeStyles({
         marginBottom: 12,
         cursor: 'pointer',
         maxHeight: 550,
-        transform: 'scale(1.5, 1.5)'
+        transform: 'scale(1.5, 1.5)',
+        textAlign: 'left'
     },
 
     title: {
@@ -46,8 +47,9 @@ const useStyles = makeStyles({
     },
 
     bodyExpanded: {
-        marginBottom: 6,
-        marginTop: 6
+        marginBottom: 12,
+        marginTop: 12,
+        
     }
 });
 
