@@ -5,27 +5,38 @@ import ShopSearch from './ShopSearch';
 import Modal from './Modal';
 import { useSelector } from 'react-redux';
 import useDeepCompareEffect from 'use-deep-compare-effect';
+import { median } from '../../util/number_util';
+
 
 export default function ReviewIndex() {
     const reviews = Object.values(useSelector(({entities}) => entities.reviews));
     const [displayedReviews, setDisplayedReviews] = useState([]);
     const [avgWage, setAvgWage] = useState();
+    const [medianWage, setMedianWage] = useState();
     const [omitted, setOmitted] = useState();
     const [modalReview, setModalReview] = useState(false);
     
-    function calcAvgHourlyWage() {
+    function calcAvgAndMedian() {
         let sum = 0;
+        let wages = [];
         let numOmitted = 0;
         for (let i = 0; i < displayedReviews.length; i++) {
             const review = displayedReviews[i];
-            review.payFrequency === "Hourly" ? sum += review.wage : numOmitted += 1;
+            if (review.payFrequency === "Hourly") {
+                sum += review.wage;
+                wages.push(review.wage);
+            } else {
+                numOmitted += 1;
+            }
         }
+
         setOmitted(numOmitted);
         setAvgWage(sum / (displayedReviews.length - numOmitted));
+        setMedianWage(median(wages));
     }
     
     useEffect(() => {
-        calcAvgHourlyWage();
+        calcAvgAndMedian();
     }, [displayedReviews]);
 
     useDeepCompareEffect(() => {
@@ -40,8 +51,10 @@ export default function ReviewIndex() {
             <div className='reviews-index-search'>
                 {displayedReviews.length > 0 ? 
                 <div className={'reviews-index-search-stats'}>
-                    <div>Found <i>{displayedReviews.length}</i> results with an average wage of <i>{avgWage.toFixed(2)}</i> per hour:  </div>
-                            {omitted > 0 ? <div className='reviews-index-search-stats-omitted'>*Omitted <i>{omitted}</i> salaried results from calculation</div> : ''}           
+                    <div>Found <i>{displayedReviews.length}</i> results.</div>
+                    <div>Average wage: <i>${avgWage.toFixed(2)}</i> per hour.</div>
+                    <div>Median wage: <i>${medianWage}</i> per hour.</div>
+                    {omitted > 0 ? <div className='reviews-index-search-stats-omitted'>*Omitted <i>{omitted}</i> salaried results from calculation</div> : ''}           
                 </div> : ""
                 }
                 <div className='reviews-index-search-results'>    
