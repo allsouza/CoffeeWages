@@ -44,6 +44,6 @@ reviews.each do |review|
     if review.wage == 0
         review.destroy
     end
-    review.pay_frequency = 'Salary' if review.wage > 100
+    review.pay_frequency = 'Yearly' if review.wage > 100
     review.save!
 end

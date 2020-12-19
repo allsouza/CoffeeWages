@@ -30,9 +30,10 @@ const useStyles = makeStyles({
         minHeight: 275,
         marginBottom: 12,
         cursor: 'pointer',
-        maxHeight: 550,
+        maxHeight: '49vh',
         transform: 'scale(1.5, 1.5)',
-        textAlign: 'left'
+        textAlign: 'left',
+        overflow: 'scroll'
     },
 
     title: {
