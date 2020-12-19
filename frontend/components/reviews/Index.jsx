@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Review from './Show';
-import FiltersDrawer from './filters_drawer';
+import FiltersDrawer from './FiltersDrawer';
 import ShopSearch from './ShopSearch';
 import Modal from './Modal';
 import { useSelector } from 'react-redux';

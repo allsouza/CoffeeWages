@@ -50,7 +50,7 @@ export default function Form() {
     const [notes, setNotes] = useState('');
     const [saved, setSaved] = useState(false);
     const [open, setOpen] = useState(false);
-    const [errors, setErrors] = useState(new Set());
+    const [errors, setErrors] = useState({});
     const dispatch = useDispatch();
 
     const [, updateState] = useState();
@@ -58,7 +58,7 @@ export default function Form() {
     
     function save() {
         errorCheck();
-        if(errors.size === 0){
+        if (Object.keys(errors).length === 0){
             const review = {
                 business_id: business.id,
                 position,
@@ -84,26 +84,27 @@ export default function Form() {
     }
 
     function errorCheck() {
-        Object.keys(business).length > 0 ? errors.delete('business') : errors.add('business');
-        Boolean(position) ? errors.delete('position') : errors.add('position');
-        Boolean(start) ? errors.delete('start') : errors.add('start');
-        Boolean(end) ? errors.delete('end') : errors.add('end');
-        Boolean(employment) ? errors.delete('employment') : errors.add('employment');
-        Boolean(wage) ? errors.delete('wage') : errors.add('wage');
-        Boolean(wageType) ? errors.delete('wageType') : errors.add('wageType');
+        const regex = new RegExp(/[^0-9]/, 'g');
+        const newErrors = Object.assign(errors);
+        Object.keys(business).length > 0 ? delete newErrors['business'] : newErrors['business'] = true;
+        Boolean(position) ? delete newErrors['position'] : newErrors['position'] = true;
+        Boolean(start) ? delete newErrors['start'] : newErrors['start'] = true;
+        Boolean(end) ? delete newErrors['end'] : newErrors['end'] = true;
+        Boolean(employment) ? delete newErrors['employment'] : newErrors['employment'] = true;
+        !wage.match(regex) ? delete newErrors['wage'] : newErrors['wage'] = true;
+        Boolean(wageType) ? delete newErrors['wageType'] : newErrors['wageType'] = true;
         if (tips !== '') {
-             errors.delete('tips')
-             if(tips){
-                 parseFloat(avgTips).toString() !== 'NaN' ? errors.delete('avgTips') : errors.add('avgTips')
-             }
+            delete newErrors['tips'];
+            if (tips) {
+                parseFloat(avgTips).toString() !== 'NaN' ? delete newErrors['avgTips'] : newErrors['avgTips'] = true;
+            }
+        } else {
+            newErrors['tips'] = true;
         } 
-        else{
-            errors.add('tips');
-        } 
-        Boolean(gender) ? errors.delete('gender') : errors.add('gender');
-        Boolean(orientation) ? errors.delete('orientation') : errors.add('orientation');
-        Boolean(race) ? errors.delete('race') : errors.add('race');
-        setErrors(errors);
+        Boolean(gender) ? delete newErrors['gender'] : newErrors['gender'] = true;
+        Boolean(orientation) ? delete newErrors['orientation'] : newErrors['orientation'] = true;;
+        Boolean(race) ? delete newErrors['race'] : newErrors['race'] = true;;
+        setErrors(newErrors);
         forceUpdate();
     }
 
@@ -120,22 +121,23 @@ export default function Form() {
     }
 
     useEffect(() => {
-        if(errors.size > 0) errorCheck();
-    }, [business, position, start, end, employment, wage, wageType, tips, gender, orientation, race, avgTips]);
+        if (Object.keys(errors).length > 0) errorCheck();
+    }, [business, position, start, end, employment, wage, 
+        wageType, tips, gender, orientation, race, avgTips]);
 
     return(
         <Paper className='review-form-container'>
       
             {!saved ? <div className='review-form'>
                 
-                <Search error={errors.has('business')} setBusiness={setBusiness}/>
+                <Search error={errors['business']} setBusiness={setBusiness}/>
 
                 {(Object.keys(business).length > 0) ? <TextField disabled id='business' value={`${business.name} - ${business.address}`} variant='outlined' label='Business'/> : null}
 
                 <section className="employment-fields">
                     <TextField 
                         className={clsx(classes.small)}
-                        error={errors.has('position')} 
+                        error={errors['position']} 
                         label="Position" 
                         value={position} 
                         onChange={e => setPosition(e.target.value)}
@@ -143,7 +145,7 @@ export default function Form() {
 
                     <TextField 
                         className={clsx(classes.small)}
-                        error={errors.has('start')} 
+                        error={errors['start']} 
                         label='Start year' 
                         value={start} 
                         onChange={e => setStart(e.target.value)} 
@@ -151,12 +153,12 @@ export default function Form() {
 
                     <TextField 
                         className={clsx(classes.small)}
-                        error={errors.has('end')} 
+                        error={errors['end']} 
                         label='End year (or current)' 
                         value={end} 
                         onChange={e => setEnd(e.target.value)} 
                     />
-                    <FormControl  error={errors.has('employment')}>
+                    <FormControl error={errors['employment']}>
                         <InputLabel>Employment Type</InputLabel>
                         <Select
                             className={clsx(classes.small)}
@@ -171,13 +173,17 @@ export default function Form() {
 
 
                 <div className='wage'>
-                    <TextField error={errors.has('wage')} 
+                    <TextField error={errors['wage']} 
+                                InputProps={{
+                                    startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                                }}
+                                helperText={errors['wage'] ? 'Please enter a valid number' : ''}
                                 className={clsx(classes.medium)}
                                 id='standard-basic' 
                                 label='Wage' 
                                 value={wage} 
                                 onChange={e => setWage(e.target.value)} />
-                    <FormControl error={errors.has('wageType')}>
+                    <FormControl error={errors['wageType']}>
                     <InputLabel id="simples-select-label">Frequency</InputLabel>
                     <Select
                         className={clsx(classes.medium)}
@@ -189,7 +195,7 @@ export default function Form() {
                             <MenuItem value={'Yearly'}>Yearly</MenuItem>
                         </Select>
                     </FormControl>
-                    <FormControl error={errors.has('tips')}>
+                    <FormControl error={errors['tips']}>
                         <InputLabel id="simples-select-label">Tips</InputLabel>
                         <Select
                             className={clsx(classes.medium)}
@@ -202,8 +208,7 @@ export default function Form() {
                             </Select>
                     </FormControl>
                     {Boolean(tips) ? <TextField 
-                                error={errors.has('avgTips')} 
-                                helperText={errors.has('avgTips') ? 'Please enter a valid dollar amount' : ''}
+                                helperText={errors['tips'] ? 'Please enter a valid number' : ''}
                                 className={clsx(classes.medium)}
                                 id='standard-basic' 
                                 label='Average Daily Tips' 
@@ -218,7 +223,7 @@ export default function Form() {
 
 
                 <div className="demographics">
-                    <FormControl error={errors.has('gender')}>
+                    <FormControl error={errors['gender']}>
                         <InputLabel id="simples-select-label">Gender</InputLabel>
                         <Select
                             className={clsx(classes.medium)}
@@ -236,7 +241,7 @@ export default function Form() {
                             </Select>
                     </FormControl>
 
-                    <FormControl error={errors.has('orientation')}>
+                    <FormControl error={errors['orientation']}>
                         <InputLabel id="simples-select-label">Orientation</InputLabel>
                         <Select
                             className={clsx(classes.medium)}
@@ -255,7 +260,7 @@ export default function Form() {
                             </Select>
                     </FormControl>
 
-                    <FormControl error={errors.has('race')}>
+                    <FormControl error={errors['race']}>
                         <InputLabel id="simples-select-label">Race</InputLabel>
                         <Select
                             className={clsx(classes.medium)}

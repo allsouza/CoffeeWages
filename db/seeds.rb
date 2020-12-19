@@ -38,7 +38,7 @@
 #     review.save!
 # end
 
-reviews = Review.where({ business_id: Business.find_by_name('Retrograde Coffee Roasters').id })
+reviews = Review.all
 
 reviews.each do |review|
     review.pay_frequency = 'Salary' if review.wage > 100
