@@ -1,0 +1,53 @@
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 40px;
+    background: rgba(54,69,79,.8);
+    width: 100%;
+    box-sizing: border-box;
+    position: absolute;
+    bottom: 0;
+    z-index: 2000;
+
+    &-site-explanation {
+        width: 40%
+    }
+
+    &-personal-info {
+        display: flex;
+        width: 40%;
+        justify-content: space-between;
+
+        & > div {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 102px;
+        }
+
+        & span {
+            text-align: center;
+        }
+
+        &-links {
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+}
+
+@media only screen and (max-width:768px){
+    .footer {
+        flex-direction: column;
+        
+        &-site-explanation {
+            width: 100%;
+        }
+
+        &-personal-info {
+            width: 100%;
+            padding-top: 18px;
+        }
+    }
+}

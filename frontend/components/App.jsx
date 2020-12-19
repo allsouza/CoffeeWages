@@ -7,6 +7,7 @@ import ReviewIndex from './reviews/Index';
 import ShopSearch from './reviews/ShopSearch';
 import ErrorReport from './contact/error_report';
 import NewReview from './reviews/NewReview';
+import Footer from './footer/Footer';
 
 
 export default function App() {
@@ -20,6 +21,7 @@ export default function App() {
         <Route path='/feedback' component={ErrorReport} />
         <Route exact path='/' component={Splash}/>
     </Switch>
+    <Footer />
     </div>
 
   );
