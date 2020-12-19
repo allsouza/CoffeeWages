@@ -8,14 +8,15 @@ import {
     Paper,
     InputAdornment,
     Snackbar
-} from '@material-ui/core'
-import MuiAlert from '@material-ui/lab/Alert'
+} from '@material-ui/core';
+import MuiAlert from '@material-ui/lab/Alert';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles'
-import React, { useState, useEffect, useCallback } from 'react'
-import { useDispatch } from 'react-redux'
-import Search from './Search'
-import { createReview, RECEIVE_REVIEW } from '../../actions/review_actions'
+import { makeStyles } from '@material-ui/core/styles';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useDispatch } from 'react-redux';
+import Search from './Search';
+import { createReview, RECEIVE_REVIEW } from '../../actions/review_actions';
+import { capitalize } from '../../util/string_util';
 
 const styles = makeStyles({
     root: {
@@ -30,6 +31,9 @@ const styles = makeStyles({
     }
 
 });
+
+const regex = new RegExp(/[^0-9]/, 'g');
+const date = new Date();
 
 export default function Form() {
     const classes = styles()
@@ -61,7 +65,7 @@ export default function Form() {
         if (Object.keys(errors).length === 0){
             const review = {
                 business_id: business.id,
-                position,
+                position: capitalize(position),
                 employment_type: employment,
                 wage,
                 pay_frequency: wageType,
@@ -83,24 +87,81 @@ export default function Form() {
         }
     }
 
-    function errorCheck() {
-        const regex = new RegExp(/[^0-9]/, 'g');
-        const newErrors = Object.assign(errors);
-        Object.keys(business).length > 0 ? delete newErrors['business'] : newErrors['business'] = true;
-        Boolean(position) ? delete newErrors['position'] : newErrors['position'] = true;
-        Boolean(start) ? delete newErrors['start'] : newErrors['start'] = true;
-        Boolean(end) ? delete newErrors['end'] : newErrors['end'] = true;
-        Boolean(employment) ? delete newErrors['employment'] : newErrors['employment'] = true;
-        !wage.match(regex) ? delete newErrors['wage'] : newErrors['wage'] = true;
-        Boolean(wageType) ? delete newErrors['wageType'] : newErrors['wageType'] = true;
+    function checkPosition(newErrors) {
+        if (position.length > 4) {
+            delete newErrors['position'];
+        } else { 
+            newErrors['position'] = "Minimum 4 characters";
+        }
+    }
+
+    function checkStartYear(newErrors) {
+        if (start.match(regex) || !!start === false) {
+            newErrors['start'] = 'Must be a number';
+        } else if (parseInt(start) < 1950) {
+            newErrors['start'] = 'Start date is too old';
+        } else if (parseInt(start) > date.getFullYear()) {
+            newErrors['start'] = "Start date can't be in the future";
+        } else {
+            delete newErrors['start'];
+        }
+    }
+
+    function checkEndYear(newErrors) {
+        if (capitalize(end) === 'Current') {
+            setEnd(capitalize(end));
+        }
+
+        if (!!end === false || (end.match(regex) && end !== 'Current')) {
+            newErrors['end'] = "Must be a number or 'Current'";
+        } else if (parseInt(end) < 1950) {
+            newErrors['end'] = 'End date is too old';
+        } else if (parseInt(end) > date.getFullYear()) {
+            newErrors['end'] = "End date can't be in the future";
+        } else {
+            delete newErrors['end'];
+        }
+    }
+
+    function checkTips(newErrors) {
         if (tips !== '') {
             delete newErrors['tips'];
             if (tips) {
-                parseFloat(avgTips).toString() !== 'NaN' ? delete newErrors['avgTips'] : newErrors['avgTips'] = true;
+                parseFloat(avgTips).toString() !== 'NaN' ? delete newErrors['avgTips'] : newErrors['avgTips'] = 'Must be a number';
             }
         } else {
             newErrors['tips'] = true;
         } 
+    }
+
+    function checkWage(newErrors) {
+        if (wage.match(regex) || !!wage === false) {
+            newErrors['wage'] = 'Must be a number';
+        } else if (wageType === 'Hourly' && parseFloat(wage) > 100) {
+            newErrors['wage'] = 'Wage is too high';
+        } else if (wageType === 'Yearly' && parseFloat(wage) < 10000) {
+            newErrors['wage'] = 'Salary is too low';
+        } else {
+            delete newErrors['wage'];
+        }
+    }
+
+    function errorCheck() {
+        
+        const newErrors = Object.assign(errors);
+
+        Object.keys(business).length > 0 ? delete newErrors['business'] : newErrors['business'] = true;
+        
+        checkPosition(newErrors);
+        checkStartYear(newErrors);
+        checkEndYear(newErrors);
+        checkTips(newErrors);
+        checkWage(newErrors);
+
+        Boolean(employment) ? delete newErrors['employment'] : newErrors['employment'] = true;
+ 
+        Boolean(wageType) ? delete newErrors['wageType'] : newErrors['wageType'] = true;
+
         Boolean(gender) ? delete newErrors['gender'] : newErrors['gender'] = true;
         Boolean(orientation) ? delete newErrors['orientation'] : newErrors['orientation'] = true;;
         Boolean(race) ? delete newErrors['race'] : newErrors['race'] = true;;
@@ -137,26 +198,29 @@ export default function Form() {
                 <section className="employment-fields">
                     <TextField 
                         className={clsx(classes.small)}
-                        error={errors['position']} 
+                        error={!!errors['position']} 
                         label="Position" 
                         value={position} 
+                        helperText={errors['position']}
                         onChange={e => setPosition(e.target.value)}
                     />
 
                     <TextField 
                         className={clsx(classes.small)}
-                        error={errors['start']} 
+                        error={!!errors['start']} 
                         label='Start year' 
                         value={start} 
+                        helperText={errors['start']}
                         onChange={e => setStart(e.target.value)} 
                     />
 
                     <TextField 
                         className={clsx(classes.small)}
-                        error={errors['end']} 
+                        error={!!errors['end']} 
                         label='End year (or current)' 
                         value={end} 
                         onChange={e => setEnd(e.target.value)} 
+                        helperText={errors['end']}
                     />
                     <FormControl error={errors['employment']}>
                         <InputLabel>Employment Type</InputLabel>
@@ -173,11 +237,11 @@ export default function Form() {
 
 
                 <div className='wage'>
-                    <TextField error={errors['wage']} 
+                    <TextField error={!!errors['wage']} 
                                 InputProps={{
                                     startAdornment: <InputAdornment position="start">$</InputAdornment>,
                                 }}
-                                helperText={errors['wage'] ? 'Please enter a valid number' : ''}
+                                helperText={errors['wage']}
                                 className={clsx(classes.medium)}
                                 id='standard-basic' 
                                 label='Wage' 
