@@ -11,15 +11,19 @@ const useStyles = makeStyles({
         minHeight: 275,
         maxHeight: 275,
         marginBottom: 12,
-        marginRight: 6,
-        cursor: 'pointer'
+        margin: 6,
+        cursor: 'pointer',
+        transition: 'transform .3s',
+
+        '&:hover': {
+            transform: 'scale(1.05, 1.05)'
+        }
     },
 
     cardExpanded: {
         width: 240,
         minHeight: 275,
         marginBottom: 12,
-        marginRight: 6,
         cursor: 'pointer',
         maxHeight: 550,
         transform: 'scale(1.5, 1.5)'
@@ -52,7 +56,7 @@ export default function ReviewShow({ review, setModal, expanded=false }) {
     
     return (
         <div onClick={setModal}> 
-            <Card className={expanded ? classes.cardExpanded : classes.card} key={review.id}>
+            <Card variant="outlined" className={expanded ? classes.cardExpanded : classes.card} key={review.id}>
                 <CardContent>
                     <Typography className={classes.pos} color="textSecondary">
                         {review.position} review for {review.shopName} in {review.location}
