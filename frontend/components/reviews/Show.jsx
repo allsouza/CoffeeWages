@@ -14,6 +14,7 @@ const useStyles = makeStyles({
         margin: 6,
         cursor: 'pointer',
         transition: 'transform .3s',
+      
         '@media(max-width: 788px)': {
             minWidth: 400,
             maxWidth: 400,
@@ -61,8 +62,8 @@ export default function ReviewShow({ review, setModal, expanded=false }) {
     const classes = useStyles();
     
     return (
-        <div onClick={setModal}> 
-            <Card variant="outlined" className={expanded ? classes.cardExpanded : classes.card} key={review.id}>
+       
+            <Card onClick={setModal} variant="outlined" className={expanded ? classes.cardExpanded : classes.card} key={review.id}>
                 <CardContent>
                     <Typography className={classes.pos} color="textSecondary">
                         {review.position} review for {review.shopName} in {review.location}
@@ -80,6 +81,5 @@ export default function ReviewShow({ review, setModal, expanded=false }) {
                     </Typography>
                 </CardContent>
             </Card>
-        </div>
     );
 }
