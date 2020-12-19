@@ -3,6 +3,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { fetchAllReviews } from '../../actions/review_actions';
 import { makeStyles } from '@material-ui/core/styles';
+import { red } from '@material-ui/core/colors';
 
 const useStyles = makeStyles({
     root: {
@@ -35,6 +36,11 @@ const useStyles = makeStyles({
 
     stateDropdown: {
         width: 55
+    },
+
+    errors: {
+        color: 'red',
+        paddingTop: 12,
     }
 
 });
@@ -51,14 +57,22 @@ export default function ShopSearch({}) {
     const [name, setName] = useState('');
     const [city, setCity] = useState('');
     const [state, setState] = useState('');
+    const [errors, setErrors] = useState('');
 
     function search(e) {
         e.preventDefault();
         const location = `${city},${state}`;
         if (name || location) {
-            dispatch(fetchAllReviews({ filters: { name, location } }));
+            dispatch(fetchAllReviews({ filters: { name, location } }))
+            .then(data => {
+                data.reviews.length === 0 ? setErrors("No reviews found, try a new search.") : setErrors('');
+            });
         }
     }
+
+    useEffect(() => {
+        setErrors('');
+    }, [name, city, state]);
 
 
     return(
@@ -82,6 +96,7 @@ export default function ShopSearch({}) {
                 </div>
                 <Button className={classes.searchButton} variant='contained' size="medium" color="primary" type='submit'>Search</Button>
             </form>
+            {setErrors ? <span className={classes.errors}>{errors}</span> : ''}
         </Paper>
     )
 }
