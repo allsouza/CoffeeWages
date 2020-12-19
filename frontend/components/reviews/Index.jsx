@@ -21,7 +21,7 @@ export default function ReviewIndex() {
             review.payFrequency === "Hourly" ? sum += review.wage : numOmitted += 1;
         }
         setOmitted(numOmitted);
-        setAvgWage(sum / displayedReviews.length);
+        setAvgWage(sum / (displayedReviews.length - numOmitted));
     }
     
     useEffect(() => {
@@ -40,7 +40,8 @@ export default function ReviewIndex() {
             <div className='reviews-index-search'>
                 {displayedReviews.length > 0 ? 
                 <div className={'reviews-index-search-stats'}>
-                    Found <i>{displayedReviews.length}</i> results with an average wage of <i>{avgWage.toFixed(2)}</i> per hour:             
+                    <div>Found <i>{displayedReviews.length}</i> results with an average wage of <i>{avgWage.toFixed(2)}</i> per hour:  </div>
+                            {omitted > 0 ? <div className='reviews-index-search-stats-omitted'>*Omitted <i>{omitted}</i> salaried results from calculation</div> : ''}           
                 </div> : ""
                 }
                 <div className='reviews-index-search-results'>    

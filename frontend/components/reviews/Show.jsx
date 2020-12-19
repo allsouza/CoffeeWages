@@ -17,7 +17,6 @@ const useStyles = makeStyles({
         '@media(max-width: 788px)': {
             minWidth: 400,
             maxWidth: 400,
-            alignSelf: 'center'
         },
 
         '&:hover': {
