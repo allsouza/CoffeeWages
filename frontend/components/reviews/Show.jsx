@@ -14,6 +14,11 @@ const useStyles = makeStyles({
         margin: 6,
         cursor: 'pointer',
         transition: 'transform .3s',
+      
+        '@media(max-width: 788px)': {
+            minWidth: 400,
+            maxWidth: 400,
+        },
 
         '&:hover': {
             transform: 'scale(1.05, 1.05)'
@@ -25,9 +30,10 @@ const useStyles = makeStyles({
         minHeight: 275,
         marginBottom: 12,
         cursor: 'pointer',
-        maxHeight: 550,
+        maxHeight: '49vh',
         transform: 'scale(1.5, 1.5)',
-        textAlign: 'left'
+        textAlign: 'left',
+        overflow: 'scroll'
     },
 
     title: {

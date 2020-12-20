@@ -7,9 +7,9 @@
     text-align: center;
     width: 100vw;
     max-width: 100%;
-    min-height: 100vh;
     display: flex;  
     margin-top: 4%;
+    padding-bottom: 200px;
     
     >.MuiPaper-root {
       height: fit-content;
@@ -52,6 +52,16 @@
         & i {
           font-size: 20px;
           font-weight: bold;
+        }
+
+        &-omitted {
+          font-size: 14px;
+          padding-top: 12px;
+          font-style: italic;
+
+          & i {
+            font-size: 16px;
+          }
         }
       }
     }

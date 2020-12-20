@@ -8,14 +8,15 @@ import {
     Paper,
     InputAdornment,
     Snackbar
-} from '@material-ui/core'
-import MuiAlert from '@material-ui/lab/Alert'
+} from '@material-ui/core';
+import MuiAlert from '@material-ui/lab/Alert';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles'
-import React, { useState, useEffect, useCallback } from 'react'
-import { useDispatch } from 'react-redux'
-import Search from './Search'
-import { createReview, RECEIVE_REVIEW } from '../../actions/review_actions'
+import { makeStyles } from '@material-ui/core/styles';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useDispatch } from 'react-redux';
+import Search from './Search';
+import { createReview, RECEIVE_REVIEW } from '../../actions/review_actions';
+import { capitalize } from '../../util/string_util';
 
 const styles = makeStyles({
     root: {
@@ -30,6 +31,9 @@ const styles = makeStyles({
     }
 
 });
+
+const regex = new RegExp(/[^0-9]/, 'g');
+const date = new Date();
 
 export default function Form() {
     const classes = styles()
@@ -50,7 +54,7 @@ export default function Form() {
     const [notes, setNotes] = useState('');
     const [saved, setSaved] = useState(false);
     const [open, setOpen] = useState(false);
-    const [errors, setErrors] = useState(new Set());
+    const [errors, setErrors] = useState({});
     const dispatch = useDispatch();
 
     const [, updateState] = useState();
@@ -58,10 +62,10 @@ export default function Form() {
     
     function save() {
         errorCheck();
-        if(errors.size === 0){
+        if (Object.keys(errors).length === 0){
             const review = {
                 business_id: business.id,
-                position,
+                position: capitalize(position),
                 employment_type: employment,
                 wage,
                 pay_frequency: wageType,
@@ -83,27 +87,85 @@ export default function Form() {
         }
     }
 
-    function errorCheck() {
-        Object.keys(business).length > 0 ? errors.delete('business') : errors.add('business');
-        Boolean(position) ? errors.delete('position') : errors.add('position');
-        Boolean(start) ? errors.delete('start') : errors.add('start');
-        Boolean(end) ? errors.delete('end') : errors.add('end');
-        Boolean(employment) ? errors.delete('employment') : errors.add('employment');
-        Boolean(wage) ? errors.delete('wage') : errors.add('wage');
-        Boolean(wageType) ? errors.delete('wageType') : errors.add('wageType');
+    function checkPosition(newErrors) {
+        if (position.length > 4) {
+            delete newErrors['position'];
+        } else { 
+            newErrors['position'] = "Minimum 4 characters";
+        }
+    }
+
+    function checkStartYear(newErrors) {
+        if (start.match(regex) || !!start === false) {
+            newErrors['start'] = 'Must be a number';
+        } else if (parseInt(start) < 1950) {
+            newErrors['start'] = 'Start date is too old';
+        } else if (parseInt(start) > date.getFullYear()) {
+            newErrors['start'] = "Start date can't be in the future";
+        } else {
+            delete newErrors['start'];
+        }
+    }
+
+    function checkEndYear(newErrors) {
+        if (capitalize(end) === 'Current') {
+            setEnd(capitalize(end));
+        }
+
+        if (!!end === false || (end.match(regex) && end !== 'Current')) {
+            newErrors['end'] = "Must be a number or 'Current'";
+        } else if (parseInt(end) < 1950) {
+            newErrors['end'] = 'End date is too old';
+        } else if (parseInt(end) > date.getFullYear()) {
+            newErrors['end'] = "End date can't be in the future";
+        } else {
+            delete newErrors['end'];
+        }
+    }
+
+    function checkTips(newErrors) {
         if (tips !== '') {
-             errors.delete('tips')
-             if(tips){
-                 parseFloat(avgTips).toString() !== 'NaN' ? errors.delete('avgTips') : errors.add('avgTips')
-             }
+            delete newErrors['tips'];
+            if (tips) {
+                parseFloat(avgTips).toString() !== 'NaN' ? delete newErrors['avgTips'] : newErrors['avgTips'] = 'Must be a number';
+            }
+        } else {
+            newErrors['tips'] = true;
         } 
-        else{
-            errors.add('tips');
-        } 
-        Boolean(gender) ? errors.delete('gender') : errors.add('gender');
-        Boolean(orientation) ? errors.delete('orientation') : errors.add('orientation');
-        Boolean(race) ? errors.delete('race') : errors.add('race');
-        setErrors(errors);
+    }
+
+    function checkWage(newErrors) {
+        if (wage.match(regex) || !!wage === false) {
+            newErrors['wage'] = 'Must be a number';
+        } else if (wageType === 'Hourly' && parseFloat(wage) > 100) {
+            newErrors['wage'] = 'Wage is too high';
+        } else if (wageType === 'Yearly' && parseFloat(wage) < 10000) {
+            newErrors['wage'] = 'Salary is too low';
+        } else {
+            delete newErrors['wage'];
+        }
+    }
+
+    function errorCheck() {
+        
+        const newErrors = Object.assign(errors);
+
+        Object.keys(business).length > 0 ? delete newErrors['business'] : newErrors['business'] = true;
+        
+        checkPosition(newErrors);
+        checkStartYear(newErrors);
+        checkEndYear(newErrors);
+        checkTips(newErrors);
+        checkWage(newErrors);
+
+        Boolean(employment) ? delete newErrors['employment'] : newErrors['employment'] = true;
+ 
+        Boolean(wageType) ? delete newErrors['wageType'] : newErrors['wageType'] = true;
+
+        Boolean(gender) ? delete newErrors['gender'] : newErrors['gender'] = true;
+        Boolean(orientation) ? delete newErrors['orientation'] : newErrors['orientation'] = true;;
+        Boolean(race) ? delete newErrors['race'] : newErrors['race'] = true;;
+        setErrors(newErrors);
         forceUpdate();
     }
 
@@ -120,43 +182,47 @@ export default function Form() {
     }
 
     useEffect(() => {
-        if(errors.size > 0) errorCheck();
-    }, [business, position, start, end, employment, wage, wageType, tips, gender, orientation, race, avgTips]);
+        if (Object.keys(errors).length > 0) errorCheck();
+    }, [business, position, start, end, employment, wage, 
+        wageType, tips, gender, orientation, race, avgTips]);
 
     return(
         <Paper className='review-form-container'>
       
             {!saved ? <div className='review-form'>
                 
-                <Search error={errors.has('business')} setBusiness={setBusiness}/>
+                <Search error={errors['business']} setBusiness={setBusiness}/>
 
                 {(Object.keys(business).length > 0) ? <TextField disabled id='business' value={`${business.name} - ${business.address}`} variant='outlined' label='Business'/> : null}
 
                 <section className="employment-fields">
                     <TextField 
                         className={clsx(classes.small)}
-                        error={errors.has('position')} 
+                        error={!!errors['position']} 
                         label="Position" 
                         value={position} 
+                        helperText={errors['position']}
                         onChange={e => setPosition(e.target.value)}
                     />
 
                     <TextField 
                         className={clsx(classes.small)}
-                        error={errors.has('start')} 
+                        error={!!errors['start']} 
                         label='Start year' 
                         value={start} 
+                        helperText={errors['start']}
                         onChange={e => setStart(e.target.value)} 
                     />
 
                     <TextField 
                         className={clsx(classes.small)}
-                        error={errors.has('end')} 
+                        error={!!errors['end']} 
                         label='End year (or current)' 
                         value={end} 
                         onChange={e => setEnd(e.target.value)} 
+                        helperText={errors['end']}
                     />
-                    <FormControl  error={errors.has('employment')}>
+                    <FormControl error={errors['employment']}>
                         <InputLabel>Employment Type</InputLabel>
                         <Select
                             className={clsx(classes.small)}
@@ -171,13 +237,17 @@ export default function Form() {
 
 
                 <div className='wage'>
-                    <TextField error={errors.has('wage')} 
+                    <TextField error={!!errors['wage']} 
+                                InputProps={{
+                                    startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                                }}
+                                helperText={errors['wage']}
                                 className={clsx(classes.medium)}
                                 id='standard-basic' 
                                 label='Wage' 
                                 value={wage} 
                                 onChange={e => setWage(e.target.value)} />
-                    <FormControl error={errors.has('wageType')}>
+                    <FormControl error={errors['wageType']}>
                     <InputLabel id="simples-select-label">Frequency</InputLabel>
                     <Select
                         className={clsx(classes.medium)}
@@ -189,7 +259,7 @@ export default function Form() {
                             <MenuItem value={'Yearly'}>Yearly</MenuItem>
                         </Select>
                     </FormControl>
-                    <FormControl error={errors.has('tips')}>
+                    <FormControl error={errors['tips']}>
                         <InputLabel id="simples-select-label">Tips</InputLabel>
                         <Select
                             className={clsx(classes.medium)}
@@ -201,24 +271,24 @@ export default function Form() {
                                 <MenuItem value={false}>No</MenuItem>
                             </Select>
                     </FormControl>
-                    {Boolean(tips) ? <TextField 
-                                error={errors.has('avgTips')} 
-                                helperText={errors.has('avgTips') ? 'Please enter a valid dollar amount' : ''}
-                                className={clsx(classes.medium)}
-                                id='standard-basic' 
-                                label='Average Daily Tips' 
-                                value={avgTips} 
-                                InputProps={{
-                                    startAdornment: <InputAdornment position="start">$</InputAdornment>,
-                                }}
-                                onChange={e => setAvgTips(e.target.value)} /> 
+                    {Boolean(tips) ?  <TextField 
+                                        error={!!errors['avgTips']}
+                                        helperText={errors['avgTips']}
+                                        className={clsx(classes.medium)}
+                                        id='standard-basic' 
+                                        label='Average Daily Tips' 
+                                        value={avgTips} 
+                                        InputProps={{
+                                            startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                                        }}
+                                        onChange={e => setAvgTips(e.target.value)} /> 
                     : null}
                     
                 </div>
 
 
                 <div className="demographics">
-                    <FormControl error={errors.has('gender')}>
+                    <FormControl error={errors['gender']}>
                         <InputLabel id="simples-select-label">Gender</InputLabel>
                         <Select
                             className={clsx(classes.medium)}
@@ -236,7 +306,7 @@ export default function Form() {
                             </Select>
                     </FormControl>
 
-                    <FormControl error={errors.has('orientation')}>
+                    <FormControl error={errors['orientation']}>
                         <InputLabel id="simples-select-label">Orientation</InputLabel>
                         <Select
                             className={clsx(classes.medium)}
@@ -255,7 +325,7 @@ export default function Form() {
                             </Select>
                     </FormControl>
 
-                    <FormControl error={errors.has('race')}>
+                    <FormControl error={errors['race']}>
                         <InputLabel id="simples-select-label">Race</InputLabel>
                         <Select
                             className={clsx(classes.medium)}
