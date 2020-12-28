@@ -47,7 +47,14 @@ table {
 	border-spacing: 0;
 }
 
+a:hover{
+	cursor: pointer;
+}
+
 .app-container {
+	display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 	background-color: #fef9f8;
 	min-height: 100%;
 	font-family: "Roboto", "Helvetica", "Arial", sans-serif;
@@ -55,5 +62,9 @@ table {
 
 	&::-webkit-scrollbar {
         display: none;
+	}
+
+	.component{
+		flex-grow: 1;
 	}
 }
