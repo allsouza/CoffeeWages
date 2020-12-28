@@ -31,7 +31,7 @@ Rails.application.routes.draw do
     resources :businesses, only: [:create, :show, :index] do
       resources :reviews, only: [:index]
     end
-    resources :reviews, only: [:index, :create, :show, :update, :delete]
+    resources :reviews, only: [:index, :create, :show, :update, :destroy]
     resource :errors, only: [:create]
     resource :session, only: %i(create destroy)
     get '/search', to: 'businesses#search'

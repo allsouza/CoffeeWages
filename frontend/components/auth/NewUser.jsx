@@ -3,9 +3,8 @@ import { AlertTitle } from '@material-ui/lab';
 import Alert from '@material-ui/lab/Alert';
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
-import { RECEIVE_CURRENT_USER, signup } from '../../actions/user_actions';
+import { signup } from '../../actions/user_actions';
 import { clearErrors } from '../../actions/error_actions'
-import { useHistory } from 'react-router-dom';
 
 function NewUser({setAuth, sessionErrors, signup, clearErrors}) {
     const initialState = '';
@@ -17,7 +16,6 @@ function NewUser({setAuth, sessionErrors, signup, clearErrors}) {
     const [adminKey, setAdminKey] = useState(initialState)
     const [showAdmin, setShowAdmin] = useState(false)
     const [errors, setErrors] = useState(new Set())
-    const history = useHistory()
 
     function createAccount() {
         checkErrors()
@@ -28,10 +26,6 @@ function NewUser({setAuth, sessionErrors, signup, clearErrors}) {
             last_name: lastName,
             email,
             admin_secret: adminKey
-        }).then(payload => {
-            if(payload.type === RECEIVE_CURRENT_USER){
-                history.push('/')
-            }
         })
     }
 

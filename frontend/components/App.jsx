@@ -9,6 +9,7 @@ import ErrorReport from './contact/error_report';
 import NewReview from './reviews/NewReview';
 import Footer from './footer/Footer';
 import Auth from './auth/Auth';
+import { AuthRoute } from '../util/route_util';
 
 
 export default function App() {
@@ -21,7 +22,7 @@ export default function App() {
           <Route path='/create_review' component={NewReview} />
           <Route path='/reviews' component={ReviewIndex} />
           <Route path='/feedback' component={ErrorReport} />
-          <Route path='/admin' component={Auth} />
+          <AuthRoute path='/admin' component={Auth} />
           <Route exact path='/' component={Splash}/>
       </Switch>
     </div>

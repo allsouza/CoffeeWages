@@ -2,15 +2,13 @@ import { Button, Snackbar, TextField } from '@material-ui/core'
 import { Alert, AlertTitle } from '@material-ui/lab'
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
-import { useHistory } from 'react-router-dom'
 import { clearErrors } from '../../actions/error_actions'
-import { login, RECEIVE_CURRENT_USER } from '../../actions/user_actions'
+import { login } from '../../actions/user_actions'
 
 function Login({setAuth, sessionErrors, login, clearErrors}) {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [errors, setErrors] = useState(new Set())
-    const history = useHistory()
 
     function checkErrors() {
         Boolean(username) ? errors.delete('username') : errors.add('username')
@@ -21,11 +19,7 @@ function Login({setAuth, sessionErrors, login, clearErrors}) {
 
     function tryLogin() {
         checkErrors()
-        login({username, password}).then(payload => {
-            if(payload.type === RECEIVE_CURRENT_USER){
-                history.push('/')
-            }
-        })
+        login({username, password})
     }
 
     useEffect(() => {

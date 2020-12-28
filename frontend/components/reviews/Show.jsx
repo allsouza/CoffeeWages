@@ -4,6 +4,8 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteReview } from '../../actions/review_actions';
 
 const useStyles = makeStyles({
     card: {
@@ -15,7 +17,7 @@ const useStyles = makeStyles({
         cursor: 'pointer',
         transition: 'transform .3s',
       
-        '@media(max-width: 788px)': {
+        '@media(max-width: 768px)': {
             minWidth: 400,
             maxWidth: 400,
         },
@@ -61,10 +63,20 @@ const useStyles = makeStyles({
 
 export default function ReviewShow({ review, setModal, expanded=false }) {
     const classes = useStyles();
+    const user = useSelector( state => state.entities.users[state.session.id])
+    const admin = Boolean(user) ? user.admin : false
+    const dispatch = useDispatch()
     
     return (
-       
-            <Card onClick={setModal} variant="outlined" className={expanded ? classes.cardExpanded : classes.card} key={review.id}>
+            <Card onClick={e => {
+                if(e.target.classList.contains('fa-trash'))
+                {
+                    dispatch(deleteReview(review.id))
+                }
+                else{
+                    if(!expanded) setModal()
+                }}} 
+                variant="outlined" className={expanded ? classes.cardExpanded : classes.card} key={review.id}>
                 <CardContent>
                     <Typography className={classes.pos} color="textSecondary">
                         {review.position} review for {review.shopName} in {review.location}
@@ -80,6 +92,7 @@ export default function ReviewShow({ review, setModal, expanded=false }) {
                     <Typography className={classes.title} color="textSecondary" gutterBottom>
                         Worked here from {review.startDate} to {review.endDate}
                     </Typography>
+                    {admin ? <i className="fas fa-trash"></i> : null}
                 </CardContent>
             </Card>
     );
