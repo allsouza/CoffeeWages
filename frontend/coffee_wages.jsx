@@ -6,6 +6,13 @@ import ReactDOM  from 'react-dom';
 
 document.addEventListener("DOMContentLoaded", () => {
     let preloadedState = {};
+    if(window.currentUser){
+        preloadedState = {
+            session: {id: window.currentUser.id},
+            entities: {users:{[window.currentUser.id]:window.currentUser}}
+        }
+        delete window.currentUser;
+    }
 
     const root = document.getElementById('root')
     const store = configureStore(preloadedState);

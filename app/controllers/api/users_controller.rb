@@ -4,7 +4,7 @@ class Api::UsersController < ApplicationController
         @user.admin = User.is_admin?(params[:user][:admin_secret])
         debugger
         if @user.save
-            render json: @user
+            render :show
         else
             render json: @user.errors.full_messages
         end
