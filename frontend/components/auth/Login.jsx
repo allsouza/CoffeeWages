@@ -1,9 +1,66 @@
-import React from 'react'
+import { Button, Snackbar, TextField } from '@material-ui/core'
+import { Alert, AlertTitle } from '@material-ui/lab'
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
+import { useHistory } from 'react-router-dom'
+import { clearErrors } from '../../actions/error_actions'
+import { login, RECEIVE_CURRENT_USER } from '../../actions/user_actions'
 
-function Login({setAuth}) {
+function Login({setAuth, sessionErrors, login, clearErrors}) {
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
+    const [errors, setErrors] = useState(new Set())
+    const history = useHistory()
+
+    function checkErrors() {
+        Boolean(username) ? errors.delete('username') : errors.add('username')
+        Boolean(password) ? errors.delete('password') : errors.add('password')
+        
+        setErrors(new Set(errors))
+    }
+
+    function tryLogin() {
+        checkErrors()
+        login({username, password}).then(payload => {
+            if(payload.type === RECEIVE_CURRENT_USER){
+                history.push('/')
+            }
+        })
+    }
+
+    useEffect(() => {
+        if(errors.size > 0){
+            checkErrors()
+        }
+    }, [username, password] )
+
     return(
         <div className='login'>
+            <TextField  error={errors.has('username') || sessionErrors.length > 0}
+                        label='Username' 
+                        value={username} 
+                        onChange={e => setUsername(e.target.value)} />
+
+            <TextField  error={errors.has('password') || sessionErrors.length > 0}
+                        label='Password' 
+                        type='password'
+                        value={password} 
+                        onChange={e => setPassword(e.target.value)} />
+
+            <Button variant="contained" color="primary" onClick={tryLogin}>Login</Button>
+
+            <Snackbar
+                open={sessionErrors.length > 0}
+                autoHideDuration={6000}
+                onClose={clearErrors}>
+                <Alert severity='error' elevation={6} variant='filled'>
+                    <AlertTitle>Couldn't login</AlertTitle>
+                    <ul>
+                            {sessionErrors.map(error => <li key={error}>{error}</li>)}
+                        </ul>
+                </Alert>
+            </Snackbar>
+
             <div>
                 <p>Don't have an account? 
                     <a className='navlinks' onClick={() => setAuth('create')}>Create an account</a>
@@ -13,4 +70,13 @@ function Login({setAuth}) {
     )
 }
 
-export default connect(null)(Login)
+const mSTP = state => ({
+    sessionErrors: state.errors.session
+})
+
+const mDTP = dispatch => ({
+    login: user => dispatch(login(user)),
+    clearErrors: () => dispatch(clearErrors())
+})
+
+export default connect(mSTP, mDTP)(Login)
