@@ -15,14 +15,16 @@ export default function App() {
   return (
     <div className="app-container">
     <Nav/>
-    <Switch>
-        <Route path='/new_review' component={Splash} />
-        <Route path='/create_review' component={NewReview} />
-        <Route path='/reviews' component={ReviewIndex} />
-        <Route path='/feedback' component={ErrorReport} />
-        <Route path='/admin' component={Auth} />
-        <Route exact path='/' component={Splash}/>
-    </Switch>
+    <div className='component'>
+      <Switch>
+          <Route path='/new_review' component={Splash} />
+          <Route path='/create_review' component={NewReview} />
+          <Route path='/reviews' component={ReviewIndex} />
+          <Route path='/feedback' component={ErrorReport} />
+          <Route path='/admin' component={Auth} />
+          <Route exact path='/' component={Splash}/>
+      </Switch>
+    </div>
     <Footer />
     </div>
 

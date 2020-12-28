@@ -1,8 +1,13 @@
-import { Button, TextField } from '@material-ui/core'
+import { Button, Snackbar, TextField } from '@material-ui/core'
+import { AlertTitle } from '@material-ui/lab';
+import Alert from '@material-ui/lab/Alert';
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
+import { RECEIVE_CURRENT_USER, signup } from '../../actions/user_actions';
+import { clearErrors } from '../../actions/error_actions'
+import { useHistory } from 'react-router-dom';
 
-function NewUser({setAuth}) {
+function NewUser({setAuth, sessionErrors, signup, clearErrors}) {
     const initialState = '';
     const [username, setUsername] = useState(initialState)
     const [password, setPassword] = useState(initialState)
@@ -12,9 +17,22 @@ function NewUser({setAuth}) {
     const [adminKey, setAdminKey] = useState(initialState)
     const [showAdmin, setShowAdmin] = useState(false)
     const [errors, setErrors] = useState(new Set())
+    const history = useHistory()
 
     function createAccount() {
         checkErrors()
+        signup({
+            username,
+            password,
+            first_name: firstName,
+            last_name: lastName,
+            email,
+            admin_secret: adminKey
+        }).then(payload => {
+            if(payload.type === RECEIVE_CURRENT_USER){
+                history.push('/')
+            }
+        })
     }
 
     function checkErrors() {
@@ -73,12 +91,29 @@ function NewUser({setAuth}) {
                     <a className='navlinks' onClick={() => setAuth('login')}>Login</a>
                 </p>
             </div>
+
+            <Snackbar
+                open={sessionErrors.length > 0}
+                autoHideDuration={6000}
+                onClose={clearErrors}>
+                    <Alert elevation={6} variant='filled' severity='error'>
+                        <AlertTitle>Couldn't create account</AlertTitle>
+                        <ul>
+                            {sessionErrors.map(error => <li key={error}>{error}</li>)}
+                        </ul>
+                    </Alert>
+                </Snackbar>
         </div>
     )
 }
 
 const mSTP = state => ({
-    errors: state.errors.users
+    sessionErrors: state.errors.session
 })
 
-export default connect(null)(NewUser)
+const mDTP = dispatch => ({
+    signup: user => dispatch(signup(user)),
+    clearErrors: () => dispatch(clearErrors())
+})
+
+export default connect(mSTP, mDTP)(NewUser)
