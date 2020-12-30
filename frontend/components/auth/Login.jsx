@@ -30,6 +30,8 @@ function Login({setAuth, sessionErrors, login, clearErrors}) {
 
     return(
         <div className='login'>
+            <h1>User Login</h1>
+
             <TextField  error={errors.has('username') || sessionErrors.length > 0}
                         label='Username' 
                         value={username} 

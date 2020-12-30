@@ -74,7 +74,7 @@ function NewUser({setAuth, sessionErrors, signup, clearErrors}) {
                                                 
             {showAdmin ? <TextField  
                         label='Admin Secret' 
-                        helperText='Enter admin secret in order have admin priviledges with the account'
+                        helperText='Enter key for admin privileges'
                         value={adminKey} 
                         onChange={e => setAdminKey(e.target.value)} /> : null}
 

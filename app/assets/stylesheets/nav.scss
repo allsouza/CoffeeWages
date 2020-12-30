@@ -13,10 +13,21 @@
     box-sizing: border-box;
 }
 
-// .explore-links {
-//     display: flex;
-//     justify-content: flex-start;
-// }
+.explore-links {
+    display: flex;
+    justify-content: flex-start;
+    align-items: baseline;
+
+    .user-info{
+        margin-left: 10px;
+        p{
+            font-size: 18px;
+        }
+        a{
+            margin: 0;
+        }
+    }
+}
 
 .navlinks{
     margin-left: 16px;
