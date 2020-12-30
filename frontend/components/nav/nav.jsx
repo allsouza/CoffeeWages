@@ -44,6 +44,10 @@ function Nav({currentUser, logout}) {
                 <MenuItem onClick={closeMenu}><Link to="/reviews" className="navlinks">Explore Shops</Link></MenuItem>
                 <MenuItem onClick={closeMenu}><Link to="/create_review" className="navlinks">Report Wages</Link></MenuItem>
                 <MenuItem onClick={closeMenu}><Link to='/feedback' className='navlinks'>Feedback</Link></MenuItem>
+                {Boolean(currentUser) ? <MenuItem onClick={() => {
+                  closeMenu()
+                  logout()
+                }}><span className='navlinks'>Logout {currentUser.firstName} {currentUser.admin ? <i className="fas fa-user-shield"></i> : null}</span> </MenuItem> : null}
             </Menu>
         </nav>
         }
