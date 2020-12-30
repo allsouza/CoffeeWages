@@ -23,6 +23,17 @@
       text-align: left;
       margin-top: 2%;
 
+      .MuiCard-root{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        i{
+          align-self: flex-end;
+          padding: 20px;
+        }
+      }
+
       &-fields {
         display: flex;
         flex-direction: column;

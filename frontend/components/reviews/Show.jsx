@@ -10,8 +10,8 @@ import { deleteReview } from '../../actions/review_actions';
 const useStyles = makeStyles({
     card: {
         width: 240,
-        minHeight: 275,
-        maxHeight: 275,
+        // minHeight: 275,
+        // maxHeight: 275,
         marginBottom: 12,
         margin: 6,
         cursor: 'pointer',
@@ -87,8 +87,8 @@ export default function ReviewShow({ review, setModal, expanded=false }) {
                     <Typography className={classes.title} color="textSecondary" gutterBottom>
                         Worked here from {review.startDate} to {review.endDate}
                     </Typography>
-                    {admin ? <i className="fas fa-trash"></i> : null}
                 </CardContent>
+                {admin ? <i className="fas fa-trash"></i> : null}
             </Card>
     );
 }
