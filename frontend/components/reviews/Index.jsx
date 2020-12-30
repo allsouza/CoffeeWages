@@ -6,7 +6,7 @@ import Modal from './Modal';
 import { useSelector } from 'react-redux';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import { median } from '../../util/number_util';
-
+import { LinearProgress } from '@material-ui/core';
 
 export default function ReviewIndex() {
     const reviews = Object.values(useSelector(({entities}) => entities.reviews));
@@ -15,6 +15,8 @@ export default function ReviewIndex() {
     const [medianWage, setMedianWage] = useState();
     const [omitted, setOmitted] = useState();
     const [modalReview, setModalReview] = useState(false);
+    const [searching, setSearching] = useState(false);
+    const [ready, setReady] = useState(false)
     
     function calcAvgAndMedian() {
         let sum = 0;
@@ -33,6 +35,7 @@ export default function ReviewIndex() {
         setOmitted(numOmitted);
         setAvgWage(sum / (displayedReviews.length - numOmitted));
         setMedianWage(median(wages));
+        if(displayedReviews.length > 0) setReady(true)
     }
     
     useEffect(() => {
@@ -43,8 +46,9 @@ export default function ReviewIndex() {
         setDisplayedReviews(reviews);
     }, [reviews]);
 
+    console.log(displayedReviews.length)
     return (
-        reviews.length > 0 ?
+        ready ?
         <div className="reviews-index">
             {modalReview ? <Modal onClick={() => setModalReview(false)} review={modalReview} /> : '' }
             <FiltersDrawer displayedReviews={displayedReviews} setDisplayedReviews={setDisplayedReviews} />
@@ -69,7 +73,10 @@ export default function ReviewIndex() {
         </div>
         : 
         <div className="reviews-index">
-            <ShopSearch />
+            {searching ? <div>
+                <p>Searching shops</p>
+                <LinearProgress/>
+            </div>: <ShopSearch setSearching={setSearching}/> }
         </div>
     )
 }

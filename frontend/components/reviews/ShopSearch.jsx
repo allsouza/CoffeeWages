@@ -51,7 +51,7 @@ const STATES = ['AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA',
                 'NM','NY','NC','ND','OH','OK','OR','PA','RI','SC',
                 'SD','TN','TX','UT','VT','VA','WA','WV','WI','WY', 'D.C.'];
 
-export default function ShopSearch({}) {
+export default function ShopSearch({setSearching}) {
     const classes = useStyles();
     const dispatch = useDispatch();
     const [name, setName] = useState('');
@@ -59,15 +59,28 @@ export default function ShopSearch({}) {
     const [state, setState] = useState('');
     const [errors, setErrors] = useState('');
 
-    function search(e) {
+    async function search(e) {
+        setSearching(true)
         e.preventDefault();
         const location = `${city},${state}`;
-        if (name || location) {
-            dispatch(fetchAllReviews({ filters: { name, location } }))
+        if (name || location.length > 1) {
+            await dispatch(fetchAllReviews({ filters: { name, location } }))
             .then(data => {
-                data.reviews.length === 0 ? setErrors("No reviews found, try a new search.") : setErrors('');
+                if (data.reviews.length === 0){
+                    setSearching(false)
+                    setErrors("No reviews found, try a new search.")
+                }
             });
         }
+        else{
+            setSearching(false)
+            setErrors("All fields can't be blank")
+        }
+    }
+
+    async function findAll() {
+        setSearching(true)
+        dispatch(fetchAllReviews())
     }
 
     useEffect(() => {
@@ -95,8 +108,10 @@ export default function ShopSearch({}) {
                     </FormControl>
                 </div>
                 <Button className={classes.searchButton} variant='contained' size="medium" color="primary" type='submit'>Search</Button>
+                or
+                <Button className={classes.searchButton} variant='contained' size="medium" color="primary" onClick={findAll}>Find all Shops</Button>
             </form>
-            {setErrors ? <span className={classes.errors}>{errors}</span> : ''}
+            {errors ? <span className={classes.errors}>{errors}</span> : ''}
         </Paper>
     )
 }
