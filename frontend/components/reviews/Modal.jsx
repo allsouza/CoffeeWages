@@ -1,6 +1,7 @@
-import Review from './Show';
+import ReviewShow from './Show';
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import Graphs from '../chart/chart';
 
 const useStyles = makeStyles({
     background: {
@@ -22,7 +23,8 @@ export default function ReviewModal({onClick, review}) {
 
     return (
         <div onClick={onClick} className={classes.background}>
-            <Review review={review} expanded={true} />
+            <ReviewShow review={review} expanded={true} />
+            <Graphs review = {review} expanded={true}/>
         </div>
     )
 

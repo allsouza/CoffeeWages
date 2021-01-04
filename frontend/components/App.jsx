@@ -16,7 +16,6 @@ export default function App() {
   return (
     <div className="app-container">
     <Nav/>
-    <Graphs/>
     <div className='component'>
       <Switch>
           <Route path='/new_review' component={Splash} />

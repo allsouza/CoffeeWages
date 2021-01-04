@@ -6,6 +6,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteReview } from '../../actions/review_actions';
+// import Graphs from '../chart/chart';
 
 const useStyles = makeStyles({
     card: {
@@ -63,6 +64,10 @@ export default function ReviewShow({ review, setModal, expanded=false }) {
     const dispatch = useDispatch()
     
     return (
+  
+    <div>
+
+   
             <Card onClick={e => {
                 if(e.target.classList.contains('fa-trash'))
                 {
@@ -90,5 +95,7 @@ export default function ReviewShow({ review, setModal, expanded=false }) {
                 </CardContent>
                 {admin ? <i className="fas fa-trash"></i> : null}
             </Card>
+            {/* <Graphs /> */}
+             </div>
     );
 }
