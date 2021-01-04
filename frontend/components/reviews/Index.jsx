@@ -6,7 +6,7 @@ import Modal from './Modal';
 import { useSelector } from 'react-redux';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import { median } from '../../util/number_util';
-import { LinearProgress } from '@material-ui/core';
+import { CircularProgress, LinearProgress } from '@material-ui/core';
 
 export default function ReviewIndex() {
     const reviews = Object.values(useSelector(({entities}) => entities.reviews));
@@ -17,6 +17,8 @@ export default function ReviewIndex() {
     const [modalReview, setModalReview] = useState(false);
     const [searching, setSearching] = useState(false);
     const [ready, setReady] = useState(false)
+    const [reviewComp, setReviewComp] = useState([])
+    let status = 0
     
     function calcAvgAndMedian() {
         let sum = 0;
@@ -35,24 +37,33 @@ export default function ReviewIndex() {
         setOmitted(numOmitted);
         setAvgWage(sum / (displayedReviews.length - numOmitted));
         setMedianWage(median(wages));
-        if(displayedReviews.length > 0) setReady(true)
     }
     
     useEffect(() => {
         calcAvgAndMedian();
+        setReviewComp(displayedReviews.map(review => { 
+            status+=1
+            console.log(`${ready} ${status} ${searching}`)
+            return <Review 
+                setModal={() => setModalReview(review)}
+                review={review}
+                key={review.id} 
+                /> }))
+        if(displayedReviews.length > 0) setReady(true)
+        if (status >= displayedReviews.length) setSearching(false)
     }, [displayedReviews]);
 
     useDeepCompareEffect(() => {
         setDisplayedReviews(reviews);
     }, [reviews]);
 
-    console.log(displayedReviews.length)
+    console.log(`ready: ${ready} ${displayedReviews.length} searchin: ${searching}`)
     return (
-        ready ?
+        ready || searching ?
         <div className="reviews-index">
             {modalReview ? <Modal onClick={() => setModalReview(false)} review={modalReview} /> : '' }
             <FiltersDrawer displayedReviews={displayedReviews} setDisplayedReviews={setDisplayedReviews} />
-            <div className='reviews-index-search'>
+            {!searching ? <div className='reviews-index-search'>
                 {displayedReviews.length > 0 ? 
                 <div className={'reviews-index-search-stats'}>
                     <div>Found <i>{displayedReviews.length}</i> results.</div>
@@ -61,22 +72,22 @@ export default function ReviewIndex() {
                     {omitted > 0 ? <div className='reviews-index-search-stats-omitted'>*Omitted <i>{omitted}</i> salaried results from calculation</div> : ''}           
                 </div> : ""
                 }
-                <div className='reviews-index-search-results'>    
-                        {reviews.map(review => displayedReviews.includes(review) ? 
-                            <Review 
-                                setModal={() => setModalReview(review)}
-                                review={review}
-                                key={review.id} 
-                                /> : '')}
+                 <div className='reviews-index-search-results'>    
+                        {reviewComp}
                 </div>
-            </div>
+            </div> : 
+                <div>
+                    <img src={loading} alt=""/>
+                    <p>Searching shops</p>
+                </div>}
         </div>
         : 
         <div className="reviews-index">
-            {searching ? <div>
+            {/* {searching ? <div>
                 <p>Searching shops</p>
                 <LinearProgress/>
-            </div>: <ShopSearch setSearching={setSearching}/> }
+            </div>: <ShopSearch setSearching={setSearching}/> } */}
+            <ShopSearch setSearching={setSearching}/>
         </div>
     )
 }
