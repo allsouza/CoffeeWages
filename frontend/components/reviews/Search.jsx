@@ -73,10 +73,10 @@ function Search({error, businesses, setBusiness, getBusinesses}) {
     }
 
     async function apiSearch() {
-        setResults(<div className='searching'>
-                        <h2>Searching</h2> 
-                        <LinearProgress/>
-                    </div>)
+        setResults(<div className="searching">
+                    <img src={loading} alt=""/>
+                    <p>Searching shops</p>
+                </div>)
         const result = await PlacesApiUtil.search({name, address})
         
         setResults(result.map((res) => {

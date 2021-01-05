@@ -76,7 +76,7 @@ export default function ReviewIndex() {
                         {reviewComp}
                 </div>
             </div> : 
-                <div>
+                <div className="searching">
                     <img src={loading} alt=""/>
                     <p>Searching shops</p>
                 </div>}
