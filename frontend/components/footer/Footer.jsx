@@ -9,7 +9,7 @@ export default function Footer() {
     return (
         <footer className="footer">
             <div className='footer-site-explanation'>
-                Initial seed data pulled from <a href={source}>2019 wage transparency spreadsheets</a>
+                Initial seed data pulled from <a href={source} target='_blank'>2019 wage transparency spreadsheets</a>
             </div>
             <div className='footer-personal-info'>
                 <div>
