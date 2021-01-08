@@ -6,12 +6,11 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteReview } from '../../actions/review_actions';
+import MonetizationOnOutlinedIcon from '@material-ui/icons/MonetizationOn';
 
 const useStyles = makeStyles({
     card: {
         width: 240,
-        // minHeight: 275,
-        // maxHeight: 275,
         marginBottom: 12,
         margin: 6,
         cursor: 'pointer',
@@ -21,7 +20,6 @@ const useStyles = makeStyles({
             transform: 'scale(1.05, 1.05)'
         }
     },
-
     cardExpanded: {
         width: 240,
         minHeight: 275,
@@ -32,7 +30,11 @@ const useStyles = makeStyles({
         textAlign: 'left',
         overflow: 'scroll'
     },
-
+    wage: {
+        display: 'flex',
+        alignItems: 'center',
+        marginRight: 8
+    },
     title: {
         fontSize: 14,
     },
@@ -56,11 +58,21 @@ const useStyles = makeStyles({
     }
 });
 
-export default function ReviewShow({ review, setModal, expanded=false }) {
+export default function ReviewShow({ review, setModal, avgWage, avgSalary, expanded=false }) {
     const classes = useStyles();
     const user = useSelector( state => state.entities.users[state.session.id])
     const admin = Boolean(user) ? user.admin : false
     const dispatch = useDispatch()
+    function color(payType) {
+        const average = payType === "Hourly" ? avgWage : avgSalary 
+        if (review.wage < average * 0.75) {
+            return '#FFBF00'
+        } else if (review.wage >= average) {
+            return '#238823'
+        } else {
+            return '#D2222D'
+        }
+    }
     
     return (
             <Card onClick={e => {
@@ -74,10 +86,10 @@ export default function ReviewShow({ review, setModal, expanded=false }) {
                 variant="outlined" className={expanded ? classes.cardExpanded : classes.card} key={review.id}>
                 <CardContent>
                     <Typography className={classes.pos} color="textSecondary">
-                        {review.position} review for {review.shopName} in {review.location}
+                        {review.position} <br /> {review.shopName} <br /> {review.location}
                     </Typography>
-                    <Typography variant="h5" component="h2">
-                        Wage: {review.wage} per {review.payFrequency === "Hourly" ? "hour" : "year"} {review.tips ? " + tips" : ""}
+                    <Typography variant="h5" component="h2" className={classes.wage}>
+                        <MonetizationOnOutlinedIcon htmlColor={color(review.payFrequency)} fontSize='inherit' /> {review.wage}/{review.payFrequency === "Hourly" ? "hr" : "yr"} {review.tips ? " + tips" : ""}
                         <br />
                         {review.benefits}
                     </Typography>

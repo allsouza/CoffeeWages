@@ -12,27 +12,31 @@ export default function ReviewIndex() {
     const reviews = Object.values(useSelector(({entities}) => entities.reviews));
     const [displayedReviews, setDisplayedReviews] = useState([]);
     const [avgWage, setAvgWage] = useState();
+    const [avgSalary, setAvgSalary] = useState();
+    const [medianSalary, setMedianSalary] = useState();
     const [medianWage, setMedianWage] = useState();
-    const [omitted, setOmitted] = useState();
     const [modalReview, setModalReview] = useState(false);
     
     function calcAvgAndMedian() {
-        let sum = 0;
+        let sumWages = 0;
         let wages = [];
-        let numOmitted = 0;
+        let sumSalaries = 0
+        let salaries = []
         for (let i = 0; i < displayedReviews.length; i++) {
             const review = displayedReviews[i];
             if (review.payFrequency === "Hourly") {
-                sum += review.wage;
+                sumWages += review.wage;
                 wages.push(review.wage);
             } else {
-                numOmitted += 1;
+                sumSalaries += review.wage;
+                salaries.push(review.wage);
             }
         }
 
-        setOmitted(numOmitted);
-        setAvgWage(sum / (displayedReviews.length - numOmitted));
+        setAvgWage(sumWages / (wages.length));
         setMedianWage(median(wages));
+        setAvgSalary(sumSalaries / (salaries.length));
+        setMedianSalary(median(salaries));
     }
     
     useEffect(() => {
@@ -51,10 +55,9 @@ export default function ReviewIndex() {
             <div className='reviews-index-search'>
                 {displayedReviews.length > 0 ? 
                 <div className={'reviews-index-search-stats'}>
-                    <div>Found <i>{displayedReviews.length}</i> results.</div>
                     <div>Average wage: <i>${avgWage.toFixed(2)}</i> per hour.</div>
                     <div>Median wage: <i>${medianWage}</i> per hour.</div>
-                    {omitted > 0 ? <div className='reviews-index-search-stats-omitted'>*Omitted <i>{omitted}</i> salaried results from calculation</div> : ''}           
+                    {<div className='reviews-index-search-stats-omitted'>Data from <i>{displayedReviews.length}</i> results</div>}           
                 </div> : ""
                 }
                 <div className='reviews-index-search-results'>    
@@ -62,6 +65,8 @@ export default function ReviewIndex() {
                             <Review 
                                 setModal={() => setModalReview(review)}
                                 review={review}
+                                avgWage={avgWage}
+                                avgSalary={avgSalary}
                                 key={review.id} 
                                 /> : '')}
                 </div>
