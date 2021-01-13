@@ -7,6 +7,9 @@ import Typography from '@material-ui/core/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteReview } from '../../actions/review_actions';
 import MonetizationOnOutlinedIcon from '@material-ui/icons/MonetizationOn';
+import TollTwoToneIcon from '@material-ui/icons/TollTwoTone';
+import FlightTakeoffIcon from '@material-ui/icons/FlightTakeoff';
+import FastfoodIcon from '@material-ui/icons/Fastfood';
 
 const useStyles = makeStyles({
     card: {
@@ -30,10 +33,16 @@ const useStyles = makeStyles({
         textAlign: 'left',
         overflow: 'scroll'
     },
+    compContainer: {
+        display: 'flex',
+        justifyContent: 'space-between'
+    },
     wage: {
         display: 'flex',
         alignItems: 'center',
-        marginRight: 8
+        '& *': {
+            marginRight: 8
+        }
     },
     title: {
         fontSize: 14,
@@ -50,7 +59,11 @@ const useStyles = makeStyles({
         marginBottom: 6,
         marginTop: 6
     },
-
+    tips: {
+        fontSize: 12,
+        display: 'flex',
+        alignItems: 'center',
+    },
     bodyExpanded: {
         marginBottom: 12,
         marginTop: 12,
@@ -88,10 +101,18 @@ export default function ReviewShow({ review, setModal, avgWage, avgSalary, expan
                     <Typography className={classes.pos} color="textSecondary">
                         {review.position} <br /> {review.shopName} <br /> {review.location}
                     </Typography>
-                    <Typography variant="h5" component="h2" className={classes.wage}>
-                        <MonetizationOnOutlinedIcon htmlColor={color(review.payFrequency)} fontSize='inherit' /> {review.wage}/{review.payFrequency === "Hourly" ? "hr" : "yr"} {review.tips ? " + tips" : ""}
-                        <br />
-                        {review.benefits}
+                    <Typography variant="h5" component="h2">
+                        <div className={classes.compContainer}>
+                            <div className={classes.wage}>
+                                <MonetizationOnOutlinedIcon htmlColor={color(review.payFrequency)} fontSize='inherit' /> 
+                                {review.wage}/{review.payFrequency === "Hourly" ? "hr" : "yr"} 
+                            </div>
+                            <div className={classes.benefits}>
+                                {review.tips ? <div className={classes.tips}><TollTwoToneIcon htmlColor='#ffd700' /></div>: ""}
+                                {review.vacation ? <div className={classes.tips}><FlightTakeoffIcon htmlColor='#303F9F' /></div>: ""}
+                                {review.comps ? <div className={classes.tips}><FastfoodIcon htmlColor='#A90409' /></div>: ""}
+                            </div>
+                        </div>
                     </Typography>
                     <Typography className={expanded ? classes.bodyExpanded : classes.body} variant="body2" component="p">
                         {review.notes}
