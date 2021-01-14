@@ -14,6 +14,13 @@
     .searching{
       margin: 0 auto;
     }
+
+    .buttons{
+      margin-top: 20px;
+      button{
+        margin: 20px;
+      }
+    }
     
     >.MuiPaper-root {
       height: fit-content;
@@ -51,6 +58,20 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: flex-start;
+
+        .no-reviews{
+            text-align: center;
+            margin: auto;
+
+            i{
+              font-size: 150px;
+              opacity: .5;
+              padding: 50px;
+            }
+            h1{
+              font-size: 18px;
+            }
+        }
       }
 
       &-form {
@@ -106,6 +127,18 @@
   .reviews-index{
     display: flex;
     flex-direction: column;
+
+    .buttons{
+      display: flex;
+      flex-direction: column;
+      button{
+        margin: 10px;
+      }
+
+      button:last-of-type{
+        margin-bottom: 0;
+      }
+    }
 
     .reviews-index-sidebar{
       width: 90%;

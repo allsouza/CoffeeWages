@@ -3,10 +3,10 @@ import Review from './Show';
 import FiltersDrawer from './FiltersDrawer';
 import ShopSearch from './ShopSearch';
 import Modal from './Modal';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import { median } from '../../util/number_util';
-import { CircularProgress, LinearProgress } from '@material-ui/core';
+import { clearReviews } from '../../actions/review_actions';
 
 export default function ReviewIndex() {
     const reviews = Object.values(useSelector(({entities}) => entities.reviews));
@@ -15,10 +15,9 @@ export default function ReviewIndex() {
     const [medianWage, setMedianWage] = useState();
     const [omitted, setOmitted] = useState();
     const [modalReview, setModalReview] = useState(false);
-    const [searching, setSearching] = useState(false);
     const [ready, setReady] = useState(false)
     const [reviewComp, setReviewComp] = useState([])
-    let status = 0
+    const dispatch = useDispatch()
     
     function calcAvgAndMedian() {
         let sum = 0;
@@ -42,28 +41,38 @@ export default function ReviewIndex() {
     useEffect(() => {
         calcAvgAndMedian();
         setReviewComp(displayedReviews.map(review => { 
-            status+=1
-            console.log(`${ready} ${status} ${searching}`)
             return <Review 
                 setModal={() => setModalReview(review)}
                 review={review}
                 key={review.id} 
                 /> }))
-        if(displayedReviews.length > 0) setReady(true)
-        if (status >= displayedReviews.length) setSearching(false)
+        if(displayedReviews.length > 0){
+            setReady(true)
+        }
+        else{
+            setReviewComp(<div className='no-reviews'>
+                <i className="fas fa-search"></i>
+                <h1>There are no reviews to display for that search.  Please try a different search.</h1>
+            </div>)
+        }
     }, [displayedReviews]);
+
+    useEffect(() => {
+        return () => {
+            dispatch(clearReviews())
+        }
+    }, [])
 
     useDeepCompareEffect(() => {
         setDisplayedReviews(reviews);
     }, [reviews]);
 
-    console.log(`ready: ${ready} ${displayedReviews.length} searchin: ${searching}`)
     return (
-        ready || searching ?
+        ready ?
         <div className="reviews-index">
             {modalReview ? <Modal onClick={() => setModalReview(false)} review={modalReview} /> : '' }
             <FiltersDrawer displayedReviews={displayedReviews} setDisplayedReviews={setDisplayedReviews} />
-            {!searching ? <div className='reviews-index-search'>
+            <div className='reviews-index-search'>
                 {displayedReviews.length > 0 ? 
                 <div className={'reviews-index-search-stats'}>
                     <div>Found <i>{displayedReviews.length}</i> results.</div>
@@ -75,19 +84,11 @@ export default function ReviewIndex() {
                  <div className='reviews-index-search-results'>    
                         {reviewComp}
                 </div>
-            </div> : 
-                <div className="searching">
-                    <img src={loading} alt=""/>
-                    <p>Searching shops</p>
-                </div>}
+            </div>
         </div>
         : 
         <div className="reviews-index">
-            {/* {searching ? <div>
-                <p>Searching shops</p>
-                <LinearProgress/>
-            </div>: <ShopSearch setSearching={setSearching}/> } */}
-            <ShopSearch setSearching={setSearching}/>
+            <ShopSearch setReady={setReady}/> 
         </div>
     )
 }

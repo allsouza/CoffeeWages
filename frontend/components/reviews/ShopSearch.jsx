@@ -3,7 +3,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { fetchAllReviews } from '../../actions/review_actions';
 import { makeStyles } from '@material-ui/core/styles';
-import { red } from '@material-ui/core/colors';
+import { useMediaPredicate } from 'react-media-hook';
 
 const useStyles = makeStyles({
     root: {
@@ -51,13 +51,15 @@ const STATES = ['AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA',
                 'NM','NY','NC','ND','OH','OK','OR','PA','RI','SC',
                 'SD','TN','TX','UT','VT','VA','WA','WV','WI','WY', 'D.C.'];
 
-export default function ShopSearch({setSearching}) {
+export default function ShopSearch({setReady}) {
     const classes = useStyles();
     const dispatch = useDispatch();
     const [name, setName] = useState('');
     const [city, setCity] = useState('');
     const [state, setState] = useState('');
     const [errors, setErrors] = useState('');
+    const [searching, setSearching] = useState(false)
+    const mobile = useMediaPredicate('(max-width: 768px)')
 
     async function search(e) {
         setSearching(true)
@@ -70,6 +72,9 @@ export default function ShopSearch({setSearching}) {
                     setSearching(false)
                     setErrors("No reviews found, try a new search.")
                 }
+                else{
+                    setReady(true)
+                }
             });
         }
         else{
@@ -80,7 +85,7 @@ export default function ShopSearch({setSearching}) {
 
     async function findAll() {
         setSearching(true)
-        dispatch(fetchAllReviews())
+        dispatch(fetchAllReviews()).then(() => setReady(true))
     }
 
     useEffect(() => {
@@ -101,17 +106,25 @@ export default function ShopSearch({setSearching}) {
                             className={classes.stateDropdown}
                             value={state}
                             onChange={e=> setState(e.target.value)}>
+                                <MenuItem key='clear' value=''>Clear</MenuItem>
                                 {STATES.map((state, idx) => {
                                     return <MenuItem key={idx} value={state}>{state}</MenuItem>
                                 })}
                         </Select>
                     </FormControl>
                 </div>
-                <Button className={classes.searchButton} variant='contained' size="medium" color="primary" type='submit'>Search</Button>
-                or
-                <Button className={classes.searchButton} variant='contained' size="medium" color="primary" onClick={findAll}>Find all Shops</Button>
+                <div className='buttons'>
+                    <Button className={classes.searchButton} variant='contained' size="medium" color="primary" type='submit'>Search</Button>
+                    {!mobile ? 'or' : null}
+                    <Button className={classes.searchButton} variant='contained' size="medium" color="primary" onClick={findAll}>See All Reviews</Button>
+                </div>
             </form>
             {errors ? <span className={classes.errors}>{errors}</span> : ''}
+            {searching ?                 
+                <div className="searching">
+                    <img src={loading} alt=""/>
+                    <p>Searching shops</p>
+                </div> : null}
         </Paper>
     )
 }
