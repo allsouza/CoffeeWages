@@ -67,7 +67,7 @@ export default function ResponsiveDrawer({displayedReviews, setDisplayedReviews}
         e.preventDefault();
         const cityAndState = `${location},${state}`;
         if (name || location || state) {
-            dispatch(fetchAllReviews({ filters: { name, cityAndState } }));
+            dispatch(fetchAllReviews({ filters: { name, location:cityAndState } }));
         }
     }
     

@@ -5,7 +5,7 @@ class Api::ReviewsController < ApplicationController
 
     def index
         name = params.dig(:filters, :name) || nil
-        location = params.dig(:filters,:cityAndState) || nil
+        location = params.dig(:filters,:location) || nil
         if name && location
             reviews = Review.joins(:business).where('lower(businesses.name) ILIKE ?', "%#{name}%").where('lower(businesses.location) ILIKE ?', "%#{location}%")
         elsif name
