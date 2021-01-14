@@ -19,6 +19,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { Button, TextField, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
 import { fetchAllReviews } from '../../actions/review_actions';
 import { useMediaPredicate } from 'react-media-hook';
+import ShopSearch from './ShopSearch';
 
 const drawerWidth = 240;
 
@@ -66,8 +67,8 @@ export default function ResponsiveDrawer({displayedReviews, setDisplayedReviews}
     function handleSubmit(e) {
         e.preventDefault();
         const cityAndState = `${location},${state}`;
-        if (name || location) {
-            dispatch(fetchAllReviews({ filters: { name, cityAndState } }));
+        if (name || location || state) {
+            dispatch(fetchAllReviews({ filters: { name, location:cityAndState } }));
         }
     }
     
@@ -114,6 +115,7 @@ export default function ResponsiveDrawer({displayedReviews, setDisplayedReviews}
                     <Select
                         value={state}
                         onChange={e => setState(e.target.value)}>
+                        <MenuItem key='clear' value=''>Clear</MenuItem>
                         {STATES.map((state, idx) => {
                             return <MenuItem key={idx} value={state}>{state}</MenuItem>
                         })}

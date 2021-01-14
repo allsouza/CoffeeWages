@@ -3,10 +3,10 @@ import Review from './Show';
 import FiltersDrawer from './FiltersDrawer';
 import ShopSearch from './ShopSearch';
 import Modal from './Modal';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import { median } from '../../util/number_util';
-
+import { clearReviews } from '../../actions/review_actions';
 
 export default function ReviewIndex() {
     const reviews = Object.values(useSelector(({entities}) => entities.reviews));
@@ -15,6 +15,9 @@ export default function ReviewIndex() {
     const [medianWage, setMedianWage] = useState();
     const [omitted, setOmitted] = useState();
     const [modalReview, setModalReview] = useState(false);
+    const [ready, setReady] = useState(false)
+    const [reviewComp, setReviewComp] = useState([])
+    const dispatch = useDispatch()
     
     function calcAvgAndMedian() {
         let sum = 0;
@@ -37,14 +40,35 @@ export default function ReviewIndex() {
     
     useEffect(() => {
         calcAvgAndMedian();
+        setReviewComp(displayedReviews.map(review => { 
+            return <Review 
+                setModal={() => setModalReview(review)}
+                review={review}
+                key={review.id} 
+                /> }))
+        if(displayedReviews.length > 0){
+            setReady(true)
+        }
+        else{
+            setReviewComp(<div className='no-reviews'>
+                <i className="fas fa-search"></i>
+                <h1>There are no reviews to display for that search.  Please try a different search.</h1>
+            </div>)
+        }
     }, [displayedReviews]);
+
+    useEffect(() => {
+        return () => {
+            dispatch(clearReviews())
+        }
+    }, [])
 
     useDeepCompareEffect(() => {
         setDisplayedReviews(reviews);
     }, [reviews]);
 
     return (
-        reviews.length > 0 ?
+        ready ?
         <div className="reviews-index">
             {modalReview ? <Modal onClick={() => setModalReview(false)} review={modalReview} /> : '' }
             <FiltersDrawer displayedReviews={displayedReviews} setDisplayedReviews={setDisplayedReviews} />
@@ -57,19 +81,14 @@ export default function ReviewIndex() {
                     {omitted > 0 ? <div className='reviews-index-search-stats-omitted'>*Omitted <i>{omitted}</i> salaried results from calculation</div> : ''}           
                 </div> : ""
                 }
-                <div className='reviews-index-search-results'>    
-                        {reviews.map(review => displayedReviews.includes(review) ? 
-                            <Review 
-                                setModal={() => setModalReview(review)}
-                                review={review}
-                                key={review.id} 
-                                /> : '')}
+                 <div className='reviews-index-search-results'>    
+                        {reviewComp}
                 </div>
             </div>
         </div>
         : 
         <div className="reviews-index">
-            <ShopSearch />
+            <ShopSearch setReady={setReady}/> 
         </div>
     )
 }

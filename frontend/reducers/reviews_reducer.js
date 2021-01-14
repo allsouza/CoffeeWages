@@ -1,4 +1,4 @@
-import { DELETE_REVIEW, RECEIVE_ALL_REVIEWS, RECEIVE_REVIEW } from "../actions/review_actions";
+import { CLEAR_REVIEWS, DELETE_REVIEW, RECEIVE_ALL_REVIEWS, RECEIVE_REVIEW } from "../actions/review_actions";
 
 export default function reviewsReducer(state={}, action) {
     Object.freeze(state)
@@ -13,6 +13,8 @@ export default function reviewsReducer(state={}, action) {
         case DELETE_REVIEW:
             delete newState[action.reviewId];
             return newState;
+        case CLEAR_REVIEWS:
+            return {}
         default:
             return state;
     }
