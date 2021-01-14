@@ -22,7 +22,18 @@
         margin-bottom: 30px;
     }
 
-    >div{
-        padding: 10px 0;
+    .MuiPaper-root{
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+
+        >div{
+            margin: 10px 0;
+        }
+
+        button{
+            margin-bottom: 20px;
+        }
     }
+
 }
