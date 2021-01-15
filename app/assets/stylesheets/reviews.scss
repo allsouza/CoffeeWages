@@ -31,7 +31,7 @@
     &-search {
       padding-left: 64px;
       padding-right: 64px;
-      text-align: left;
+      text-align: center;
       margin-top: 2%;
 
       .MuiCard-root{
@@ -58,6 +58,7 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: flex-start;
+        text-align: left;
 
         .no-reviews{
             text-align: center;
@@ -86,6 +87,7 @@
         padding-bottom: 24px;
         display: flex;
         justify-content: space-between;
+        text-align: left;
         
         & i {
           font-size: 20px;

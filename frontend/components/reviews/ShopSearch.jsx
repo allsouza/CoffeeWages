@@ -65,12 +65,6 @@ export default function ShopSearch({setReady}) {
         setSearching(true)
         e.preventDefault();
         const location = `${city},${state}`;
-<<<<<<< HEAD
-        dispatch(fetchAllReviews({ filters: { name, location } }))
-        .then(data => {
-            data.reviews.length === 0 ? setErrors("No reviews found, try a new search.") : setErrors('');
-        });
-=======
         if (name || location.length > 1) {
             await dispatch(fetchAllReviews({ filters: { name, location } }))
             .then(data => {
@@ -92,7 +86,6 @@ export default function ShopSearch({setReady}) {
     async function findAll() {
         setSearching(true)
         dispatch(fetchAllReviews()).then(() => setReady(true))
->>>>>>> main
     }
 
     useEffect(() => {

@@ -9,6 +9,7 @@ import { median } from '../../util/number_util';
 import TollTwoToneIcon from '@material-ui/icons/TollTwoTone';
 import FlightTakeoffIcon from '@material-ui/icons/FlightTakeoff';
 import FastfoodIcon from '@material-ui/icons/Fastfood';
+import { Button } from '@material-ui/core';
 import { clearReviews } from '../../actions/review_actions';
 
 export default function ReviewIndex() {
@@ -21,6 +22,7 @@ export default function ReviewIndex() {
     const [modalReview, setModalReview] = useState(false);
     const [ready, setReady] = useState(false)
     const [reviewComp, setReviewComp] = useState([])
+    const [pages, setPages] = useState(1)
     const dispatch = useDispatch()
     
     function calcAvgAndMedian() {
@@ -95,15 +97,18 @@ export default function ReviewIndex() {
                         </div> : ""
                     }
                     <div className='reviews-index-search-results'>
-                        {reviews.map(review => displayedReviews.includes(review) ?
+                        {displayedReviews.slice(0, pages * 24).map(review =>
                             <Review
                                 setModal={() => setModalReview(review)}
                                 review={review}
                                 avgWage={avgWage}
                                 avgSalary={avgSalary}
                                 key={review.id}
-                            /> : '')}
+                            />)}
                     </div>
+                    {pages * 24 < displayedReviews.length ? 
+                    <Button variant="contained" color="primary" onClick={(() => setPages(pages + 1))}>Load More</Button>
+                    : ""}
                 </div>
             </div>
             :
