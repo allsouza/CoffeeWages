@@ -6,38 +6,47 @@ import Modal from './Modal';
 import { useDispatch, useSelector } from 'react-redux';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import { median } from '../../util/number_util';
+import TollTwoToneIcon from '@material-ui/icons/TollTwoTone';
+import FlightTakeoffIcon from '@material-ui/icons/FlightTakeoff';
+import FastfoodIcon from '@material-ui/icons/Fastfood';
+import { Button } from '@material-ui/core';
 import { clearReviews } from '../../actions/review_actions';
 
 export default function ReviewIndex() {
-    const reviews = Object.values(useSelector(({entities}) => entities.reviews));
+    const reviews = Object.values(useSelector(({ entities }) => entities.reviews));
     const [displayedReviews, setDisplayedReviews] = useState([]);
     const [avgWage, setAvgWage] = useState();
+    const [avgSalary, setAvgSalary] = useState();
+    const [medianSalary, setMedianSalary] = useState();
     const [medianWage, setMedianWage] = useState();
-    const [omitted, setOmitted] = useState();
     const [modalReview, setModalReview] = useState(false);
     const [ready, setReady] = useState(false)
     const [reviewComp, setReviewComp] = useState([])
+    const [pages, setPages] = useState(1)
     const dispatch = useDispatch()
     
     function calcAvgAndMedian() {
-        let sum = 0;
+        let sumWages = 0;
         let wages = [];
-        let numOmitted = 0;
+        let sumSalaries = 0
+        let salaries = []
         for (let i = 0; i < displayedReviews.length; i++) {
             const review = displayedReviews[i];
             if (review.payFrequency === "Hourly") {
-                sum += review.wage;
+                sumWages += review.wage;
                 wages.push(review.wage);
             } else {
-                numOmitted += 1;
+                sumSalaries += review.wage;
+                salaries.push(review.wage);
             }
         }
 
-        setOmitted(numOmitted);
-        setAvgWage(sum / (displayedReviews.length - numOmitted));
+        setAvgWage(sumWages / (wages.length));
         setMedianWage(median(wages));
+        setAvgSalary(sumSalaries / (salaries.length));
+        setMedianSalary(median(salaries));
     }
-    
+
     useEffect(() => {
         calcAvgAndMedian();
         setReviewComp(displayedReviews.map(review => { 
@@ -69,27 +78,43 @@ export default function ReviewIndex() {
 
     return (
         ready ?
-        <div className="reviews-index">
-            {modalReview ? <Modal onClick={() => setModalReview(false)} review={modalReview} /> : '' }
-            <FiltersDrawer displayedReviews={displayedReviews} setDisplayedReviews={setDisplayedReviews} />
-            <div className='reviews-index-search'>
-                {displayedReviews.length > 0 ? 
-                <div className={'reviews-index-search-stats'}>
-                    <div>Found <i>{displayedReviews.length}</i> results.</div>
-                    <div>Average wage: <i>${avgWage.toFixed(2)}</i> per hour.</div>
-                    <div>Median wage: <i>${medianWage}</i> per hour.</div>
-                    {omitted > 0 ? <div className='reviews-index-search-stats-omitted'>*Omitted <i>{omitted}</i> salaried results from calculation</div> : ''}           
-                </div> : ""
-                }
-                 <div className='reviews-index-search-results'>    
-                        {reviewComp}
+            <div className="reviews-index">
+                {modalReview ? <Modal onClick={() => setModalReview(false)} review={modalReview} avgWage={avgWage} avgSalary={avgSalary} /> : ''}
+                <FiltersDrawer displayedReviews={displayedReviews} setDisplayedReviews={setDisplayedReviews} />
+                <div className='reviews-index-search'>
+                    {displayedReviews.length > 0 ?
+                        <div className={'reviews-index-search-stats'}>
+                            <div>
+                                <div>Average wage: <i>${avgWage.toFixed(2)}</i> per hour.</div>
+                                <div>Median wage: <i>${medianWage}</i> per hour.</div>
+                                {<div className='reviews-index-search-stats-omitted'>Data from <i>{displayedReviews.length}</i> results</div>}
+                            </div>
+                            <div>
+                                <div><TollTwoToneIcon htmlColor='#ffd700' /> Tips</div>
+                                <div><FlightTakeoffIcon htmlColor='#303F9F' /> Paid vacation</div>
+                                <div><FastfoodIcon htmlColor='#A90409' /> Meal comps</div>
+                            </div>
+                        </div> : ""
+                    }
+                    <div className='reviews-index-search-results'>
+                        {displayedReviews.slice(0, pages * 24).map(review =>
+                            <Review
+                                setModal={() => setModalReview(review)}
+                                review={review}
+                                avgWage={avgWage}
+                                avgSalary={avgSalary}
+                                key={review.id}
+                            />)}
+                    </div>
+                    {pages * 24 < displayedReviews.length ? 
+                    <Button variant="contained" color="primary" onClick={(() => setPages(pages + 1))}>Load More</Button>
+                    : ""}
                 </div>
             </div>
-        </div>
-        : 
-        <div className="reviews-index">
-            <ShopSearch setReady={setReady}/> 
-        </div>
+            :
+            <div className="reviews-index">
+                <ShopSearch />
+            </div>
     )
 }
 

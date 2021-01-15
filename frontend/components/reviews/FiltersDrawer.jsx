@@ -43,7 +43,7 @@ const useStyles = makeStyles({
     },
 });
 
-const STATES = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA',
+const STATES = ['--','AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA',
     'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD',
     'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ',
     'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC',
@@ -67,9 +67,7 @@ export default function ResponsiveDrawer({displayedReviews, setDisplayedReviews}
     function handleSubmit(e) {
         e.preventDefault();
         const cityAndState = `${location},${state}`;
-        if (name || location || state) {
-            dispatch(fetchAllReviews({ filters: { name, location:cityAndState } }));
-        }
+        dispatch(fetchAllReviews({ filters: { name, location:cityAndState } }));
     }
     
     function handleChange(field, e) {
