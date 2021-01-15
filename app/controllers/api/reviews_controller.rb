@@ -6,14 +6,16 @@ class Api::ReviewsController < ApplicationController
     def index
         name = params.dig(:filters, :name) || nil
         location = params.dig(:filters,:location) || nil
+        limit = params.dig(:filters, :limit) || 24
+
         if name && location
-            reviews = Review.joins(:business).where('lower(businesses.name) ILIKE ?', "%#{name}%").where('lower(businesses.location) ILIKE ?', "%#{location}%")
+            reviews = Review.joins(:business).where('lower(businesses.name) ILIKE ?', "%#{name}%").where('lower(businesses.location) ILIKE ?', "%#{location}%").limit(25)
         elsif name
-            reviews = Review.joins(:business).where('lower(businesses.name) ILIKE ?', "%#{name}%")
+            reviews = Review.joins(:business).where('lower(businesses.name) ILIKE ?', "%#{name}%").limit(25)
         elsif location
-            reviews = Review.joins(:business).where('lower(businesses.location) ILIKE ?', "%#{location}%")
+            reviews = Review.joins(:business).where('lower(businesses.location) ILIKE ?', "%#{location}%").limit(25)
         else
-            reviews = Review.all.includes(:business)
+            reviews = Review.all.includes(:business).limit(limit)
         end
         
         @reviews = reviews

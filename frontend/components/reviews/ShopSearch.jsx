@@ -3,7 +3,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { fetchAllReviews } from '../../actions/review_actions';
 import { makeStyles } from '@material-ui/core/styles';
-import { red } from '@material-ui/core/colors';
+import { useMediaPredicate } from 'react-media-hook';
 
 const useStyles = makeStyles({
     root: {
@@ -51,21 +51,48 @@ const STATES = ['--','AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA',
                 'NM','NY','NC','ND','OH','OK','OR','PA','RI','SC',
                 'SD','TN','TX','UT','VT','VA','WA','WV','WI','WY', 'D.C.'];
 
-export default function ShopSearch({}) {
+export default function ShopSearch({setReady}) {
     const classes = useStyles();
     const dispatch = useDispatch();
     const [name, setName] = useState('');
     const [city, setCity] = useState('');
     const [state, setState] = useState('');
     const [errors, setErrors] = useState('');
+    const [searching, setSearching] = useState(false)
+    const mobile = useMediaPredicate('(max-width: 768px)')
 
-    function search(e) {
+    async function search(e) {
+        setSearching(true)
         e.preventDefault();
         const location = `${city},${state}`;
+<<<<<<< HEAD
         dispatch(fetchAllReviews({ filters: { name, location } }))
         .then(data => {
             data.reviews.length === 0 ? setErrors("No reviews found, try a new search.") : setErrors('');
         });
+=======
+        if (name || location.length > 1) {
+            await dispatch(fetchAllReviews({ filters: { name, location } }))
+            .then(data => {
+                if (data.reviews.length === 0){
+                    setSearching(false)
+                    setErrors("No reviews found, try a new search.")
+                }
+                else{
+                    setReady(true)
+                }
+            });
+        }
+        else{
+            setSearching(false)
+            setErrors("All fields can't be blank")
+        }
+    }
+
+    async function findAll() {
+        setSearching(true)
+        dispatch(fetchAllReviews()).then(() => setReady(true))
+>>>>>>> main
     }
 
     useEffect(() => {
@@ -86,15 +113,25 @@ export default function ShopSearch({}) {
                             className={classes.stateDropdown}
                             value={state}
                             onChange={e=> setState(e.target.value)}>
+                                <MenuItem key='clear' value=''>Clear</MenuItem>
                                 {STATES.map((state, idx) => {
                                     return <MenuItem key={idx} value={state}>{state}</MenuItem>
                                 })}
                         </Select>
                     </FormControl>
                 </div>
-                <Button className={classes.searchButton} variant='contained' size="medium" color="primary" type='submit'>Search</Button>
+                <div className='buttons'>
+                    <Button className={classes.searchButton} variant='contained' size="medium" color="primary" type='submit'>Search</Button>
+                    {!mobile ? 'or' : null}
+                    <Button className={classes.searchButton} variant='contained' size="medium" color="primary" onClick={findAll}>See All Reviews</Button>
+                </div>
             </form>
-            {setErrors ? <span className={classes.errors}>{errors}</span> : ''}
+            {errors ? <span className={classes.errors}>{errors}</span> : ''}
+            {searching ?                 
+                <div className="searching">
+                    <img src={loading} alt=""/>
+                    <p>Searching shops</p>
+                </div> : null}
         </Paper>
     )
 }
