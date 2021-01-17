@@ -10,7 +10,7 @@ import NewReview from './reviews/NewReview';
 import Footer from './footer/Footer';
 import Auth from './auth/Auth';
 import { AuthRoute } from '../util/route_util';
-
+import Graphs from './chart/chart'
 
 export default function App() {
   return (

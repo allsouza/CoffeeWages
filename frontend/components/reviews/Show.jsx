@@ -10,6 +10,7 @@ import MonetizationOnOutlinedIcon from '@material-ui/icons/MonetizationOn';
 import TollTwoToneIcon from '@material-ui/icons/TollTwoTone';
 import FlightTakeoffIcon from '@material-ui/icons/FlightTakeoff';
 import FastfoodIcon from '@material-ui/icons/Fastfood';
+// import Graphs from '../chart/chart';
 
 const useStyles = makeStyles({
     card: {
@@ -88,6 +89,10 @@ export default function ReviewShow({ review, setModal, avgWage, avgSalary, expan
     }
     
     return (
+  
+    <div>
+
+   
             <Card onClick={e => {
                 if(e.target.classList.contains('fa-trash'))
                 {
@@ -123,5 +128,7 @@ export default function ReviewShow({ review, setModal, avgWage, avgSalary, expan
                 </CardContent>
                 {admin ? <i className="fas fa-trash"></i> : null}
             </Card>
+            {/* <Graphs /> */}
+             </div>
     );
 }
