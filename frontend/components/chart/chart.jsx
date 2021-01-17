@@ -1,66 +1,65 @@
-import { Button, Menu, MenuItem } from '@material-ui/core';
 import React, { useState, useEffect } from 'react';
-import { useMediaPredicate } from 'react-media-hook';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { logout } from '../../actions/user_actions';
-import Chart from 'chart.js';
+import { useSelector } from 'react-redux';
 import {Bar} from 'react-chartjs-2';
+import useDeepCompareEffect from 'use-deep-compare-effect';
 import { fetchAllReviews } from '../../actions/review_actions';
+import { median } from '../../util/number_util';
+import ReviewIndex from '../reviews/Index'
 
-// class Chart extends Component {
 
-// }
 
-export default function Graphs ({review}){
-    const [displayedReviews, setDisplayedReviews] = useState([]);
-    const [avgWage, setAvgWage] = useState();
-    const [omitted, setOmitted] = useState();
+export default function Graphs ({review, avgWage, displayedReviews}){
     const [chartData, setChartData] = useState({});
+    const [locationAvg, setLocationAvg] = useState();
+    const [storeAvg, setStoreAvg] = useState();
+   
 
-        function calcAvgAndMedian() {
+    function shopComp(){
         let sum = 0;
-        let wages = [];
-        let numOmitted = 0;
-        for (let i = 0; i < review.length; i++) {
-            // const review = review[i];
-            if (review.payFrequency === "Hourly") {
-                sum += review.wage;
-                wages.push(review.wage);
-            } else {
-                numOmitted += 1;
+        let storage = [];
+        let i = 0
+        while(i < displayedReviews.length) {
+            if(review.shopName === displayedReviews[i].shopName) {
+                storage.push(displayedReviews[i].wage)
             }
+            i++
         }
-
-        setOmitted(numOmitted);
-        setAvgWage(sum / (review.length - numOmitted));
+        for(let i = 0; i < storage.length; i++) {
+            sum+=storage[i]
+        }
+        return (sum/storage.length).toFixed(2)
     }
+
+    function locationComp(){
+        let sum = 0;
+        let storage = [];
+        let i = 0
+        while(i < displayedReviews.length) {
+            if(review.location === displayedReviews[i].location && displayedReviews[i].payFrequency === "Hourly" && !(displayedReviews[i].position.includes("Manager"))) {
+                storage.push(displayedReviews[i].wage)
+            }
+            i++
+        }
+        for(let i = 0; i < storage.length; i++) {
+            sum+=storage[i]
+        }
+        // return (sum/storage.length).toFixed(2)
+        let mid = Math.floor(storage.length)/2
+        return storage[mid]
+    }
+
     const chart = () => {
+        // debugger
+     
         setChartData({
-            labels: [review.shopName, 'Average Wage', 'Wed'],
-            title: 'review.location',
+            
+            labels: ['Current Wage', review.shopName + ' Avg Wage', 'City Wide Median Wage'],
+            title: 'review.shopName',
             datasets: [
                 {
                     
                     label: review.shopName,
-                    // data: [32, 45, 23],
-                    data:[
-                        {
-                        x: review.shopName,
-                        y: review.wage},
-                        {
-                        x: 1,
-                        y: avgWage
-                        }
-                        // },
-                        //  {
-                        // x: 10,
-                        // y: 45
-                        // }, {
-                        // x: 20,
-                        // y: 23
-                        // },
-                ],
+                    data: [[0,review.wage], [0, shopComp()],[0,locationComp()]], 
                     options: {
                         title: {
                             display: true,
@@ -79,25 +78,19 @@ export default function Graphs ({review}){
     }
 
         useEffect(() => {
-        calcAvgAndMedian(), chart();
+        chart()
     }, []);
 
-    // useDeepCompareEffect(() => {
-    //     setDisplayedReviews(reviews);
-    // }, [reviews]);
+    useEffect(() => {
+        shopComp()
+    }, []);
 
-    // useEffect(() => {
-    //     chart()
-    // }, [])
     return(
         <div className = 'chart'>
             <Bar    
                 data = {chartData}
                 width = {400}
-                height={420}
-                options={{
-                    // maintainAspectRation: false
-                }}
+                height={415}
             />
         </div>
     )

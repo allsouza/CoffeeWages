@@ -46,7 +46,7 @@ export default function ReviewIndex() {
     return (
         reviews.length > 0 ?
         <div className="reviews-index">
-            {modalReview ? <Modal onClick={() => setModalReview(false)} review={modalReview} /> : '' }
+            {modalReview ? <Modal onClick={() => setModalReview(false)} review={modalReview} displayedReviews = {displayedReviews} avgWage = {avgWage}/> : '' }
             <FiltersDrawer displayedReviews={displayedReviews} setDisplayedReviews={setDisplayedReviews} />
             <div className='reviews-index-search'>
                 {displayedReviews.length > 0 ? 
