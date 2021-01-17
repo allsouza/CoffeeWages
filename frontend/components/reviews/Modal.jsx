@@ -24,7 +24,7 @@ export default function ReviewModal({onClick, review, avgWage, avgSalary, displa
     return (
         <div onClick={onClick} className={classes.background}>
             <ReviewShow review={review} expanded={true}/>
-            <Graphs review = {review} expanded={true} avgSalary={avgSalary} avgWage={avgWage} displayedReviews = {displayedReviews}/>
+            <Graphs review = {review} expanded={true} avgSalary={avgSalary} avgWage={avgWage} displayedReviews={displayedReviews}/>
         </div>
     )
 

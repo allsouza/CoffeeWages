@@ -79,7 +79,7 @@ export default function ReviewIndex() {
     return (
         ready ?
             <div className="reviews-index">
-                {modalReview ? <Modal onClick={() => setModalReview(false)} review={modalReview} avgWage={avgWage} avgSalary={avgSalary} /> : ''}
+                {modalReview ? <Modal onClick={() => setModalReview(false)} review={modalReview} avgWage={avgWage} avgSalary={avgSalary} displayedReviews={displayedReviews} /> : ''}
                 <FiltersDrawer displayedReviews={displayedReviews} setDisplayedReviews={setDisplayedReviews} />
                 <div className='reviews-index-search'>
                     {displayedReviews.length > 0 ?
@@ -113,7 +113,7 @@ export default function ReviewIndex() {
             </div>
             :
             <div className="reviews-index">
-                <ShopSearch />
+                <ShopSearch setReady={setReady} />
             </div>
     )
 }

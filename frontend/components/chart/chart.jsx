@@ -8,26 +8,31 @@ import ReviewIndex from '../reviews/Index'
 
 
 
-export default function Graphs ({review, avgWage, displayedReviews}){
+export default function Graphs ({review, avgWage, avgSalary, displayedReviews}){
     const [chartData, setChartData] = useState({});
     const [locationAvg, setLocationAvg] = useState();
     const [storeAvg, setStoreAvg] = useState();
-   
 
     function shopComp(){
-        let sum = 0;
-        let storage = [];
-        let i = 0
+        let sumWages = 0;
+        let wages = [];
+        let salaries = [];
+        let sumSalaries = 0;
+        let i = 0;
+
         while(i < displayedReviews.length) {
             if(review.shopName === displayedReviews[i].shopName) {
-                storage.push(displayedReviews[i].wage)
+                if (displayedReviews[i].payFrequency === "Hourly") {
+                    wages.push(displayedReviews[i].wage)
+                    sumWages += displayedReviews[i].wage
+                } else {
+                    salaries.push(displayedReviews[i].wage)
+                    sumSalaries += displayedReviews[i].wage
+                }
             }
             i++
         }
-        for(let i = 0; i < storage.length; i++) {
-            sum+=storage[i]
-        }
-        return (sum/storage.length).toFixed(2)
+        return (sumWages/wages.length).toFixed(2)
     }
 
     function locationComp(){
@@ -43,16 +48,11 @@ export default function Graphs ({review, avgWage, displayedReviews}){
         for(let i = 0; i < storage.length; i++) {
             sum+=storage[i]
         }
-        // return (sum/storage.length).toFixed(2)
-        let mid = Math.floor(storage.length)/2
-        return storage[mid]
+        return median(storage)
     }
 
     const chart = () => {
-        // debugger
-     
         setChartData({
-            
             labels: ['Current Wage', review.shopName + ' Avg Wage', 'City Wide Median Wage'],
             title: 'review.shopName',
             datasets: [
@@ -67,7 +67,7 @@ export default function Graphs ({review, avgWage, displayedReviews}){
                         }
                     },
                     backgroundColor: [
-                         'rgba(255, 99, 132, 0.2)',
+                        'rgba(255, 99, 132, 0.2)',
                         'yellow',
                         'red'
                     ],
@@ -77,7 +77,7 @@ export default function Graphs ({review, avgWage, displayedReviews}){
         })
     }
 
-        useEffect(() => {
+    useEffect(() => {
         chart()
     }, []);
 
