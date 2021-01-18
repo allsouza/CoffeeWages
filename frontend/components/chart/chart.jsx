@@ -36,7 +36,6 @@ export default function Graphs ({review, avgWage, avgSalary, displayedReviews}){
     }
 
     function locationComp(){
-        let sum = 0;
         let storage = [];
         let i = 0
         while(i < displayedReviews.length) {
@@ -44,9 +43,6 @@ export default function Graphs ({review, avgWage, avgSalary, displayedReviews}){
                 storage.push(displayedReviews[i].wage)
             }
             i++
-        }
-        for(let i = 0; i < storage.length; i++) {
-            sum+=storage[i]
         }
         return median(storage)
     }
