@@ -10,10 +10,12 @@ import MonetizationOnOutlinedIcon from '@material-ui/icons/MonetizationOn';
 import TollTwoToneIcon from '@material-ui/icons/TollTwoTone';
 import FlightTakeoffIcon from '@material-ui/icons/FlightTakeoff';
 import FastfoodIcon from '@material-ui/icons/Fastfood';
+// import Graphs from '../chart/chart';
 
 const useStyles = makeStyles({
     card: {
         width: 240,
+        height: 275,
         marginBottom: 12,
         margin: 6,
         cursor: 'pointer',
@@ -22,6 +24,11 @@ const useStyles = makeStyles({
         '&:hover': {
             transform: 'scale(1.05, 1.05)'
         }
+    },
+    content: {
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column'
     },
     cardExpanded: {
         width: 240,
@@ -46,6 +53,7 @@ const useStyles = makeStyles({
     },
     title: {
         fontSize: 14,
+        marginTop: 'auto'
     },
     pos: {
         marginBottom: 12,
@@ -67,7 +75,6 @@ const useStyles = makeStyles({
     bodyExpanded: {
         marginBottom: 12,
         marginTop: 12,
-        
     }
 });
 
@@ -88,6 +95,10 @@ export default function ReviewShow({ review, setModal, avgWage, avgSalary, expan
     }
     
     return (
+  
+    <div>
+
+   
             <Card onClick={e => {
                 if(e.target.classList.contains('fa-trash'))
                 {
@@ -97,7 +108,7 @@ export default function ReviewShow({ review, setModal, avgWage, avgSalary, expan
                     if(!expanded) setModal()
                 }}} 
                 variant="outlined" className={expanded ? classes.cardExpanded : classes.card} key={review.id}>
-                <CardContent>
+                <CardContent className={classes.content}>
                     <Typography className={classes.pos} color="textSecondary">
                         {review.position} <br /> {review.shopName} <br /> {review.location}
                     </Typography>
@@ -123,5 +134,7 @@ export default function ReviewShow({ review, setModal, avgWage, avgSalary, expan
                 </CardContent>
                 {admin ? <i className="fas fa-trash"></i> : null}
             </Card>
+            {/* <Graphs /> */}
+             </div>
     );
 }

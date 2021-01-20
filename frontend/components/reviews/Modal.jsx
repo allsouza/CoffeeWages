@@ -1,6 +1,8 @@
-import Review from './Show';
+import ReviewShow from './Show';
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import Graphs from '../chart/chart';
+
 
 const useStyles = makeStyles({
     background: {
@@ -17,12 +19,12 @@ const useStyles = makeStyles({
     }
 });
 
-export default function ReviewModal({onClick, review, avgWage, avgSalary}) {
+export default function ReviewModal({onClick, review, avgWage, avgSalary, displayedReviews}) {
     const classes = useStyles();
-
     return (
         <div onClick={onClick} className={classes.background}>
-            <Review review={review} avgWage={avgWage} avgSalary={avgSalary} expanded={true} />
+            <ReviewShow review={review} expanded={true}/>
+            <Graphs review = {review} expanded={true} avgSalary={avgSalary} avgWage={avgWage} displayedReviews={displayedReviews}/>
         </div>
     )
 
