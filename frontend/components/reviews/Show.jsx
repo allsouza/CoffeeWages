@@ -40,6 +40,7 @@ export default function ReviewShow({ review, setModal, avgWage, avgSalary, expan
             height: 140,
             borderRight: '1px solid rgba(0, 0, 0, 0.12)',
             marginRight: 12,
+            paddingRight: 12,
             paddingTop: 16,
             paddingBottom: 16,
             boxSizing: 'border-box',
