@@ -32,7 +32,7 @@ export default function ReviewIndex() {
         let salaries = []
         for (let i = 0; i < displayedReviews.length; i++) {
             const review = displayedReviews[i];
-            if (review.payFrequency === "Hourly") {
+            if (review.wage<=40) {
                 sumWages += review.wage;
                 wages.push(review.wage);
             } else {
@@ -86,7 +86,7 @@ export default function ReviewIndex() {
                         <div className={'reviews-index-search-stats'}>
                             <div>
                                 <div>Average wage: <i>${avgWage.toFixed(2)}</i> per hour.</div>
-                                <div>Median wage: <i>${medianWage}</i> per hour.</div>
+                                <div>Median wage: <i>${medianWage.toFixed(2)}</i> per hour.</div>
                                 {<div className='reviews-index-search-stats-omitted'>Data from <i>{displayedReviews.length}</i> results</div>}
                             </div>
                             <div>

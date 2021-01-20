@@ -65,14 +65,15 @@ export default function Graphs ({review, avgWage, avgSalary, displayedReviews}){
 }
 
     const chart = () => {
+        debugger
         setChartData({
-            labels: ['Current Wage', review.shopName + ' Avg Wage', 'City Wide Median Wage'],
+            labels: ['Current Wage', review.shopName + ' Avg Wage', review.location + ' Median Wage', 'National Average Wage'],
             title: 'review.shopName',
             datasets: [
                 {
                     
                     label: review.shopName,
-                    data: [[0,review.wage], [0, shopComp()],[0,locationComp()]], 
+                    data: [[0,review.wage], [0, shopComp()],[0,locationComp()], [0, avgWage.toFixed(2)]], 
                     options: {
                         title: {
                             display: true,
@@ -82,10 +83,11 @@ export default function Graphs ({review, avgWage, avgSalary, displayedReviews}){
                     backgroundColor: [
                          random_rgba(),
                         random_rgba(),
+                        random_rgba(),
                         random_rgba()
                     ],
                     borderWidth: 4,
-                    // xAxisID: "Test"
+                    
                 }
             ]
         })
@@ -100,6 +102,7 @@ export default function Graphs ({review, avgWage, avgSalary, displayedReviews}){
     }, []);
 
     return(
+        
         <div className = 'chart'>
             <Bar    
                 data = {chartData}
