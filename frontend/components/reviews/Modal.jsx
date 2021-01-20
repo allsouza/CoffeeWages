@@ -7,6 +7,7 @@ import Graphs from '../chart/chart';
 const useStyles = makeStyles({
     background: {
         display: 'flex',
+        flexDirection: 'column',
         position: 'fixed',
         justifyContent: 'center',
         alignItems: 'center',
@@ -23,8 +24,8 @@ export default function ReviewModal({onClick, review, avgWage, avgSalary, displa
     const classes = useStyles();
     return (
         <div onClick={onClick} className={classes.background}>
-            <ReviewShow review={review} expanded={true}/>
             <Graphs review = {review} expanded={true} avgSalary={avgSalary} avgWage={avgWage} displayedReviews={displayedReviews}/>
+            <ReviewShow review={review} expanded={true}/>
         </div>
     )
 
