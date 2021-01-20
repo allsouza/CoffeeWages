@@ -56,10 +56,8 @@
       &-results {
         margin-top: 24px;
         display: flex;
-        flex-wrap: wrap;
-        // justify-content: center;
+        flex-direction: column;
         text-align: left;
-        // align-content: center;
 
         .no-reviews{
             text-align: center;

@@ -37,7 +37,6 @@ export default function Graphs ({review, avgWage, avgSalary, displayedReviews}){
 
 
     function locationComp(){
-        let sum = 0;
         let storage = [];
         let i = 0
         while(i < displayedReviews.length) {
@@ -46,17 +45,7 @@ export default function Graphs ({review, avgWage, avgSalary, displayedReviews}){
             }
             i++
         }
-        for(let i = 0; i < storage.length; i++) {
-            sum+=storage[i]
-        }
-        let sorted = storage.sort((a,b)=> a-b)
-        let mid_even = sorted[Math.floor((sorted.length - 1) / 2)]
-        let mid_odd = sorted[Math.floor(sorted.length/2)]
-        if(sorted.length % 2 === 1) {
-            return mid_odd
-        } else if (sorted.length % 2 === 0) {
-            return mid_even
-        }
+        return median(storage)
     }
 
     function random_rgba() {
