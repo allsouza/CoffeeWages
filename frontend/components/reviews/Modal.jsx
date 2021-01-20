@@ -19,12 +19,12 @@ const useStyles = makeStyles({
     }
 });
 
-export default function ReviewModal({onClick, review, avgWage, displayedReviews}) {
+export default function ReviewModal({onClick, review, avgWage, displayedReviews, avgSalary}) {
     const classes = useStyles();
     return (
         <div onClick={onClick} className={classes.background}>
             <ReviewShow review={review} expanded={true}/>
-            <Graphs review = {review} expanded={true} avgWage={avgWage} displayedReviews = {displayedReviews}/>
+            <Graphs review = {review} expanded={true} avgSalary={avgSalary} avgWage={avgWage} displayedReviews={displayedReviews}/>
         </div>
     )
 

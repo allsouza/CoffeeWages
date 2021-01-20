@@ -8,7 +8,7 @@ import ReviewIndex from '../reviews/Index'
 
 
 
-export default function Graphs ({review, avgWage, displayedReviews}){
+export default function Graphs ({review, avgWage, avgSalary, displayedReviews}){
     const [chartData, setChartData] = useState({});
     const [locationAvg, setLocationAvg] = useState();
     const [storeAvg, setStoreAvg] = useState();
