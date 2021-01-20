@@ -12,22 +12,27 @@ export default function Graphs ({review, avgWage, avgSalary, displayedReviews}){
     const [chartData, setChartData] = useState({});
     const [locationAvg, setLocationAvg] = useState();
     const [storeAvg, setStoreAvg] = useState();
-   
 
     function shopComp(){
-        let sum = 0;
-        let storage = [];
-        let i = 0
+        let sumWages = 0;
+        let wages = [];
+        let salaries = [];
+        let sumSalaries = 0;
+        let i = 0;
+
         while(i < displayedReviews.length) {
             if(review.shopName === displayedReviews[i].shopName) {
-                storage.push(displayedReviews[i].wage)
+                if (displayedReviews[i].payFrequency === "Hourly") {
+                    wages.push(displayedReviews[i].wage)
+                    sumWages += displayedReviews[i].wage
+                } else {
+                    salaries.push(displayedReviews[i].wage)
+                    sumSalaries += displayedReviews[i].wage
+                }
             }
             i++
         }
-        for(let i = 0; i < storage.length; i++) {
-            sum+=storage[i]
-        }
-        return (sum/storage.length).toFixed(2)
+        return (sumWages/wages.length).toFixed(2)
     }
 
 
@@ -60,10 +65,7 @@ export default function Graphs ({review, avgWage, avgSalary, displayedReviews}){
 }
 
     const chart = () => {
-        // debugger
-     
         setChartData({
-            
             labels: ['Current Wage', review.shopName + ' Avg Wage', 'City Wide Median Wage'],
             title: 'review.shopName',
             datasets: [
@@ -82,13 +84,14 @@ export default function Graphs ({review, avgWage, avgSalary, displayedReviews}){
                         random_rgba(),
                         random_rgba()
                     ],
-                    borderWidth: 4
+                    borderWidth: 4,
+                    // xAxisID: "Test"
                 }
             ]
         })
     }
 
-        useEffect(() => {
+    useEffect(() => {
         chart()
     }, []);
 

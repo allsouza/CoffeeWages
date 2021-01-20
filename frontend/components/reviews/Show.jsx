@@ -6,13 +6,16 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteReview } from '../../actions/review_actions';
+import MonetizationOnOutlinedIcon from '@material-ui/icons/MonetizationOn';
+import TollTwoToneIcon from '@material-ui/icons/TollTwoTone';
+import FlightTakeoffIcon from '@material-ui/icons/FlightTakeoff';
+import FastfoodIcon from '@material-ui/icons/Fastfood';
 // import Graphs from '../chart/chart';
 
 const useStyles = makeStyles({
     card: {
         width: 240,
-        // minHeight: 275,
-        // maxHeight: 275,
+        height: 275,
         marginBottom: 12,
         margin: 6,
         cursor: 'pointer',
@@ -22,7 +25,11 @@ const useStyles = makeStyles({
             transform: 'scale(1.05, 1.05)'
         }
     },
-
+    content: {
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column'
+    },
     cardExpanded: {
         width: 240,
         minHeight: 275,
@@ -33,9 +40,20 @@ const useStyles = makeStyles({
         textAlign: 'left',
         overflow: 'scroll'
     },
-
+    compContainer: {
+        display: 'flex',
+        justifyContent: 'space-between'
+    },
+    wage: {
+        display: 'flex',
+        alignItems: 'center',
+        '& *': {
+            marginRight: 8
+        }
+    },
     title: {
         fontSize: 14,
+        marginTop: 'auto'
     },
     pos: {
         marginBottom: 12,
@@ -49,19 +67,32 @@ const useStyles = makeStyles({
         marginBottom: 6,
         marginTop: 6
     },
-
+    tips: {
+        fontSize: 12,
+        display: 'flex',
+        alignItems: 'center',
+    },
     bodyExpanded: {
         marginBottom: 12,
         marginTop: 12,
-        
     }
 });
 
-export default function ReviewShow({ review, setModal, expanded=false }) {
+export default function ReviewShow({ review, setModal, avgWage, avgSalary, expanded=false }) {
     const classes = useStyles();
     const user = useSelector( state => state.entities.users[state.session.id])
     const admin = Boolean(user) ? user.admin : false
     const dispatch = useDispatch()
+    function color(payType) {
+        const average = payType === "Hourly" ? avgWage : avgSalary 
+        if (review.wage < average * 0.75) {
+            return '#D2222D'
+        } else if (review.wage >= average) {
+            return '#238823'
+        } else {
+            return '#FFBF00'
+        }
+    }
     
     return (
   
@@ -77,14 +108,22 @@ export default function ReviewShow({ review, setModal, expanded=false }) {
                     if(!expanded) setModal()
                 }}} 
                 variant="outlined" className={expanded ? classes.cardExpanded : classes.card} key={review.id}>
-                <CardContent>
+                <CardContent className={classes.content}>
                     <Typography className={classes.pos} color="textSecondary">
-                        {review.position} review for {review.shopName} in {review.location}
+                        {review.position} <br /> {review.shopName} <br /> {review.location}
                     </Typography>
                     <Typography variant="h5" component="h2">
-                        Wage: {review.wage} per {review.payFrequency === "Hourly" ? "hour" : "year"} {review.tips ? " + tips" : ""}
-                        <br />
-                        {review.benefits}
+                        <div className={classes.compContainer}>
+                            <div className={classes.wage}>
+                                <MonetizationOnOutlinedIcon htmlColor={color(review.payFrequency)} fontSize='inherit' /> 
+                                {review.wage}/{review.payFrequency === "Hourly" ? "hr" : "yr"} 
+                            </div>
+                            <div className={classes.benefits}>
+                                {review.tips ? <div className={classes.tips}><TollTwoToneIcon htmlColor='#ffd700' /></div>: ""}
+                                {review.vacation ? <div className={classes.tips}><FlightTakeoffIcon htmlColor='#303F9F' /></div>: ""}
+                                {review.comps ? <div className={classes.tips}><FastfoodIcon htmlColor='#A90409' /></div>: ""}
+                            </div>
+                        </div>
                     </Typography>
                     <Typography className={expanded ? classes.bodyExpanded : classes.body} variant="body2" component="p">
                         {review.notes}

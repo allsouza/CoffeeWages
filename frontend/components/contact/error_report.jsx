@@ -1,4 +1,4 @@
-import { Button, Snackbar, TextField } from '@material-ui/core'
+import { Button, Paper, Snackbar, TextField } from '@material-ui/core'
 import React, { useCallback, useEffect, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { sendError } from '../../util/error_api_util'
@@ -50,21 +50,23 @@ export default function ErrorReport() {
             <p>Our main goal is to help you have a clearer image of what the service industry looks like around you.</p>
             <p>We are constantly looking to improve so please use this as a tool to let us know what can be improved in the website.</p>
             <p>Thank you so much for your help. And together we can bring transparency to the workplace!</p>
-            <TextField error={errors.has('subject')} label='Subject' value={subject} onChange={e => setSubject(e.target.value)} />
-            <TextField 
-                error={errors.has('body')}
-                multiline
-                rows={5}
-                value={body}
-                onChange={e => setBody(e.target.value)}
-                label='Message'
-                variant='outlined'
-            />
-            {status.disp ? <div className='status'>
-                <h3>{status.msg}</h3>
-                <Link to='/'>Return Home</Link>
-            </div> : null}
-            <Button variant='contained' color='primary' onClick={send} >Send</Button>
+            <Paper>
+                <TextField error={errors.has('subject')} label='Subject' value={subject} onChange={e => setSubject(e.target.value)} />
+                <TextField 
+                    error={errors.has('body')}
+                    multiline
+                    rows={5}
+                    value={body}
+                    onChange={e => setBody(e.target.value)}
+                    label='Message'
+                    variant='outlined'
+                />
+                {status.disp ? <div className='status'>
+                    <h3>{status.msg}</h3>
+                    <Link to='/'>Return Home</Link>
+                </div> : null}
+                <Button variant='contained' color='primary' onClick={send} >Send</Button>
+            </Paper>
             <Snackbar 
                 open={status.disp} 
                 autoHideDuration={6000} 

@@ -3,6 +3,7 @@ import * as ReviewApiUtil from '../util/review_api_util';
 export const RECEIVE_ALL_REVIEWS = "RECEIVE_ALL_REVIEWS";
 export const RECEIVE_REVIEW = "RECEIVE_REVIEW";
 export const DELETE_REVIEW = "DELETE_REVIEW";
+export const CLEAR_REVIEWS = "CLEAR_REVIEWS"
 
 const receiveReview = review => ({
     type: RECEIVE_REVIEW,
@@ -18,6 +19,12 @@ const removeReview = reviewId => ({
     type: DELETE_REVIEW,
     reviewId
 });
+
+export function clearReviews() {
+    return ({
+        type: CLEAR_REVIEWS
+    });
+}
 
 export const fetchAllReviews = (filters) => dispatch => {
     return ReviewApiUtil.fetchReviews(filters)

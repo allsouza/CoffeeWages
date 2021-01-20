@@ -72,9 +72,16 @@
                 text-align: center;
                 justify-content: center;
                 height: 200px;
+                margin-bottom: 50px;
+
+                img{
+                    height: auto;
+                    width: 300px;
+                    margin: auto;
+                }
 
                 h2{
-                    margin-bottom: 20px;
+                    margin: 20px 0;
                 }
             }
         }

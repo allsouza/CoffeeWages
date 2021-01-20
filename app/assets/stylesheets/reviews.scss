@@ -10,6 +10,17 @@
     display: flex;  
     margin-top: 4%;
     padding-bottom: 200px;
+
+    .searching{
+      margin: 0 auto;
+    }
+
+    .buttons{
+      margin-top: 20px;
+      button{
+        margin: 20px;
+      }
+    }
     
     >.MuiPaper-root {
       height: fit-content;
@@ -20,7 +31,7 @@
     &-search {
       padding-left: 64px;
       padding-right: 64px;
-      text-align: left;
+      text-align: center;
       margin-top: 2%;
 
       .MuiCard-root{
@@ -46,7 +57,23 @@
         margin-top: 24px;
         display: flex;
         flex-wrap: wrap;
-        justify-content: flex-start;
+        // justify-content: center;
+        text-align: left;
+        // align-content: center;
+
+        .no-reviews{
+            text-align: center;
+            margin: auto;
+
+            i{
+              font-size: 150px;
+              opacity: .5;
+              padding: 50px;
+            }
+            h1{
+              font-size: 18px;
+            }
+        }
       }
 
       &-form {
@@ -59,6 +86,9 @@
       &-stats {
         font-size: 18px;
         padding-bottom: 24px;
+        display: flex;
+        justify-content: space-between;
+        text-align: left;
         
         & i {
           font-size: 20px;
@@ -102,6 +132,18 @@
   .reviews-index{
     display: flex;
     flex-direction: column;
+
+    .buttons{
+      display: flex;
+      flex-direction: column;
+      button{
+        margin: 10px;
+      }
+
+      button:last-of-type{
+        margin-bottom: 0;
+      }
+    }
 
     .reviews-index-sidebar{
       width: 90%;

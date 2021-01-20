@@ -19,6 +19,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { Button, TextField, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
 import { fetchAllReviews } from '../../actions/review_actions';
 import { useMediaPredicate } from 'react-media-hook';
+import ShopSearch from './ShopSearch';
 
 const drawerWidth = 240;
 
@@ -42,7 +43,7 @@ const useStyles = makeStyles({
     },
 });
 
-const STATES = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA',
+const STATES = ['--','AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA',
     'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD',
     'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ',
     'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC',
@@ -66,9 +67,7 @@ export default function ResponsiveDrawer({displayedReviews, setDisplayedReviews}
     function handleSubmit(e) {
         e.preventDefault();
         const cityAndState = `${location},${state}`;
-        if (name || location) {
-            dispatch(fetchAllReviews({ filters: { name, cityAndState } }));
-        }
+        dispatch(fetchAllReviews({ filters: { name, location:cityAndState } }));
     }
     
     function handleChange(field, e) {
@@ -114,6 +113,7 @@ export default function ResponsiveDrawer({displayedReviews, setDisplayedReviews}
                     <Select
                         value={state}
                         onChange={e => setState(e.target.value)}>
+                        <MenuItem key='clear' value=''>Clear</MenuItem>
                         {STATES.map((state, idx) => {
                             return <MenuItem key={idx} value={state}>{state}</MenuItem>
                         })}

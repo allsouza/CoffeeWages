@@ -3,20 +3,27 @@ import Review from './Show';
 import FiltersDrawer from './FiltersDrawer';
 import ShopSearch from './ShopSearch';
 import Modal from './Modal';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import { median } from '../../util/number_util';
-
+import TollTwoToneIcon from '@material-ui/icons/TollTwoTone';
+import FlightTakeoffIcon from '@material-ui/icons/FlightTakeoff';
+import FastfoodIcon from '@material-ui/icons/Fastfood';
+import { Button } from '@material-ui/core';
+import { clearReviews } from '../../actions/review_actions';
 
 export default function ReviewIndex() {
-    const reviews = Object.values(useSelector(({entities}) => entities.reviews));
+    const reviews = Object.values(useSelector(({ entities }) => entities.reviews));
     const [displayedReviews, setDisplayedReviews] = useState([]);
     const [avgWage, setAvgWage] = useState();
     const [avgSalary, setAvgSalary] = useState();
-    const [medianWage, setMedianWage] = useState();
     const [medianSalary, setMedianSalary] = useState();
-    const [omitted, setOmitted] = useState();
+    const [medianWage, setMedianWage] = useState();
     const [modalReview, setModalReview] = useState(false);
+    const [ready, setReady] = useState(false)
+    const [reviewComp, setReviewComp] = useState([])
+    const [pages, setPages] = useState(1)
+    const dispatch = useDispatch()
     
     function calcAvgAndMedian() {
         let sumWages = 0;
@@ -39,43 +46,75 @@ export default function ReviewIndex() {
         setAvgSalary(sumSalaries / (salaries.length));
         setMedianSalary(median(salaries));
     }
-    
+
     useEffect(() => {
         calcAvgAndMedian();
+        setReviewComp(displayedReviews.map(review => { 
+            return <Review 
+                setModal={() => setModalReview(review)}
+                review={review}
+                key={review.id} 
+                /> }))
+        if(displayedReviews.length > 0){
+            setReady(true)
+        }
+        else{
+            setReviewComp(<div className='no-reviews'>
+                <i className="fas fa-search"></i>
+                <h1>There are no reviews to display for that search.  Please try a different search.</h1>
+            </div>)
+        }
     }, [displayedReviews]);
+
+    useEffect(() => {
+        return () => {
+            dispatch(clearReviews())
+        }
+    }, [])
 
     useDeepCompareEffect(() => {
         setDisplayedReviews(reviews);
     }, [reviews]);
 
     return (
-        reviews.length > 0 ?
-        <div className="reviews-index">
-            {modalReview ? <Modal onClick={() => setModalReview(false)} review={modalReview} avgWage={avgWage} avgSalary={avgSalary} displayedReviews={displayedReviews} /> : ''}
-            <FiltersDrawer displayedReviews={displayedReviews} setDisplayedReviews={setDisplayedReviews} />
-            <div className='reviews-index-search'>
-                {displayedReviews.length > 0 ? 
-                <div className={'reviews-index-search-stats'}>
-                    <div>Found <i>{displayedReviews.length}</i> results.</div>
-                    <div>Average wage: <i>${avgWage.toFixed(2)}</i> per hour.</div>
-                    <div>Median wage: <i>${medianWage}</i> per hour.</div>
-                    {omitted > 0 ? <div className='reviews-index-search-stats-omitted'>*Omitted <i>{omitted}</i> salaried results from calculation</div> : ''}           
-                </div> : ""
-                }
-                <div className='reviews-index-search-results'>    
-                        {reviews.map(review => displayedReviews.includes(review) ? 
-                            <Review 
+        ready ?
+            <div className="reviews-index">
+                {modalReview ? <Modal onClick={() => setModalReview(false)} review={modalReview} avgWage={avgWage} avgSalary={avgSalary} displayedReviews={displayedReviews} /> : ''}
+                <FiltersDrawer displayedReviews={displayedReviews} setDisplayedReviews={setDisplayedReviews} />
+                <div className='reviews-index-search'>
+                    {displayedReviews.length > 0 ?
+                        <div className={'reviews-index-search-stats'}>
+                            <div>
+                                <div>Average wage: <i>${avgWage.toFixed(2)}</i> per hour.</div>
+                                <div>Median wage: <i>${medianWage}</i> per hour.</div>
+                                {<div className='reviews-index-search-stats-omitted'>Data from <i>{displayedReviews.length}</i> results</div>}
+                            </div>
+                            <div>
+                                <div><TollTwoToneIcon htmlColor='#ffd700' /> Tips</div>
+                                <div><FlightTakeoffIcon htmlColor='#303F9F' /> Paid vacation</div>
+                                <div><FastfoodIcon htmlColor='#A90409' /> Meal comps</div>
+                            </div>
+                        </div> : ""
+                    }
+                    <div className='reviews-index-search-results'>
+                        {displayedReviews.slice(0, pages * 24).map(review =>
+                            <Review
                                 setModal={() => setModalReview(review)}
                                 review={review}
-                                key={review.id} 
-                                /> : '')}
+                                avgWage={avgWage}
+                                avgSalary={avgSalary}
+                                key={review.id}
+                            />)}
+                    </div>
+                    {pages * 24 < displayedReviews.length ? 
+                    <Button variant="contained" color="primary" onClick={(() => setPages(pages + 1))}>Load More</Button>
+                    : ""}
                 </div>
             </div>
-        </div>
-        : 
-        <div className="reviews-index">
-            <ShopSearch />
-        </div>
+            :
+            <div className="reviews-index">
+                <ShopSearch setReady={setReady} />
+            </div>
     )
 }
 
