@@ -187,6 +187,10 @@ html, body, body > div, .splashbg {
     z-index: 4;
     padding-bottom: 200px;
     background: #f7f7f7;
+
+    .MuiPaper-root{
+        margin-top: 3%;
+    }
     
     &-contents {
         margin-top: -10%;

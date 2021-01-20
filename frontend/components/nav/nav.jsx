@@ -2,7 +2,7 @@ import { Button, Menu, MenuItem } from '@material-ui/core';
 import React, { useState } from 'react';
 import { useMediaPredicate } from 'react-media-hook';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { logout } from '../../actions/user_actions';
 
 function Nav({currentUser, logout}) {
@@ -20,14 +20,12 @@ function Nav({currentUser, logout}) {
   return (
     <header className= 'browsenav' >
         <nav>
-            <Link to="/">
-                <p className="navlinks">Home</p>
-            </Link>
+            <NavLink exact to="/" activeClassName='selected' className="navlinks">Home</NavLink>
         </nav>
         {!mobile && <nav className="explore-links">
-            <Link to="/reviews" className="navlinks">Explore Shops</Link>
-            <Link to="/create_review" className="navlinks">Report Wages</Link>
-            <Link to='/feedback' className='navlinks'>Feedback</Link>
+            <NavLink activeClassName='selected' to="/reviews" className="navlinks">Explore Shops</NavLink>
+            <NavLink activeClassName='selected' to="/create_review" className="navlinks">Report Wages</NavLink>
+            <NavLink activeClassName='selected' to='/feedback' className='navlinks'>Feedback</NavLink>
             {Boolean(currentUser) ? <div className='user-info'>
               <p>Hello {currentUser.firstName} {currentUser.admin ? <i className="fas fa-user-shield"></i> : null}, <a className='navlinks' onClick={logout}>Logout</a></p>
             </div> : null}
@@ -41,9 +39,9 @@ function Nav({currentUser, logout}) {
               keepMounted
               open={Boolean(anchor)}
               onClose={closeMenu} >
-                <MenuItem onClick={closeMenu}><Link to="/reviews" className="navlinks">Explore Shops</Link></MenuItem>
-                <MenuItem onClick={closeMenu}><Link to="/create_review" className="navlinks">Report Wages</Link></MenuItem>
-                <MenuItem onClick={closeMenu}><Link to='/feedback' className='navlinks'>Feedback</Link></MenuItem>
+                <MenuItem onClick={closeMenu}><NavLink activeClassName='selected' to="/reviews" className="navlinks">Explore Shops</NavLink></MenuItem>
+                <MenuItem onClick={closeMenu}><NavLink activeClassName='selected' to="/create_review" className="navlinks">Report Wages</NavLink></MenuItem>
+                <MenuItem onClick={closeMenu}><NavLink activeClassName='selected' to='/feedback' className='navlinks'>Feedback</NavLink></MenuItem>
                 {Boolean(currentUser) ? <MenuItem onClick={() => {
                   closeMenu()
                   logout()

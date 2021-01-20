@@ -53,7 +53,7 @@
     transition: all 0.3s ease-in-out;
 }
 
-.navlinks:hover:before{
+.navlinks:hover:before, .navlinks.selected:before{
     visibility: visible;
     transform: scaleX(1);
 }

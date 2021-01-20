@@ -35,11 +35,12 @@ export default function Graphs ({review, avgWage, avgSalary, displayedReviews}){
         return (sumWages/wages.length).toFixed(2)
     }
 
+
     function locationComp(){
         let storage = [];
         let i = 0
         while(i < displayedReviews.length) {
-            if(review.location === displayedReviews[i].location && displayedReviews[i].payFrequency === "Hourly" && !(displayedReviews[i].position.includes("Manager"))) {
+            if(review.location === displayedReviews[i].location && displayedReviews[i].payFrequency === 'Hourly') {
                 storage.push(displayedReviews[i].wage)
             }
             i++
@@ -47,15 +48,21 @@ export default function Graphs ({review, avgWage, avgSalary, displayedReviews}){
         return median(storage)
     }
 
+    function random_rgba() {
+    var o = Math.round, r = Math.random, s = 230;
+    return 'rgba(' + o(r()*s) + ',' + o(r()*s) + ',' + o(r()*s) + ',' + 1.0 + ')';
+}
+
     const chart = () => {
+        debugger
         setChartData({
-            labels: ['Current Wage', review.shopName + ' Avg Wage', 'City Wide Median Wage'],
+            labels: ['Current Wage', review.shopName + ' Avg Wage', review.location + ' Median Wage', 'National Average Wage'],
             title: 'review.shopName',
             datasets: [
                 {
                     
                     label: review.shopName,
-                    data: [[0,review.wage], [0, shopComp()],[0,locationComp()]], 
+                    data: [[0,review.wage], [0, shopComp()],[0,locationComp()], [0, avgWage.toFixed(2)]], 
                     options: {
                         title: {
                             display: true,
@@ -63,11 +70,13 @@ export default function Graphs ({review, avgWage, avgSalary, displayedReviews}){
                         }
                     },
                     backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'yellow',
-                        'red'
+                         random_rgba(),
+                        random_rgba(),
+                        random_rgba(),
+                        random_rgba()
                     ],
-                    borderWidth: 4
+                    borderWidth: 4,
+                    
                 }
             ]
         })
@@ -82,6 +91,7 @@ export default function Graphs ({review, avgWage, avgSalary, displayedReviews}){
     }, []);
 
     return(
+        
         <div className = 'chart'>
             <Bar    
                 data = {chartData}
