@@ -29,7 +29,7 @@ export default function ReviewShow({ review, setModal, avgWage, avgSalary, expan
             width: 675,
             height: 125,
             display: 'flex',
-            justifyContent: 'space-between',
+            justifyContent: expanded ? 'space-around' : 'space-between',
             alignItems: 'center',
             boxSizing: 'border-box',
         },
@@ -69,20 +69,23 @@ export default function ReviewShow({ review, setModal, avgWage, avgSalary, expan
         },
         date: {
             alignSelf: 'flex-end',
-            fontSize: 11
+            fontSize: 11,
+            margin: 'auto',
+            width: expanded ? 430 : 250,
         },
         pos: {
             fontSize: 12,
         },
         body: {
             display: '-webkit-box',
-            WebkitLineClamp: 3,
+            WebkitLineClamp: expanded ? 'none' : 3,
             WebkitBoxOrient: 'vertical',
             overflow: 'hidden',
             textOverflow: 'ellipsis',
+            margin: 'auto',
             marginBottom: 6,
             marginTop: 6,
-            width: 250
+            width: expanded ? 430 : 250,
         },
         benefits: {
             display: 'flex',
@@ -92,10 +95,6 @@ export default function ReviewShow({ review, setModal, avgWage, avgSalary, expan
             fontSize: 12,
             display: 'flex',
             alignItems: 'center',
-        },
-        bodyExpanded: {
-            marginBottom: 12,
-            marginTop: 12,
         }
     });
     const classes = useStyles();
@@ -146,15 +145,25 @@ export default function ReviewShow({ review, setModal, avgWage, avgSalary, expan
                         </div>
                     </div>
                 </Typography>
+                {!expanded && 
                 <div>
-                    <Typography className={expanded ? classes.bodyExpanded : classes.body} variant="body2" component="p">
+                    <Typography className={classes.body} variant="body2" component="p">
                         {review.notes}
                     </Typography>
                     <Typography className={classes.date} color="textSecondary" gutterBottom>
                         Worked here from {review.startDate} to {review.endDate}
                     </Typography>
-                </div>
+                </div>}
             </CardContent>
+            {expanded &&                 
+                <div>
+                    <Typography className={classes.body} variant="body2" component="p">
+                        {review.notes}
+                    </Typography>
+                    <Typography className={classes.date} color="textSecondary" gutterBottom>
+                        Worked here from {review.startDate} to {review.endDate}
+                    </Typography>
+                </div>}
             {admin ? <i className="fas fa-trash"></i> : null}
         </Card>
             {/* <Graphs /> */}
