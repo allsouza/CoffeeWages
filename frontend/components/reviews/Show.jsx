@@ -115,10 +115,7 @@ export default function ReviewShow({ review, setModal, avgWage, avgSalary, expan
     }
     
     return (
-  
     <div>
-
-   
             <Card onClick={e => {
                 if(e.target.classList.contains('fa-trash'))
                 {
