@@ -17,15 +17,23 @@ const useStyles = makeStyles({
         top: 0,
         left: 0,
         zIndex: 1000,
+    },
+
+    container: {
+        background: '#fff',
+        borderRadius: 5,
+        padding: 8
     }
 });
 
-export default function ReviewModal({onClick, review, avgWage, avgSalary, displayedReviews}) {
+export default function ReviewModal({ onClick, review, avgWage, avgSalary, displayedReviews }) {
     const classes = useStyles();
     return (
         <div onClick={onClick} className={classes.background}>
-            <Graphs review = {review} expanded={true} avgSalary={avgSalary} avgWage={avgWage} displayedReviews={displayedReviews}/>
-            <ReviewShow review={review} expanded={true}/>
+            <div className={classes.container}>
+                <ReviewShow review={review} expanded={true} />
+                <Graphs review={review} expanded={true} avgSalary={avgSalary} avgWage={avgWage} displayedReviews={displayedReviews} />
+            </div>
         </div>
     )
 
