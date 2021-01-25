@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { sendError } from '../../util/error_api_util'
 import MuiAlert from '@material-ui/lab/Alert'
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 export default function ErrorReport() {
     const [subject, setSubject] = useState('')
@@ -12,6 +13,16 @@ export default function ErrorReport() {
     const [, updateState] = useState()
     const forceUpdate = useCallback(() => updateState({}), [])
     const history = useHistory();
+    const theme = useTheme();
+
+    const styles = makeStyles({
+        form: {
+            backgroundColor: theme.palette.cardColor,
+            color: theme.palette.textColor
+        }
+    });
+
+    const classes = styles()
 
     function checkErrors() {
         Boolean(subject) ? errors.delete('subject') : errors.add('subject')
@@ -50,7 +61,7 @@ export default function ErrorReport() {
             <p>Our main goal is to help you have a clearer image of what the service industry looks like around you.</p>
             <p>We are constantly looking to improve so please use this as a tool to let us know what can be improved in the website.</p>
             <p>Thank you so much for your help. And together we can bring transparency to the workplace!</p>
-            <Paper>
+            <Paper className={classes.form}>
                 <TextField error={errors.has('subject')} label='Subject' value={subject} onChange={e => setSubject(e.target.value)} />
                 <TextField 
                     error={errors.has('body')}

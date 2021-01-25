@@ -111,7 +111,6 @@ html, body, body > div, .splashbg {
     margin-top: 20px;
     margin-left: 40px;
     justify-content: center;
-    color: #1d1c23;
     margin-right: 50px;
     min-width: 270px;
     max-width: 375px;
@@ -182,12 +181,6 @@ html, body, body > div, .splashbg {
 }
 
 .splash-form {
-    position: relative;
-    width: 100%;
-    z-index: 4;
-    padding-bottom: 200px;
-    background: #f7f7f7;
-
     .MuiPaper-root{
         margin-top: 3%;
     }
@@ -202,11 +195,6 @@ html, body, body > div, .splashbg {
         padding: 32px;
         color: #3f51b5;
         font-family: Bookman;
-    }
-
-    &-blob {
-        width: 100%;
-        background: #fef9f8;
     }
 }
 

@@ -54,7 +54,9 @@ export default function ReviewShow({ review, setModal, avgWage, avgSalary, expan
             marginBottom: 12,
             cursor: 'pointer',
             textAlign: 'left',
-            borderStyle: 'none'
+            borderStyle: 'none',
+            backgroundColor: theme.palette.cardColor,
+            color: theme.palette.textColor,
         },
         compContainer: {
             display: 'flex',

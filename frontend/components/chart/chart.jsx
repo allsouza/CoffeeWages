@@ -49,10 +49,10 @@ export default function Graphs ({review, avgWage, avgSalary, displayedReviews}){
         return median(storage)
     }
 
-    function random_rgba() {
-        var o = Math.round, r = Math.random, s = 230;
-        return 'rgba(' + o(r()*s) + ',' + o(r()*s) + ',' + o(r()*s) + ',' + 1.0 + ')';
-    }
+    // function '#3f51b5' {
+    //     var o = Math.round, r = Math.random, s = 230;
+    //     return 'rgba(' + o(r()*s) + ',' + o(r()*s) + ',' + o(r()*s) + ',' + 1.0 + ')';
+    // }
 
     const chart = () => {
         setChartData({
@@ -62,10 +62,10 @@ export default function Graphs ({review, avgWage, avgSalary, displayedReviews}){
                 {
                     data: [review.wage, shopComp(), locationComp(), avgWage.toFixed(2)], 
                     backgroundColor: [
-                        random_rgba(),
-                        random_rgba(),
-                        random_rgba(),
-                        random_rgba()
+                        '#3f51b5',
+                        '#3f51b5',
+                        '#3f51b5',
+                        '#3f51b5'
                     ],
                     borderWidth: 4,
                 }

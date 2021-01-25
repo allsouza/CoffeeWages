@@ -2,9 +2,6 @@ import React from 'react';
 import LinkedInIcon from '@material-ui/icons/LinkedIn';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import LanguageIcon from '@material-ui/icons/Language';
-import WbIncandescentIcon from '@material-ui/icons/WbIncandescent';
-import { useDispatch } from 'react-redux';
-import { toggleDarktheme } from '../../actions/theme_actions';
 import { buttonColor, footerColor } from '../DarkThemeProvider';
 import styled from 'styled-components';
 
@@ -52,16 +49,11 @@ const Foot = styled.footer`
 `;
 
 export default function Footer() {
-    const dispatch = useDispatch();
-
     return (
         <Foot>
             <div className='footer-site-explanation'>
                 Initial seed data pulled from <Anchor href={source} target='_blank'>2019 wage transparency spreadsheets</Anchor>
             </div>
-            <a onClick={() => dispatch(toggleDarktheme())}>
-                <WbIncandescentIcon />
-            </a>
             <div className='footer-personal-info'>
                 <div>
                     <div className='footer-personal-info-links'>

@@ -4,13 +4,14 @@ import React, { useRef, useState, useEffect } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { useMediaPredicate } from 'react-media-hook';
 
 export default function Splash() {
   const location = useLocation();
   const history = useHistory();
   const mobile = useMediaPredicate("(max-width: 768px)")
+  const theme = useTheme();
 
   const useStyles = makeStyles({
     large: {
@@ -21,6 +22,12 @@ export default function Splash() {
       position: 'absolute',
       cursor: 'pointer',
       zIndex: 10,
+    },
+    background: {
+      width:"100vw",
+      maxWidth: "100%",
+      backgroundColor: theme.palette.backgroundColor,
+      
     }
   });
 
@@ -44,7 +51,7 @@ export default function Splash() {
   return (
     
      <div>
-         <div className="splashbg">
+         <div className={classes.background}>
             <div className="splashbox">
               <div className="mug-container">
                 <img className="mug-background" src={blob} />
