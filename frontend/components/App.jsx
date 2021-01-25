@@ -12,6 +12,7 @@ import DarkThemeProvider from './DarkThemeProvider';
 import styled from 'styled-components';
 import { backgroundColor, textColor } from './DarkThemeProvider';
 
+
 const Container = styled.div`
     display: flex;
     flex-direction: column;
@@ -49,8 +50,6 @@ export default function App() {
         </Component>
         <Footer />
       </Container>
-    </DarkThemeProvider>  
-    
-
+    </DarkThemeProvider>
   );
 }
