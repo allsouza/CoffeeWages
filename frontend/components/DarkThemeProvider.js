@@ -26,7 +26,7 @@ export const footerColor = theme("theme", {
 });
 
 export const cardColor = theme("theme", {
-    light: "#000000",
+    light: "#ffffff",
     dark: "#22303c"
 });
 
@@ -36,7 +36,8 @@ const dark = createMuiTheme({
         textColor: "#ffffff",
         buttonColor: "#d3d3d3",
         footerColor: "#22303c",
-        cardColor: "#22303C"
+        cardColor: "#22303C",
+        type: "dark"
     },
 });
 
@@ -46,7 +47,8 @@ const light = createMuiTheme({
         textColor: "#000000",
         buttonColor: "#A9A9A9",
         footerColor: "#404040",
-        cardColor: "#ffffff"
+        cardColor: "#ffffff",
+        type: "light"
     }
 });
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -10,16 +10,20 @@ import MonetizationOnOutlinedIcon from '@material-ui/icons/MonetizationOn';
 import TollTwoToneIcon from '@material-ui/icons/TollTwoTone';
 import FlightTakeoffIcon from '@material-ui/icons/FlightTakeoff';
 import FastfoodIcon from '@material-ui/icons/Fastfood';
+
 // import Graphs from '../chart/chart';
 
 
 export default function ReviewShow({ review, setModal, avgWage, avgSalary, expanded=false }) {
+    const theme = useTheme()
     const useStyles = makeStyles({
         card: {
             marginBottom: 12,
             margin: 6,
             cursor: 'pointer',
             transition: 'transform .3s',
+            backgroundColor: theme.palette.cardColor,
+            color: theme.palette.textColor,
             
             '&:hover': {
                 transform: 'scale(1.05, 1.05)'

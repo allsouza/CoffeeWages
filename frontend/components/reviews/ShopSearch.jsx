@@ -3,7 +3,6 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { fetchAllReviews } from '../../actions/review_actions';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { cardColor } from '../DarkThemeProvider';
 import { useMediaPredicate } from 'react-media-hook';
 
 const STATES = ['--','AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA',

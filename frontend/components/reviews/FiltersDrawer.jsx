@@ -20,37 +20,60 @@ import { Button, TextField, FormControl, InputLabel, Select, MenuItem } from '@m
 import { fetchAllReviews } from '../../actions/review_actions';
 import { useMediaPredicate } from 'react-media-hook';
 import ShopSearch from './ShopSearch';
+import { cardColor, textColor } from '../DarkThemeProvider';
+import styled from 'styled-components';
 
 const drawerWidth = 240;
+const Sidebar = styled.div`
+    background-color: ${cardColor};
+    color: ${textColor};
+    position: sticky;
+    left: 0;
+    top: 0;
+    height: calc(100vh - 50px);
+    overflow-y: scroll;
+    width: 20vw;
+    min-width: 20vw;
+    border-radius: 0px 25px 25px 0px;
+    padding-top: 25px;
 
-const useStyles = makeStyles({
-    root: {
-        minWidth: 275,
-        margin: "auto",
-        maxWidth: 500,
-        marginBottom: 12,
-    },
-    searchInputs: {
-        marginBottom: 20,
-        textAlign: 'center'
-    },
-    button: {
-        height: 40,
-        marginBottom: 12
-    },
-    pos: {
-        marginBottom: 12,
-    },
-});
+    &::-webkit-scrollbar {
+    display: none;
+    }
+`;
 
 const STATES = ['--','AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA',
-    'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD',
-    'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ',
-    'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC',
-    'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY', 'D.C.'];
+'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD',
+'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ',
+'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC',
+'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY', 'D.C.'];
 
 
 export default function ResponsiveDrawer({displayedReviews, setDisplayedReviews}) {
+    const theme = useTheme();
+    const useStyles = makeStyles({
+        root: {
+            minWidth: 275,
+            margin: "auto",
+            maxWidth: 500,
+            marginBottom: 12,
+            color: theme.palette.textColor
+        },
+        accordion: {
+            backgroundColor: theme.palette.cardColor,
+        },
+        searchInputs: {
+            marginBottom: 20,
+            textAlign: 'center'
+        },
+        button: {
+            height: 40,
+            marginBottom: 12
+        },
+        pos: {
+            marginBottom: 12,
+        },
+    });
     const classes = useStyles();
     const reviews = useSelector(( {entities} ) => Object.values(entities.reviews) );
     const locations = [...new Set(reviews.map( review => review.location ))];
@@ -104,7 +127,7 @@ export default function ResponsiveDrawer({displayedReviews, setDisplayedReviews}
     }
 
     return (
-        <div className="reviews-index-sidebar">
+        <Sidebar>
             <form onSubmit={handleSubmit} className='reviews-index-search-fields'>
                 <TextField className={classes.searchInputs} value={name} onChange={e => setName(e.target.value)} label="Business name" />
                 <TextField value={location} className={classes.searchInputs} onChange={e => setLocation(e.target.value)} label="Location" />
@@ -123,7 +146,7 @@ export default function ResponsiveDrawer({displayedReviews, setDisplayedReviews}
             </form>
             <Button variant='outlined' color='secondary' className={classes.button} onClick={clearFilters}>Clear Filters</Button>
             {locations.length > 0 ?
-            <Accordion>
+            <Accordion className={classes.accordion}>
                 <AccordionSummary>Filter by Location</AccordionSummary>
                 <AccordionDetails >
                     <List>
@@ -144,7 +167,7 @@ export default function ResponsiveDrawer({displayedReviews, setDisplayedReviews}
             </Accordion> : <div></div>}
          
             {shops.length > 0 ?
-            <Accordion>
+            <Accordion className={classes.accordion}>
                 <AccordionSummary>Filter by Shop</AccordionSummary>
                 <AccordionDetails>
                     <List>
@@ -163,7 +186,7 @@ export default function ResponsiveDrawer({displayedReviews, setDisplayedReviews}
                     </List>
                 </AccordionDetails>
             </Accordion> : <div></div> }
-        </div>
+        </Sidebar>
         // <div className={classes.root}>
         //     <CssBaseline />
         //     <nav className={classes.drawer} aria-label="mailbox folders">
