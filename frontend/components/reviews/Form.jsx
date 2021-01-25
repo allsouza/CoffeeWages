@@ -44,6 +44,8 @@ export default function Form() {
             alignItems: "center",
             minWidth: 700,
             padding: "20px 0",
+            position: "relative",
+            zIndex: 10,
             backgroundColor: theme.palette.cardColor,
             color: theme.palette.textColor,
         }

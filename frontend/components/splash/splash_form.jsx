@@ -8,11 +8,7 @@ export default function SplashForm() {
     const theme = useTheme();
     const useStyles = makeStyles({
       blob: {
-        backgroundColor: theme.palette.backgroundColor,
-
-        "& path": {
-            width: "100%",
-        }
+        backgroundColor: theme.palette.backgroundColor
       },
       form: {
         position: "relative",
