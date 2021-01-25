@@ -104,11 +104,11 @@ export default function ReviewShow({ review, setModal, avgWage, avgSalary, expan
     function color(payType) {
         const average = payType === "Hourly" ? avgWage : avgSalary 
         if (review.wage < average * 0.75) {
-            return '#D2222D'
+            return '#D2222D';
         } else if (review.wage >= average) {
-            return '#238823'
+            return '#238823';
         } else {
-            return '#FFBF00'
+            return '#FFBF00';
         }
     }
     
