@@ -17,6 +17,7 @@
     display: flex;
     justify-content: flex-start;
     align-items: baseline;
+    position: relative;
 
     .user-info{
         margin-left: 10px;
@@ -33,7 +34,7 @@
     margin-left: 16px;
     margin-right: 16px;
     padding-bottom: 4px;
-    color: #1d1c23;
+    color: inherit;
     text-decoration: none;
     font-size: 18px;
     transition: border-bottom ease 2s;

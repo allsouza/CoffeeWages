@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import {Bar} from 'react-chartjs-2';
+import {HorizontalBar} from 'react-chartjs-2';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import { fetchAllReviews } from '../../actions/review_actions';
 import { median } from '../../util/number_util';
@@ -9,6 +9,7 @@ import ReviewIndex from '../reviews/Index'
 
 
 export default function Graphs ({review, avgWage, avgSalary, displayedReviews}){
+    Chart.defaults.global.legend.display = false;
     const [chartData, setChartData] = useState({});
     const [locationAvg, setLocationAvg] = useState();
     const [storeAvg, setStoreAvg] = useState();
@@ -48,35 +49,25 @@ export default function Graphs ({review, avgWage, avgSalary, displayedReviews}){
         return median(storage)
     }
 
-    function random_rgba() {
-    var o = Math.round, r = Math.random, s = 230;
-    return 'rgba(' + o(r()*s) + ',' + o(r()*s) + ',' + o(r()*s) + ',' + 1.0 + ')';
-}
+    // function '#3f51b5' {
+    //     var o = Math.round, r = Math.random, s = 230;
+    //     return 'rgba(' + o(r()*s) + ',' + o(r()*s) + ',' + o(r()*s) + ',' + 1.0 + ')';
+    // }
 
     const chart = () => {
-        debugger
         setChartData({
             labels: ['Current Wage', review.shopName + ' Avg Wage', review.location + ' Median Wage', 'National Average Wage'],
             title: 'review.shopName',
             datasets: [
                 {
-                    
-                    label: review.shopName,
-                    data: [[0,review.wage], [0, shopComp()],[0,locationComp()], [0, avgWage.toFixed(2)]], 
-                    options: {
-                        title: {
-                            display: true,
-                            text: review.shopName
-                        }
-                    },
+                    data: [review.wage, shopComp(), locationComp(), avgWage.toFixed(2)], 
                     backgroundColor: [
-                         random_rgba(),
-                        random_rgba(),
-                        random_rgba(),
-                        random_rgba()
+                        '#3f51b5',
+                        '#3f51b5',
+                        '#3f51b5',
+                        '#3f51b5'
                     ],
                     borderWidth: 4,
-                    
                 }
             ]
         })
@@ -84,19 +75,37 @@ export default function Graphs ({review, avgWage, avgSalary, displayedReviews}){
 
     useEffect(() => {
         chart()
-    }, []);
-
-    useEffect(() => {
         shopComp()
     }, []);
 
     return(
-        
         <div className = 'chart'>
-            <Bar    
-                data = {chartData}
-                width = {400}
-                height={415}
+            <HorizontalBar    
+                data={chartData}
+                width={675}
+                height={115}
+                options={{ 
+                    maintainAspectRatio: false,
+                    responsive: true,
+                    scales: {
+                        xAxes: [{
+                            gridLines: {
+                                display: false,
+                                drawBorder: false
+                            },
+                            ticks: {
+                                display: false,
+                                beginAtZero: true
+                            }
+                        }],
+                        yAxes: [{
+                            gridLines: {
+                                display: false,
+                                drawBorder: false
+                            },
+                        }]
+                    } 
+                }}
             />
         </div>
     )

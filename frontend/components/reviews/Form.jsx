@@ -11,31 +11,46 @@ import {
 } from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import React, { useState, useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import Search from './Search';
 import { createReview, RECEIVE_REVIEW } from '../../actions/review_actions';
 import { capitalize } from '../../util/string_util';
 
-const styles = makeStyles({
-    root: {
-        width: 20
-    },
-
-    small: {
-        width: 150
-    },
-    medium: {
-        width: 200
-    }
-
-});
 
 const regex = new RegExp(/[^0-9]/, 'g');
 const date = new Date();
 
 export default function Form() {
+    const theme = useTheme();
+    const styles = makeStyles({
+        root: {
+            width: 20
+        },
+    
+        small: {
+            width: 150
+        },
+        medium: {
+            width: 200
+        },
+    
+        container: {
+            display: "flex",
+            width: "70%",
+            margin: "auto",
+            height: "fit-content",
+            alignItems: "center",
+            minWidth: 700,
+            padding: "20px 0",
+            position: "relative",
+            zIndex: 10,
+            backgroundColor: theme.palette.cardColor,
+            color: theme.palette.textColor,
+        }
+    
+    });
     const classes = styles()
 
     const [business, setBusiness] = useState({});
@@ -187,7 +202,7 @@ export default function Form() {
         wageType, tips, gender, orientation, race, avgTips]);
 
     return(
-        <Paper className='review-form-container'>
+        <Paper className={classes.container}>
       
             {!saved ? <div className='review-form'>
                 

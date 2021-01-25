@@ -2,48 +2,8 @@ import { Button, Paper, FormControl, InputLabel, MenuItem, Select, TextField } f
 import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { fetchAllReviews } from '../../actions/review_actions';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { useMediaPredicate } from 'react-media-hook';
-
-const useStyles = makeStyles({
-    root: {
-        height: "20vw",
-        margin: "0 auto",
-        padding: 32,
-        position: 'relative',
-        top: '10vh'
-    },
-
-    header: {
-        fontSize: 24,
-        padding: 24
-    },
-
-    input: {
-        paddingRight: 24
-    },
-
-    formInputs: {
-        display: 'flex',
-        justifyContent: 'space-around',
-        margin: '0 auto',
-        maxWidth: 500
-    },
-
-    searchButton: {
-        marginTop: 24
-    },
-
-    stateDropdown: {
-        width: 55
-    },
-
-    errors: {
-        color: 'red',
-        paddingTop: 12,
-    }
-
-});
 
 const STATES = ['--','AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA',
                 'HI','ID','IL','IN','IA','KS','KY','LA','ME','MD',
@@ -52,6 +12,49 @@ const STATES = ['--','AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA',
                 'SD','TN','TX','UT','VT','VA','WA','WV','WI','WY', 'D.C.'];
 
 export default function ShopSearch({setReady}) {
+    const theme = useTheme();
+    const useStyles = makeStyles({
+        root: {
+            height: "20vw",
+            margin: "0 auto",
+            padding: 32,
+            position: 'relative',
+            top: '10vh',
+            backgroundColor: theme.palette.cardColor,
+            color: theme.palette.textColor
+        },
+
+        header: {
+            fontSize: 24,
+            padding: 24
+        },
+
+        input: {
+            paddingRight: 24
+        },
+
+        formInputs: {
+            display: 'flex',
+            justifyContent: 'space-around',
+            margin: '0 auto',
+            maxWidth: 500
+        },
+
+        searchButton: {
+            marginTop: 24
+        },
+
+        stateDropdown: {
+            width: 55
+        },
+
+        errors: {
+            color: 'red',
+            paddingTop: 12,
+        }
+
+    });
+
     const classes = useStyles();
     const dispatch = useDispatch();
     const [name, setName] = useState('');
@@ -59,7 +62,8 @@ export default function ShopSearch({setReady}) {
     const [state, setState] = useState('');
     const [errors, setErrors] = useState('');
     const [searching, setSearching] = useState(false)
-    const mobile = useMediaPredicate('(max-width: 768px)')
+    const mobile = useMediaPredicate('(max-width: 768px)');
+
 
     async function search(e) {
         setSearching(true)
