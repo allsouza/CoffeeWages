@@ -42,6 +42,15 @@ const Sidebar = styled.div`
     &::-webkit-scrollbar {
     display: none;
     }
+
+    @media only screen and (max-width:768px) {
+        width: 90%;
+        height: fit-content;
+        margin: auto;
+        position: relative;
+        border-radius: 25px;
+        padding-bottom: 8px;
+    }
 `;
 
 const STATES = ['--','AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA',

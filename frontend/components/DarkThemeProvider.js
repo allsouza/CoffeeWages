@@ -38,7 +38,8 @@ const dark = createMuiTheme({
         footerColor: "#22303c",
         cardColor: "#22303C",
         type: "dark",
-        blobColor: "#212121"
+        blobColor: "#212121",
+        splashBlob: "#9c5142"
     },
 });
 
@@ -50,7 +51,8 @@ const light = createMuiTheme({
         footerColor: "#404040",
         cardColor: "#ffffff",
         type: "light",
-        blobColor: "#f7f7f7"
+        blobColor: "#f7f7f7",
+        splashBlob: '#D0E2FF'
     }
 });
 

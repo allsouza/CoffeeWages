@@ -4,15 +4,20 @@ import {HorizontalBar} from 'react-chartjs-2';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import { fetchAllReviews } from '../../actions/review_actions';
 import { median } from '../../util/number_util';
-import ReviewIndex from '../reviews/Index'
+import ReviewIndex from '../reviews/Index';
+import { useMediaPredicate } from 'react-media-hook';
+import styled from 'styled-components'
 
-
+const Title = styled.div`
+    margin: auto;
+`;
 
 export default function Graphs ({review, avgWage, avgSalary, displayedReviews}){
     Chart.defaults.global.legend.display = false;
     const [chartData, setChartData] = useState({});
     const [locationAvg, setLocationAvg] = useState();
     const [storeAvg, setStoreAvg] = useState();
+    const mobile = useMediaPredicate('(max-width: 768px)');
 
     function shopComp(){
         let sumWages = 0;
@@ -56,7 +61,7 @@ export default function Graphs ({review, avgWage, avgSalary, displayedReviews}){
 
     const chart = () => {
         setChartData({
-            labels: ['Current Wage', review.shopName + ' Avg Wage', review.location + ' Median Wage', 'National Average Wage'],
+            labels: ['Current', 'Company Avg', 'City Median', 'National Average'],
             title: 'review.shopName',
             datasets: [
                 {
@@ -67,7 +72,7 @@ export default function Graphs ({review, avgWage, avgSalary, displayedReviews}){
                         '#3f51b5',
                         '#3f51b5'
                     ],
-                    borderWidth: 4,
+                    borderWidth: 0,
                 }
             ]
         })
@@ -82,9 +87,13 @@ export default function Graphs ({review, avgWage, avgSalary, displayedReviews}){
         <div className = 'chart'>
             <HorizontalBar    
                 data={chartData}
-                width={675}
+                width={"100%"}
                 height={115}
                 options={{ 
+                    title: {
+                        display: true,
+                        text: "Wage Comparison:"
+                    },
                     maintainAspectRatio: false,
                     responsive: true,
                     scales: {
