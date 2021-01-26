@@ -49,7 +49,7 @@ const STATES = ['--','AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA',
 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY', 'D.C.'];
 
 
-export default function ResponsiveDrawer({displayedReviews, setDisplayedReviews}) {
+export default function ResponsiveDrawer({displayedReviews, setDisplayedReviews, setSort, sort}) {
     const theme = useTheme();
     const useStyles = makeStyles({
         root: {
@@ -144,6 +144,14 @@ export default function ResponsiveDrawer({displayedReviews, setDisplayedReviews}
                 </FormControl>
                 <Button className={classes.button} type="submit" variant='contained' size="small" color="primary">Search</Button>
             </form>
+            {displayedReviews.length > 0 ?
+            <Select displayEmpty value={sort} onChange={e => setSort(e.target.value)}>
+                <MenuItem value='' disabled>Sort by</MenuItem>
+                <MenuItem value={'newest'}>Recent</MenuItem>
+                <MenuItem value={'shop'}>Shop Name</MenuItem>
+                <MenuItem value={'wageDes'}>Higher Wage</MenuItem>
+                <MenuItem value={'wageAsc'}>Lower Wage</MenuItem>
+            </Select> : <div></div>}
             <Button variant='outlined' color='secondary' className={classes.button} onClick={clearFilters}>Clear Filters</Button>
             {locations.length > 0 ?
             <Accordion className={classes.accordion}>

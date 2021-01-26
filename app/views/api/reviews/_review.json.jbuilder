@@ -16,3 +16,4 @@ json.shopName review.business.name
 json.location review.business.location.split(",").join(", ")
 json.satisfaction review.satisfaction
 json.notes review.notes
+json.updatedAt review.updated_at
