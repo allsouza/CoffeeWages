@@ -101,8 +101,18 @@
 
           & i {
             font-size: 16px;
-          }
+          };
         }
+
+        @media only screen and (max-width: 768px) {
+            flex-direction: column;
+            align-items: center;
+
+            & > * {
+              padding-top: 16px
+            }
+        }
+
       }
     }
 }
@@ -123,13 +133,6 @@
       button:last-of-type{
         margin-bottom: 0;
       }
-    }
-
-    .reviews-index-sidebar{
-      width: 90%;
-      height: fit-content;
-      margin: auto;
-      position: relative;
     }
 
     .reviews-index-search{
