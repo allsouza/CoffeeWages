@@ -17,14 +17,12 @@ import { useDispatch } from 'react-redux';
 import Search from './Search';
 import { createReview, RECEIVE_REVIEW } from '../../actions/review_actions';
 import { capitalize } from '../../util/string_util';
-import { useMediaPredicate } from 'react-media-hook';
 
 
 const regex = new RegExp(/[^0-9]/, 'g');
 const date = new Date();
 
 export default function Form() {
-    const mobile = useMediaPredicate("(max-width: 768px)")
     const theme = useTheme();
     const styles = makeStyles({
         root: {
@@ -40,11 +38,11 @@ export default function Form() {
     
         container: {
             display: "flex",
-            width: mobile ? "90%" : "70%",
+            width: "70%",
             margin: "auto",
             height: "fit-content",
             alignItems: "center",
-            minWidth: mobile ? 0 : 700,
+            minWidth: 700,
             padding: "20px 0",
             position: "relative",
             zIndex: 10,

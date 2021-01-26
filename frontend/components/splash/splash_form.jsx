@@ -16,10 +16,6 @@ export default function SplashForm() {
         zIndex: 4,
         paddingBottom: 200,
         background: theme.palette.blobColor,
-      },
-      container: {
-        width: "100%",
-        overflow: "hidden"
       }
     });
 
@@ -27,9 +23,7 @@ export default function SplashForm() {
 
     return(
         <div className={classes.form}>
-            <div className={classes.container}>
-              <Blob fill={theme.palette.blobColor} className={classes.blob} />
-            </div>
+            <Blob fill={theme.palette.blobColor} className={classes.blob} />
             <div className="splash-form-contents" >
                 <h1 className="splash-form-header">Report Your Wage:</h1>
             </div>
