@@ -23,7 +23,7 @@ export default function ReviewIndex() {
     const [ready, setReady] = useState(false)
     const [reviewComp, setReviewComp] = useState([])
     const [pages, setPages] = useState(1)
-    const [sort, setSort] = useState('newest');
+    const [sort, setSort] = useState('');
     const [sortedReviews, setSortedReviews] = useState(displayedReviews)
     const dispatch = useDispatch()
     

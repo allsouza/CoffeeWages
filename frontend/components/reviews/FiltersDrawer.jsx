@@ -26,6 +26,8 @@ import styled from 'styled-components';
 const drawerWidth = 240;
 const Sidebar = styled.div`
     background-color: ${cardColor};
+    display: flex;
+    flex-direction: column;
     color: ${textColor};
     position: sticky;
     left: 0;
@@ -145,7 +147,7 @@ export default function ResponsiveDrawer({displayedReviews, setDisplayedReviews,
                 <Button className={classes.button} type="submit" variant='contained' size="small" color="primary">Search</Button>
             </form>
             {displayedReviews.length > 0 ?
-            <Select displayEmpty value={sort} onChange={e => setSort(e.target.value)}>
+            <Select className='sorter' displayEmpty value={sort} onChange={e => setSort(e.target.value)}>
                 <MenuItem value='' disabled>Sort by</MenuItem>
                 <MenuItem value={'newest'}>Newest</MenuItem>
                 <MenuItem value={'oldest'}>Oldest</MenuItem>
