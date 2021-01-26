@@ -10,11 +10,11 @@ import MonetizationOnOutlinedIcon from '@material-ui/icons/MonetizationOn';
 import TollTwoToneIcon from '@material-ui/icons/TollTwoTone';
 import FlightTakeoffIcon from '@material-ui/icons/FlightTakeoff';
 import FastfoodIcon from '@material-ui/icons/Fastfood';
-
-// import Graphs from '../chart/chart';
+import { useMediaPredicate } from 'react-media-hook';
 
 
 export default function ReviewShow({ review, setModal, avgWage, avgSalary, expanded=false }) {
+    const mobile = useMediaPredicate('(max-width: 768px)');
     const theme = useTheme()
     const useStyles = makeStyles({
         card: {
@@ -27,15 +27,20 @@ export default function ReviewShow({ review, setModal, avgWage, avgSalary, expan
             
             '&:hover': {
                 transform: 'scale(1.05, 1.05)'
-            }
+            },
         },
         content: {
-            width: 675,
+            maxWidth: 675,
             height: 125,
             display: 'flex',
             justifyContent: expanded ? 'space-around' : 'space-between',
             alignItems: 'center',
             boxSizing: 'border-box',
+            '@media (max-width: 768px)': {
+                width: "auto",
+                flexDirection: "column",
+                height: "auto"
+            }
         },
         heading: {
             display: 'flex',
@@ -48,7 +53,21 @@ export default function ReviewShow({ review, setModal, avgWage, avgSalary, expan
             paddingTop: 16,
             paddingBottom: 16,
             boxSizing: 'border-box',
-            justifyContent: 'center'
+            justifyContent: 'center',
+            '@media (max-width: 768px)': {
+                width: "auto",
+                maxWidth: "60%",
+                height: "auto",
+                padding: 16,
+                borderRight: 'none'
+            }
+        },
+        mobileHeading: {
+            display: 'flex',
+            justifyContent: "space-between",
+            alignItems: "center",
+            borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
+            minWidth: "80%",
         },
         cardExpanded: {
             marginBottom: 12,
@@ -61,7 +80,8 @@ export default function ReviewShow({ review, setModal, avgWage, avgSalary, expan
         compContainer: {
             display: 'flex',
             flexDirection: 'column',
-            justifyContent: 'space-between'
+            justifyContent: 'space-between',
+            padding: mobile ? 16 : 0
         },
         wage: {
             display: 'flex',
@@ -78,6 +98,9 @@ export default function ReviewShow({ review, setModal, avgWage, avgSalary, expan
             fontSize: 11,
             margin: 'auto',
             width: expanded ? 430 : 250,
+            '@media (max-width: 768px)': {
+                textAlign: "center"
+            }
         },
         pos: {
             fontSize: 12,
@@ -119,60 +142,117 @@ export default function ReviewShow({ review, setModal, avgWage, avgSalary, expan
     }
     
     return (
-    <div>
-        <Card onClick={e => {
-            if(e.target.classList.contains('fa-trash'))
-            {
-                dispatch(deleteReview(review.id))
-            }
-            else{
-                if(!expanded) setModal()
-            }}} 
-            variant="outlined" className={expanded ? classes.cardExpanded : classes.card} key={review.id}>
-            <CardContent className={classes.content}>
-                <div className={classes.heading}>
-                    <Typography component="h1">
-                        {review.shopName}
-                    </Typography>
-                    <Typography className={classes.pos} color="textSecondary">
-                        {review.position} <br /> {review.location}
-                    </Typography>
-                </div>
-                <Typography variant="h5" component="h2">
-                    <div className={classes.compContainer}>
-                        <div className={classes.wage}>
-                            <MonetizationOnOutlinedIcon htmlColor={color(review.payFrequency)} fontSize='inherit' /> 
-                            {review.wage}/{review.payFrequency === "Hourly" ? "hr" : "yr"} 
+        mobile ?     
+            <div>
+                <Card onClick={e => {
+                    if(e.target.classList.contains('fa-trash'))
+                    {
+                        dispatch(deleteReview(review.id))
+                    }
+                    else{
+                        if(!expanded) setModal()
+                    }}} 
+                    variant="outlined" className={expanded ? classes.cardExpanded : classes.card} key={review.id}>
+                    <CardContent className={classes.content}>
+                        <div className={classes.mobileHeading}>
+                            <div className={classes.heading}>
+                                <Typography component="h1">
+                                    {review.shopName}
+                                </Typography>
+                                <Typography className={classes.pos} color="textSecondary">
+                                    {review.position} <br /> {review.location}
+                                </Typography>
+                            </div>
+                            <Typography variant="h5" component="h2">
+                                <div className={classes.compContainer}>
+                                    <div className={classes.wage}>
+                                        <MonetizationOnOutlinedIcon htmlColor={color(review.payFrequency)} fontSize='inherit' /> 
+                                        {review.wage}/{review.payFrequency === "Hourly" ? "hr" : "yr"} 
+                                    </div>
+                                    <div className={classes.benefits}>
+                                        <div className={classes.tips}><TollTwoToneIcon htmlColor={review.tips ? '#ffd700' : '#808080'} /></div>
+                                        <div className={classes.tips}><FlightTakeoffIcon htmlColor={review.vacation ? '#303F9F' : '#808080'} /></div>
+                                        <div className={classes.tips}><FastfoodIcon htmlColor={review.comps ? '#A90409' : '#808080'} /></div>
+                                    </div>
+                                </div>
+                            </Typography>
                         </div>
-                        <div className={classes.benefits}>
-                            <div className={classes.tips}><TollTwoToneIcon htmlColor={review.tips ? '#ffd700' : '#808080'} /></div>
-                            <div className={classes.tips}><FlightTakeoffIcon htmlColor={review.vacation ? '#303F9F' : '#808080'} /></div>
-                            <div className={classes.tips}><FastfoodIcon htmlColor={review.comps ? '#A90409' : '#808080'} /></div>
+                        {!expanded && 
+                        <div>
+                            <Typography className={classes.body} variant="body2" component="p">
+                                {review.notes}
+                            </Typography>
+                            <Typography className={classes.date} color="textSecondary" gutterBottom>
+                                Worked here from {review.startDate} to {review.endDate}
+                            </Typography>
+                        </div>}
+                    </CardContent>
+                    {expanded &&                 
+                        <div>
+                            <Typography className={classes.body} variant="body2" component="p">
+                                {review.notes}
+                            </Typography>
+                            <Typography className={classes.date} color="textSecondary" gutterBottom>
+                                Worked here from {review.startDate} to {review.endDate}
+                            </Typography>
+                        </div>}
+                    {admin ? <i className="fas fa-trash"></i> : null}
+                </Card>
+            </div> 
+        :
+            <div>
+                <Card onClick={e => {
+                    if(e.target.classList.contains('fa-trash'))
+                    {
+                        dispatch(deleteReview(review.id))
+                    }
+                    else{
+                        if(!expanded) setModal()
+                    }}} 
+                    variant="outlined" className={expanded ? classes.cardExpanded : classes.card} key={review.id}>
+                    <CardContent className={classes.content}>
+                        <div className={classes.heading}>
+                            <Typography component="h1">
+                                {review.shopName}
+                            </Typography>
+                            <Typography className={classes.pos} color="textSecondary">
+                                {review.position} <br /> {review.location}
+                            </Typography>
                         </div>
-                    </div>
-                </Typography>
-                {!expanded && 
-                <div>
-                    <Typography className={classes.body} variant="body2" component="p">
-                        {review.notes}
-                    </Typography>
-                    <Typography className={classes.date} color="textSecondary" gutterBottom>
-                        Worked here from {review.startDate} to {review.endDate}
-                    </Typography>
-                </div>}
-            </CardContent>
-            {expanded &&                 
-                <div>
-                    <Typography className={classes.body} variant="body2" component="p">
-                        {review.notes}
-                    </Typography>
-                    <Typography className={classes.date} color="textSecondary" gutterBottom>
-                        Worked here from {review.startDate} to {review.endDate}
-                    </Typography>
-                </div>}
-            {admin ? <i className="fas fa-trash"></i> : null}
-        </Card>
-            {/* <Graphs /> */}
-    </div>
+                        <Typography variant="h5" component="h2">
+                            <div className={classes.compContainer}>
+                                <div className={classes.wage}>
+                                    <MonetizationOnOutlinedIcon htmlColor={color(review.payFrequency)} fontSize='inherit' /> 
+                                    {review.wage}/{review.payFrequency === "Hourly" ? "hr" : "yr"} 
+                                </div>
+                                <div className={classes.benefits}>
+                                    <div className={classes.tips}><TollTwoToneIcon htmlColor={review.tips ? '#ffd700' : '#808080'} /></div>
+                                    <div className={classes.tips}><FlightTakeoffIcon htmlColor={review.vacation ? '#303F9F' : '#808080'} /></div>
+                                    <div className={classes.tips}><FastfoodIcon htmlColor={review.comps ? '#A90409' : '#808080'} /></div>
+                                </div>
+                            </div>
+                        </Typography>
+                        {!expanded && 
+                        <div>
+                            <Typography className={classes.body} variant="body2" component="p">
+                                {review.notes}
+                            </Typography>
+                            <Typography className={classes.date} color="textSecondary" gutterBottom>
+                                Worked here from {review.startDate} to {review.endDate}
+                            </Typography>
+                        </div>}
+                    </CardContent>
+                    {expanded &&                 
+                        <div>
+                            <Typography className={classes.body} variant="body2" component="p">
+                                {review.notes}
+                            </Typography>
+                            <Typography className={classes.date} color="textSecondary" gutterBottom>
+                                Worked here from {review.startDate} to {review.endDate}
+                            </Typography>
+                        </div>}
+                    {admin ? <i className="fas fa-trash"></i> : null}
+                </Card>
+            </div>
     );
 }
