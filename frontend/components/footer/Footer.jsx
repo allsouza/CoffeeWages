@@ -4,6 +4,7 @@ import GitHubIcon from '@material-ui/icons/GitHub';
 import LanguageIcon from '@material-ui/icons/Language';
 import { buttonColor, footerColor } from '../DarkThemeProvider';
 import styled from 'styled-components';
+import { useMediaPredicate } from 'react-media-hook';
 
 const source = 'https://docs.google.com/spreadsheets/d/1oE2avtfGQRuSI1-gltcIw-AazA3ov3dEoX-sTbPI6Jw/edit?fbclid=IwAR1T3ttg8PBZ2Ppi5w2J2R1UfUtF6h3eYUM6u7u6xIte9qdtHUz6T12unIc#gid=0';
 
@@ -46,7 +47,26 @@ const Foot = styled.footer`
         }
     }
 
+    @media only screen and (max-width:768px){
+        flex-direction: column;
+        
+        .footer-site-explanation {
+            width: 100%;
+        }
+
+        .footer-personal-info {
+            width: 100%;
+            padding-top: 18px;
+            flex-direction: column;
+            align-items: center;
+
+            & > * {
+                padding-bottom: 16px;
+            }
+        }
+    }
 `;
+
 
 export default function Footer() {
     return (
