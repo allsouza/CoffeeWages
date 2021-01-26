@@ -6,6 +6,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { useMediaPredicate } from 'react-media-hook';
+import { ReactComponent as Blob } from '../../../app/assets/images/blob.svg'
 
 export default function Splash() {
   const location = useLocation();
@@ -31,7 +32,6 @@ export default function Splash() {
     }
   });
 
-  const [downScrolled, setDownScrolled] = useState(false);
   const formRef = useRef(null);
 
   const classes = useStyles();
@@ -54,7 +54,8 @@ export default function Splash() {
          <div className={classes.background}>
             <div className="splashbox">
               <div className="mug-container">
-                <img className="mug-background" src={blob} />
+                <Blob fill={theme.palette.splashBlob} className="mug-background" />
+                {/* <img className="mug-background" src={blob} /> */}
                 {!mobile && <img className="mug" src={neverSettle} />}
               </div>
               <section className="details-container">
