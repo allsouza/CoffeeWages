@@ -147,8 +147,10 @@ export default function ResponsiveDrawer({displayedReviews, setDisplayedReviews,
             {displayedReviews.length > 0 ?
             <Select displayEmpty value={sort} onChange={e => setSort(e.target.value)}>
                 <MenuItem value='' disabled>Sort by</MenuItem>
-                <MenuItem value={'newest'}>Recent</MenuItem>
-                <MenuItem value={'shop'}>Shop Name</MenuItem>
+                <MenuItem value={'newest'}>Newest</MenuItem>
+                <MenuItem value={'oldest'}>Oldest</MenuItem>
+                <MenuItem value={'shopAsc'}>Shop Name(A-Z)</MenuItem>
+                <MenuItem value={'shopDes'}>Shop Name(Z-A)</MenuItem>
                 <MenuItem value={'wageDes'}>Higher Wage</MenuItem>
                 <MenuItem value={'wageAsc'}>Lower Wage</MenuItem>
             </Select> : <div></div>}

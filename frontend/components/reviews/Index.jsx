@@ -74,8 +74,14 @@ export default function ReviewIndex() {
             case 'newest':
                 sorted = sorted.sort((a,b) => a.updatedAt > b.updatedAt ? -1 : 1)
                 break;
-            case 'shop':
+            case 'oldest':
+                sorted = sorted.sort((a,b) => a.updatedAt < b.updatedAt ? -1 : 1)
+                break;
+            case 'shopAsc':
                 sorted = sorted.sort((a,b) => a.shopName > b.shopName ? 1 : -1)
+                break;
+            case 'shopDes':
+                sorted = sorted.sort((a,b) => a.shopName < b.shopName ? 1 : -1)
                 break;
             case 'wageDes':
                 sorted = sorted.sort((a,b) => a.wage > b.wage ? -1 : 1)
