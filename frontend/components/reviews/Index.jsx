@@ -23,6 +23,8 @@ export default function ReviewIndex() {
     const [ready, setReady] = useState(false)
     const [reviewComp, setReviewComp] = useState([])
     const [pages, setPages] = useState(1)
+    const [sort, setSort] = useState('');
+    const [sortedReviews, setSortedReviews] = useState(displayedReviews)
     const dispatch = useDispatch()
     
     function calcAvgAndMedian() {
@@ -67,6 +69,33 @@ export default function ReviewIndex() {
     }, [displayedReviews]);
 
     useEffect(() => {
+        let sorted = [...displayedReviews];
+        switch (sort) {
+            case 'newest':
+                sorted = sorted.sort((a,b) => a.updatedAt > b.updatedAt ? -1 : 1)
+                break;
+            case 'oldest':
+                sorted = sorted.sort((a,b) => a.updatedAt < b.updatedAt ? -1 : 1)
+                break;
+            case 'shopAsc':
+                sorted = sorted.sort((a,b) => a.shopName > b.shopName ? 1 : -1)
+                break;
+            case 'shopDes':
+                sorted = sorted.sort((a,b) => a.shopName < b.shopName ? 1 : -1)
+                break;
+            case 'wageDes':
+                sorted = sorted.sort((a,b) => a.wage > b.wage ? -1 : 1)
+                break;
+            case 'wageAsc':
+                sorted = sorted.sort((a,b) => a.wage < b.wage ? -1 : 1)
+                break;
+            default:
+                break;
+        }
+        setDisplayedReviews(sorted)
+    }, [sort])
+
+    useEffect(() => {
         return () => {
             dispatch(clearReviews())
         }
@@ -80,7 +109,7 @@ export default function ReviewIndex() {
         ready ?
             <div className="reviews-index">
                 {modalReview ? <Modal onClick={() => setModalReview(false)} review={modalReview} avgWage={avgWage} avgSalary={avgSalary} displayedReviews={displayedReviews} /> : ''}
-                <FiltersDrawer displayedReviews={displayedReviews} setDisplayedReviews={setDisplayedReviews} />
+                <FiltersDrawer setSort={setSort} sort={sort} displayedReviews={displayedReviews} setDisplayedReviews={setDisplayedReviews} />
                 <div className='reviews-index-search'>
                     {displayedReviews.length > 0 ?
                         <div className={'reviews-index-search-stats'}>
@@ -97,14 +126,7 @@ export default function ReviewIndex() {
                         </div> : ""
                     }
                     <div className='reviews-index-search-results'>
-                        {displayedReviews.slice(0, pages * 24).map(review =>
-                            <Review
-                                setModal={() => setModalReview(review)}
-                                review={review}
-                                avgWage={avgWage}
-                                avgSalary={avgSalary}
-                                key={review.id}
-                            />)}
+                        {reviewComp.length > 1 ? reviewComp.slice(0, pages * 24) : reviewComp}
                     </div>
                     {pages * 24 < displayedReviews.length ? 
                     <Button variant="contained" color="primary" onClick={(() => setPages(pages + 1))}>Load More</Button>
