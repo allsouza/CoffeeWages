@@ -30,6 +30,16 @@ export const cardColor = theme("theme", {
     dark: "#22303c"
 });
 
+export const backgroundSecondary = theme("theme", {
+    light: "rgb(231, 231, 231)",
+    dark: "#192734"
+})
+
+export const footerFont = theme("theme", {
+    light: "#f9f9f9",
+    dark: "#ffffff"
+})
+
 const dark = createMuiTheme({
     palette: {
         type: "dark",
@@ -41,6 +51,7 @@ const dark = createMuiTheme({
         blobColor: "#212121",
         splashBlob: "#9c5142",
         backgroundSecondary: "#192734",
+        footerFont: "#ffffff"
     },
 });
 
@@ -54,7 +65,8 @@ const light = createMuiTheme({
         cardColor: "#ffffff",
         blobColor: "#f7f7f7",
         splashBlob: '#D0E2FF',
-        backgroundSecondary: "rgb(231, 231, 231)"
+        backgroundSecondary: "rgb(231, 231, 231)",
+        footerFont: "#f9f9f9"
     }
 });
 

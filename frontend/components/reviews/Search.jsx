@@ -9,6 +9,10 @@ import { cardColor, backgroundSecondary } from '../DarkThemeProvider'
 
 const SearchUL = styled.ul`
     background-color: ${cardColor};
+    li:hover{
+        cursor: pointer;
+        background: ${backgroundSecondary};
+    }
 `;
 
 function Search({error, businesses, setBusiness, getBusinesses}) {
