@@ -2,7 +2,7 @@ import React from 'react';
 import LinkedInIcon from '@material-ui/icons/LinkedIn';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import LanguageIcon from '@material-ui/icons/Language';
-import { buttonColor, footerColor } from '../DarkThemeProvider';
+import { buttonColor, footerColor, footerFont } from '../DarkThemeProvider';
 import styled from 'styled-components';
 import { useMediaPredicate } from 'react-media-hook';
 
@@ -18,6 +18,7 @@ const Foot = styled.footer`
     align-items: center;
     padding: 40px;
     background: ${footerColor};
+    color: ${footerFont};
     width: 100%;
     box-sizing: border-box;
 

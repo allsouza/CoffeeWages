@@ -4,6 +4,16 @@ import * as PlacesApiUtil from '../../util/places_api_util';
 import { connect } from 'react-redux';
 import { createBusiness } from '../../util/business_api_util';
 import { fetchAllBusinesses } from '../../actions/business_action';
+import styled from 'styled-components';
+import { cardColor, backgroundSecondary } from '../DarkThemeProvider'
+
+const SearchUL = styled.ul`
+    background-color: ${cardColor};
+    li:hover{
+        cursor: pointer;
+        background: ${backgroundSecondary};
+    }
+`;
 
 function Search({error, businesses, setBusiness, getBusinesses}) {
     const [name, setName] = useState('');
@@ -117,9 +127,9 @@ function Search({error, businesses, setBusiness, getBusinesses}) {
                 <TextField error={error} value={address} onChange={e => setAddress(e.target.value)} label="Address"/>
              </div>
             <Button variant='contained' size="medium" color="primary" onClick={search}>Search</Button>
-            <ul className='results-dropdown'>
+            <SearchUL className='results-dropdown'>
                 {results}
-            </ul>
+            </SearchUL>
         </div>
     )
 }

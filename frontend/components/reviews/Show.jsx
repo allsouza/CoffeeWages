@@ -97,7 +97,7 @@ export default function ReviewShow({ review, setModal, avgWage, avgSalary, expan
             alignSelf: 'flex-end',
             fontSize: 11,
             margin: 'auto',
-            width: expanded ? 430 : 250,
+            width: expanded ? "80%" : 250,
             '@media (max-width: 768px)': {
                 textAlign: "center"
             }
@@ -114,7 +114,7 @@ export default function ReviewShow({ review, setModal, avgWage, avgSalary, expan
             margin: 'auto',
             marginBottom: 6,
             marginTop: 6,
-            width: expanded ? 430 : 250,
+            width: expanded ? "80%" : 250,
         },
         benefits: {
             display: 'flex',
